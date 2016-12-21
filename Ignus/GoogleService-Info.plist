@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AD_UNIT_ID_FOR_BANNER_TEST</key>
+	<string>ca-app-pub-3940256099942544/2934735716</string>
+	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
+	<string>ca-app-pub-3940256099942544/4411468910</string>
+	<key>CLIENT_ID</key>
+	<string>486362544198-gt6k18b3umordsue1he2f1m3i9gfd63l.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.486362544198-gt6k18b3umordsue1he2f1m3i9gfd63l</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDxAQwHETC8ff0IOb5DkHYhhAr26xtAL2Q</string>
+	<key>GCM_SENDER_ID</key>
+	<string>486362544198</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.anantsapps.Ignus</string>
+	<key>PROJECT_ID</key>
+	<string>ignus-1fdc9</string>
+	<key>STORAGE_BUCKET</key>
+	<string>ignus-1fdc9.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<true/>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false/>
+	<key>IS_APPINVITE_ENABLED</key>
+	<false/>
+	<key>IS_GCM_ENABLED</key>
+	<true/>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true/>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:486362544198:ios:8e08f1496fd8dcf0</string>
+	<key>DATABASE_URL</key>
+	<string>https://ignus-1fdc9.firebaseio.com</string>
+</dict>
+</plist>

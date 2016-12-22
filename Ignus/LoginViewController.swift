@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import LocalAuthentication
 
 class LoginViewController: UIViewController, UITextFieldDelegate, UIViewControllerTransitioningDelegate, CreateAccountViewControllerDelegate {
 
@@ -56,42 +57,44 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIViewControll
         super.viewDidAppear(animated)
         
         if (!didAnimateEntrance) {
-            // Logs in automatically if the user is already logged in and automatic login is enabled
-            //if PFUser.current() != nil && UserDefaults.standard.bool(forKey: "AutomaticLoginEnabled") {
-            if FIRAuth.auth()?.currentUser != nil {
+            // Appropriate automatic login if the user is already logged in
+            if let currentUser = FIRAuth.auth()?.currentUser,
+               let loginOption = UserDefaults.standard.string(forKey: "LoginOptions") {
                 
-                let loginDelay: TimeInterval = 0.25;
-                perform(#selector(LoginViewController.skipAnimatedEntrance), with: nil, afterDelay: loginDelay)
+                usernameTextField.text = currentUser.displayName
                 
+                switch loginOption {
+                case Constants.LoginOptions.AutomaticLogin:
+                    // Automatically log in
+                    let loginDelay: TimeInterval = 0.25;
+                    perform(#selector(LoginViewController.skipAnimatedEntrance), with: nil, afterDelay: loginDelay)
+                case Constants.LoginOptions.TouchID:
+                    let context = LAContext()
+                    var error: NSError?
+                    if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+                        context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: "Authenticate to login to your Ignus account.", reply: { (success, error) in
+                            DispatchQueue.main.async {
+                                if success {
+                                    self.perform(#selector(LoginViewController.skipAnimatedEntrance), with: nil, afterDelay: 0.35)
+                                }
+                                else {
+                                    self.animateEntrance(shouldResetLoginOptions: false)
+                                }
+                            }
+                        })
+                    }
+                    else {
+                        self.animateEntrance(shouldResetLoginOptions: false)
+                    }
+                case Constants.LoginOptions.RequirePassword:
+                    animateEntrance(shouldResetLoginOptions: true)
+                default:
+                    try? FIRAuth.auth()?.signOut()
+                    animateEntrance(shouldResetLoginOptions: true)
+                }
             }
             else {
-                // Ensures automatic login is disabled since user is not logged in
-                UserDefaults.standard.set(false, forKey: "AutomaticLoginEnabled")
-                UserDefaults.standard.synchronize()
-                
-                // Sets up views for animation
-                let logoFrame = self.view.convert(logoImageView.frame, from: logoView)
-                logoStackView.alpha = 0.0
-                inputStackView.alpha = 0.0
-                
-                // Animation length variables
-                let animationDuration: TimeInterval = 0.75
-                let animationDelay: TimeInterval = 0.25
-                let animationOverlap: TimeInterval = 0.3
-                
-                UIView.animate(withDuration: animationDuration, delay: animationDelay, options: UIViewAnimationOptions(), animations: {
-                    self.launchLogoImageView.frame = logoFrame
-                    self.launchBackgroundImageView.alpha = 0.0
-                }, completion: nil)
-                
-                UIView.animate(withDuration: 0.25, delay: animationDuration + animationDelay - animationOverlap, options: UIViewAnimationOptions(), animations: {
-                    self.logoStackView.alpha = 1.0
-                    self.inputStackView.alpha = 1.0
-                }, completion: { (finished) in
-                    self.perform(#selector(LoginViewController.removeEntranceAnimationComponents), with: nil, afterDelay: animationOverlap)
-                    
-                    self.didAnimateEntrance = true
-                })
+                animateEntrance(shouldResetLoginOptions: true)
             }
         }
     }
@@ -134,6 +137,45 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIViewControll
         passwordTextFieldBox.addMotionEffect(group)
         logInButton.addMotionEffect(group)
         createAccountButton.addMotionEffect(group)
+    }
+    
+    func animateEntrance(shouldResetLoginOptions: Bool) {
+        // Ensures automatic login is disabled since user is not logged in (if allowed)
+        if shouldResetLoginOptions {
+            UserDefaults.standard.set(Constants.LoginOptions.RequirePassword, forKey: "LoginOptions")
+            UserDefaults.standard.synchronize()
+        }
+        
+        // Sets up views for animation
+        let logoFrame = self.view.convert(logoImageView.frame, from: logoView)
+        logoStackView.alpha = 0.0
+        inputStackView.alpha = 0.0
+        
+        // Transformation variables for the logo
+        let transX = logoFrame.midX - self.launchLogoImageView.frame.midX
+        let transY = logoFrame.midY - self.launchLogoImageView.frame.midY
+        let scaleX = logoFrame.width / self.launchLogoImageView.frame.width
+        let scaleY = logoFrame.height / self.launchLogoImageView.frame.height
+        let transformation = CGAffineTransform(translationX: transX, y: transY).scaledBy(x: scaleX, y: scaleY)
+        
+        // Animation length variables
+        let animationDuration: TimeInterval = 0.75
+        let animationDelay: TimeInterval = 0.25
+        let animationOverlap: TimeInterval = 0.3
+        
+        UIView.animate(withDuration: animationDuration, delay: animationDelay, options: UIViewAnimationOptions(), animations: {
+            self.launchLogoImageView.transform = transformation
+            self.launchBackgroundImageView.alpha = 0.0
+        }, completion: nil)
+        
+        UIView.animate(withDuration: 0.25, delay: animationDuration + animationDelay - animationOverlap, options: UIViewAnimationOptions(), animations: {
+            self.logoStackView.alpha = 1.0
+            self.inputStackView.alpha = 1.0
+        }, completion: { (finished) in
+            self.perform(#selector(LoginViewController.removeEntranceAnimationComponents), with: nil, afterDelay: animationOverlap)
+            
+            self.didAnimateEntrance = true
+        })
     }
     
     @objc private func removeEntranceAnimationComponents() {

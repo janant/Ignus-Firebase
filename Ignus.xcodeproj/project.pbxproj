@@ -15,7 +15,8 @@
 		1696D84B1DC46A96003BFDA8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1696D8491DC46A96003BFDA8 /* LaunchScreen.storyboard */; };
 		16A0D7A71DFCCF5000B89807 /* LogInAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A0D7A61DFCCF5000B89807 /* LogInAnimation.swift */; };
 		16A0D7A91DFCCF5900B89807 /* LogInPresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A0D7A81DFCCF5900B89807 /* LogInPresentation.swift */; };
-		16B13A531DF232250079D609 /* DummyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B13A521DF232250079D609 /* DummyViewController.swift */; };
+		16AE71FE1E0B843300CEE396 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AE71FD1E0B843300CEE396 /* Constants.swift */; };
+		16AE72001E0B851300CEE396 /* LoginOptionsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AE71FF1E0B851300CEE396 /* LoginOptionsTableViewController.swift */; };
 		16C717921E09A875002D7270 /* MyAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C717911E09A875002D7270 /* MyAccountViewController.swift */; };
 		16C7F4AF1DC584E50001991A /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C7F4AE1DC584E50001991A /* CreateAccountViewController.swift */; };
 		16D63F841DD7124500287C1F /* PrivacyPolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D63F831DD7124500287C1F /* PrivacyPolicyViewController.swift */; };
@@ -64,7 +65,8 @@
 		16A0D7A51DFCCD1A00B89807 /* Ignus.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Ignus.entitlements; sourceTree = "<group>"; };
 		16A0D7A61DFCCF5000B89807 /* LogInAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogInAnimation.swift; sourceTree = "<group>"; };
 		16A0D7A81DFCCF5900B89807 /* LogInPresentation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogInPresentation.swift; sourceTree = "<group>"; };
-		16B13A521DF232250079D609 /* DummyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DummyViewController.swift; sourceTree = "<group>"; };
+		16AE71FD1E0B843300CEE396 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		16AE71FF1E0B851300CEE396 /* LoginOptionsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginOptionsTableViewController.swift; sourceTree = "<group>"; };
 		16C717911E09A875002D7270 /* MyAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyAccountViewController.swift; sourceTree = "<group>"; };
 		16C7F4AE1DC584E50001991A /* CreateAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountViewController.swift; sourceTree = "<group>"; };
 		16D63F831DD7124500287C1F /* PrivacyPolicyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyViewController.swift; sourceTree = "<group>"; };
@@ -189,8 +191,9 @@
 				1696D8441DC46A96003BFDA8 /* Main.storyboard */,
 				16D63F861DD7153300287C1F /* Account.storyboard */,
 				16D63F851DD7151100287C1F /* Login and Sign Up */,
-				16B13A521DF232250079D609 /* DummyViewController.swift */,
 				16C717911E09A875002D7270 /* MyAccountViewController.swift */,
+				16AE71FF1E0B851300CEE396 /* LoginOptionsTableViewController.swift */,
+				16AE71FD1E0B843300CEE396 /* Constants.swift */,
 				1696D8471DC46A96003BFDA8 /* Assets.xcassets */,
 				1696D8491DC46A96003BFDA8 /* LaunchScreen.storyboard */,
 				167BB0ED1DC46B7A0033FC37 /* GoogleService-Info.plist */,
@@ -388,14 +391,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				16A0D7A71DFCCF5000B89807 /* LogInAnimation.swift in Sources */,
-				16B13A531DF232250079D609 /* DummyViewController.swift in Sources */,
 				16C717921E09A875002D7270 /* MyAccountViewController.swift in Sources */,
 				16F47E1A1DC7AFCD0005C3DB /* SignUpPresentation.swift in Sources */,
 				16C7F4AF1DC584E50001991A /* CreateAccountViewController.swift in Sources */,
 				167BB1301DC473D00033FC37 /* LoginViewController.swift in Sources */,
+				16AE71FE1E0B843300CEE396 /* Constants.swift in Sources */,
 				16A0D7A91DFCCF5900B89807 /* LogInPresentation.swift in Sources */,
 				16D63F841DD7124500287C1F /* PrivacyPolicyViewController.swift in Sources */,
 				16F47E181DC7AFC30005C3DB /* SignUpAnimation.swift in Sources */,
+				16AE72001E0B851300CEE396 /* LoginOptionsTableViewController.swift in Sources */,
 				1696D8411DC46A96003BFDA8 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -527,7 +531,7 @@
 				INFOPLIST_FILE = Ignus/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.anantsapps.Ignus;
+				PRODUCT_BUNDLE_IDENTIFIER = com.anantsapps.Ignus2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -543,7 +547,7 @@
 				INFOPLIST_FILE = Ignus/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.anantsapps.Ignus;
+				PRODUCT_BUNDLE_IDENTIFIER = com.anantsapps.Ignus2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};

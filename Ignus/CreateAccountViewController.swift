@@ -227,21 +227,60 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
             // Attempts to create the user with email and password
             FIRAuth.auth()?.createUser(withEmail: email, password: password, completion: { (user, error) in
                 if error == nil {
-                    // Creates an additional Firebase object with additional user information
-                    let newUserInfo = ["firstName": firstName,
-                                       "lastName": lastName,
-                                       "username": username,
-                                       "email": email]
-                    let ref = FIRDatabase.database().reference()
-                    ref.child("users").child(username).setValue(newUserInfo)
+                    // Gets default profile and cover photos as Data objects
+                    guard
+                        let profileData = UIImagePNGRepresentation(#imageLiteral(resourceName: "Default Profile Photo")),
+                        let coverData = UIImagePNGRepresentation(#imageLiteral(resourceName: "Default Cover Photo"))
+                    else {
+                        return
+                    }
                     
-                    self.dismiss(animated: true, completion: { () -> Void in
-                        self.delegate?.createdAccount(withUsername: username, andPassword: password)
+                    // Sets the new user's profile and cover photo to the defaults
+                    let storageRef = FIRStorage.storage().reference()
+                    let profileRef = storageRef.child("User_Pictures/\(username)/profile.png")
+                    let coverRef = storageRef.child("User_Pictures/\(username)/cover.png")
+                    profileRef.put(profileData, metadata: nil, completion: { (profileMetadata, profileError) in
+                        if profileError == nil {
+                            coverRef.put(coverData, metadata: nil, completion: { (coverMetadata, coverError) in
+                                if coverError == nil {
+                                    guard
+                                        let profileURL = profileMetadata?.downloadURL(),
+                                        let coverURL = coverMetadata?.downloadURL()
+                                    else {
+                                        return
+                                    }
+                                    
+                                    // Creates an additional Firebase object with additional user information
+                                    let newUserInfo = [
+                                            "firstName": firstName,
+                                            "lastName": lastName,
+                                            "username": username,
+                                            "email": email,
+                                            "profile": profileURL.absoluteString,
+                                            "cover": coverURL.absoluteString
+                                    ]
+                                    let ref = FIRDatabase.database().reference()
+                                    ref.child("users").child(username).setValue(newUserInfo)
+                                    
+                                    // Sets user display name to username
+                                    let changeRequest = user!.profileChangeRequest()
+                                    changeRequest.displayName = username
+                                    changeRequest.commitChanges(completion: { (error) in
+                                        if error == nil {
+                                            self.dismiss(animated: true, completion: { () -> Void in
+                                                self.delegate?.createdAccount(withUsername: username, andPassword: password)
+                                            })
+                                        }
+                                    })
+                                }
+                            })
+                        }
                     })
                 }
                 else {
                     let errorAlert = UIAlertController(title: "lel rekt", message: "some error occurred", preferredStyle: .alert)
                     errorAlert.addAction(UIAlertAction(title: "Done", style: .default, handler: nil))
+                    self.present(errorAlert, animated: true, completion: nil)
                 }
             })
             

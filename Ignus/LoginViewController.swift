@@ -87,7 +87,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIViewControll
                         self.animateEntrance(shouldResetLoginOptions: false)
                     }
                 case Constants.LoginOptions.RequirePassword:
-                    animateEntrance(shouldResetLoginOptions: true)
+                    animateEntrance(shouldResetLoginOptions: false)
                 default:
                     try? FIRAuth.auth()?.signOut()
                     animateEntrance(shouldResetLoginOptions: true)
@@ -142,7 +142,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIViewControll
     func animateEntrance(shouldResetLoginOptions: Bool) {
         // Ensures automatic login is disabled since user is not logged in (if allowed)
         if shouldResetLoginOptions {
-            UserDefaults.standard.set(Constants.LoginOptions.RequirePassword, forKey: "LoginOptions")
+            UserDefaults.standard.set(Constants.LoginOptions.None, forKey: "LoginOptions")
             UserDefaults.standard.synchronize()
         }
         
@@ -350,6 +350,19 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIViewControll
             // Attempt to log in
             FIRAuth.auth()?.signIn(withEmail: email, password: password, completion: { (user, error) in
                 if error == nil {
+                    // Ensure the user is automatically logged in from now on,
+                    // if no option previously set.
+                    if let loginOption = UserDefaults.standard.string(forKey: "LoginOptions") {
+                        if loginOption == Constants.LoginOptions.None {
+                            UserDefaults.standard.set(Constants.LoginOptions.AutomaticLogin, forKey: "LoginOptions")
+                            UserDefaults.standard.synchronize()
+                        }
+                    }
+                    else {
+                        UserDefaults.standard.set(Constants.LoginOptions.AutomaticLogin, forKey: "LoginOptions")
+                        UserDefaults.standard.synchronize()
+                    }
+                    
                     // Successfully logged in
                     self.performSegue(withIdentifier: "Log In", sender: sender)
                     self.perform(#selector(LoginViewController.endLoginAnimation), with: nil, afterDelay: 2.0)

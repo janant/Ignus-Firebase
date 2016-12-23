@@ -229,16 +229,16 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
                 if error == nil {
                     // Gets default profile and cover photos as Data objects
                     guard
-                        let profileData = UIImagePNGRepresentation(#imageLiteral(resourceName: "Default Profile Photo")),
-                        let coverData = UIImagePNGRepresentation(#imageLiteral(resourceName: "Default Cover Photo"))
+                        let profileData = UIImageJPEGRepresentation(#imageLiteral(resourceName: "Default Profile Photo"), 0.7),
+                        let coverData = UIImageJPEGRepresentation(#imageLiteral(resourceName: "Default Cover Photo"), 0.7)
                     else {
                         return
                     }
                     
                     // Sets the new user's profile and cover photo to the defaults
                     let storageRef = FIRStorage.storage().reference()
-                    let profileRef = storageRef.child("User_Pictures/\(username)/profile.png")
-                    let coverRef = storageRef.child("User_Pictures/\(username)/cover.png")
+                    let profileRef = storageRef.child("User_Pictures/\(username)/profile.jpg")
+                    let coverRef = storageRef.child("User_Pictures/\(username)/cover.jpg")
                     profileRef.put(profileData, metadata: nil, completion: { (profileMetadata, profileError) in
                         if profileError == nil {
                             coverRef.put(coverData, metadata: nil, completion: { (coverMetadata, coverError) in

@@ -22,10 +22,10 @@ class LoginOptionsTableViewController: UITableViewController {
             return option
         }
         else {
-            UserDefaults.standard.set(Constants.LoginOptions.RequirePassword, forKey: "LoginOptions")
+            UserDefaults.standard.set(Constants.LoginOptions.AutomaticLogin, forKey: "LoginOptions")
             UserDefaults.standard.synchronize()
             
-            return Constants.LoginOptions.RequirePassword
+            return Constants.LoginOptions.AutomaticLogin
         }
     }()
 

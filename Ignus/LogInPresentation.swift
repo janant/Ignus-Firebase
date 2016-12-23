@@ -49,6 +49,8 @@ class LogInPresentation: UIPresentationController {
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        
         coordinator.animate(alongsideTransition: { (context) in
             self.presentedViewController.view.frame = self.frameOfPresentedViewInContainerView
             self.shadowView.frame = self.presentedViewController.view.frame

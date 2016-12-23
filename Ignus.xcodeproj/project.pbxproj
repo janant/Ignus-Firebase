@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		160C1CD01E0C470300E139C3 /* ProfileOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160C1CCF1E0C470300E139C3 /* ProfileOptionsViewController.swift */; };
+		160C1CD41E0C8AA400E139C3 /* ProfileOptionsPresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160C1CD31E0C8AA400E139C3 /* ProfileOptionsPresentation.swift */; };
+		160C1CD61E0C8ABA00E139C3 /* ProfileOptionsAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160C1CD51E0C8ABA00E139C3 /* ProfileOptionsAnimation.swift */; };
 		167BB0EE1DC46B7A0033FC37 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 167BB0ED1DC46B7A0033FC37 /* GoogleService-Info.plist */; };
 		167BB1301DC473D00033FC37 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167BB12F1DC473D00033FC37 /* LoginViewController.swift */; };
 		1696D8411DC46A96003BFDA8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1696D8401DC46A96003BFDA8 /* AppDelegate.swift */; };
@@ -54,6 +57,9 @@
 
 /* Begin PBXFileReference section */
 		099B984168BF97EAE675E13E /* Pods_Ignus.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Ignus.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		160C1CCF1E0C470300E139C3 /* ProfileOptionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileOptionsViewController.swift; sourceTree = "<group>"; };
+		160C1CD31E0C8AA400E139C3 /* ProfileOptionsPresentation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileOptionsPresentation.swift; sourceTree = "<group>"; };
+		160C1CD51E0C8ABA00E139C3 /* ProfileOptionsAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileOptionsAnimation.swift; sourceTree = "<group>"; };
 		167BB0ED1DC46B7A0033FC37 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		167BB12F1DC473D00033FC37 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		1696D83D1DC46A96003BFDA8 /* Ignus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ignus.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -192,6 +198,9 @@
 				16D63F861DD7153300287C1F /* Account.storyboard */,
 				16D63F851DD7151100287C1F /* Login and Sign Up */,
 				16C717911E09A875002D7270 /* MyAccountViewController.swift */,
+				160C1CCF1E0C470300E139C3 /* ProfileOptionsViewController.swift */,
+				160C1CD51E0C8ABA00E139C3 /* ProfileOptionsAnimation.swift */,
+				160C1CD31E0C8AA400E139C3 /* ProfileOptionsPresentation.swift */,
 				16AE71FF1E0B851300CEE396 /* LoginOptionsTableViewController.swift */,
 				16AE71FD1E0B843300CEE396 /* Constants.swift */,
 				1696D8471DC46A96003BFDA8 /* Assets.xcassets */,
@@ -390,11 +399,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				160C1CD41E0C8AA400E139C3 /* ProfileOptionsPresentation.swift in Sources */,
 				16A0D7A71DFCCF5000B89807 /* LogInAnimation.swift in Sources */,
 				16C717921E09A875002D7270 /* MyAccountViewController.swift in Sources */,
 				16F47E1A1DC7AFCD0005C3DB /* SignUpPresentation.swift in Sources */,
 				16C7F4AF1DC584E50001991A /* CreateAccountViewController.swift in Sources */,
+				160C1CD01E0C470300E139C3 /* ProfileOptionsViewController.swift in Sources */,
 				167BB1301DC473D00033FC37 /* LoginViewController.swift in Sources */,
+				160C1CD61E0C8ABA00E139C3 /* ProfileOptionsAnimation.swift in Sources */,
 				16AE71FE1E0B843300CEE396 /* Constants.swift in Sources */,
 				16A0D7A91DFCCF5900B89807 /* LogInPresentation.swift in Sources */,
 				16D63F841DD7124500287C1F /* PrivacyPolicyViewController.swift in Sources */,
@@ -531,7 +543,7 @@
 				INFOPLIST_FILE = Ignus/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.anantsapps.Ignus2;
+				PRODUCT_BUNDLE_IDENTIFIER = com.anantsapps.Ignus;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -547,7 +559,7 @@
 				INFOPLIST_FILE = Ignus/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.anantsapps.Ignus2;
+				PRODUCT_BUNDLE_IDENTIFIER = com.anantsapps.Ignus;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};

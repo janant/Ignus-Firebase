@@ -87,7 +87,7 @@
                                                 </constraints>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="I G N U S" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YIF-DY-m0L">
-                                                <rect key="frame" x="39" y="150" width="143" height="32"/>
+                                                <rect key="frame" x="38.5" y="150" width="143" height="32"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="143" id="7xz-sf-AQ9"/>
                                                     <constraint firstAttribute="height" constant="32" id="NCk-s9-Kei"/>
@@ -434,7 +434,7 @@
                                                         <rect key="frame" x="102" y="60" width="37" height="37"/>
                                                     </activityIndicatorView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Creating Account..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sw4-2F-TdF">
-                                                        <rect key="frame" x="46" y="32" width="147" height="20"/>
+                                                        <rect key="frame" x="39.5" y="33.5" width="160.5" height="17"/>
                                                         <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="17"/>
                                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -459,7 +459,7 @@
                                             <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TGh-6i-KK5">
-                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="655"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="650"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5TL-iH-rmp">
                                                             <rect key="frame" x="78" y="242" width="220" height="45"/>
@@ -627,7 +627,7 @@
                                                             </vibrancyEffect>
                                                         </visualEffectView>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W9W-Vc-Owg">
-                                                            <rect key="frame" x="78" y="534" width="220" height="45"/>
+                                                            <rect key="frame" x="78" y="529" width="220" height="45"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="45" id="Q0n-UU-GrA"/>
                                                                 <constraint firstAttribute="width" constant="220" id="aHC-Lu-QXi"/>
@@ -642,7 +642,7 @@
                                                             </connections>
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uty-oO-vQg">
-                                                            <rect key="frame" x="78" y="580" width="220" height="45"/>
+                                                            <rect key="frame" x="78" y="575" width="220" height="45"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="45" id="MvN-SO-BjM"/>
                                                                 <constraint firstAttribute="width" constant="220" id="iBu-lu-diY"/>
@@ -818,7 +818,7 @@
                                                             </connections>
                                                         </button>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="By signing up, you agree to Ignus's privacy policy." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PkG-1d-HBF">
-                                                            <rect key="frame" x="78" y="476" width="220" height="33"/>
+                                                            <rect key="frame" x="78" y="476" width="220" height="28"/>
                                                             <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="14"/>
                                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -994,7 +994,7 @@ If you have any questions regarding privacy while using Ignus, or have questions
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="S4z-Gt-ujn" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="APF-Tl-iJr">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="APF-Tl-iJr">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1019,4 +1019,5 @@ If you have any questions regarding privacy while using Ignus, or have questions
         <image name="Pencil Icon" width="14" height="16"/>
         <image name="User Icon" width="256" height="256"/>
     </resources>
+    <color key="tintColor" red="0.91764705879999997" green="0.20000000000000001" blue="0.21960784310000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

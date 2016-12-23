@@ -20,6 +20,10 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Ignus needs access to your camera to take a new profile or cover photo.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Ignus needs access to your photo library to choose a new profile or cover photo.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Gotham-Book.tff</string>

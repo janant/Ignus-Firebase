@@ -132,7 +132,7 @@
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5GU-HH-sLd">
                                 <rect key="frame" x="0.0" y="64" width="375" height="176"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Not Loaded Cover" translatesAutoresizingMaskIntoConstraints="NO" id="hv3-Xr-kZU">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Not Loaded Cover" translatesAutoresizingMaskIntoConstraints="NO" id="hv3-Xr-kZU">
                                         <rect key="frame" x="-30" y="-30" width="435" height="236"/>
                                     </imageView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EvH-Un-OVu">
@@ -148,7 +148,7 @@
                                                     <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
                                                 <connections>
-                                                    <segue destination="J8G-8G-gKE" kind="presentation" identifier="Show User Options" id="Gc7-Fm-l7x"/>
+                                                    <segue destination="J8G-8G-gKE" kind="presentation" identifier="Show Profile Options" id="Gc7-Fm-l7x"/>
                                                 </connections>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="First Last" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="11" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qxd-F2-tys">
@@ -159,7 +159,7 @@
                                                 <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <size key="shadowOffset" width="0.0" height="1"/>
                                             </label>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Not Loaded Profile" translatesAutoresizingMaskIntoConstraints="NO" id="cT7-yN-4jb">
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Not Loaded Profile" translatesAutoresizingMaskIntoConstraints="NO" id="cT7-yN-4jb">
                                                 <rect key="frame" x="16" y="38" width="100" height="100"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="100" id="22n-sH-XdI"/>
@@ -173,7 +173,7 @@
                                                 </userDefinedRuntimeAttributes>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="n5K-7k-ncJ">
-                                                <rect key="frame" x="130" y="94.5" width="229" height="19"/>
+                                                <rect key="frame" x="130" y="94" width="229" height="19"/>
                                                 <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="18"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -295,9 +295,10 @@
                     <navigationItem key="navigationItem" title="Settings" id="tUk-TS-avy"/>
                     <connections>
                         <outlet property="coverView" destination="hv3-Xr-kZU" id="7J7-Zf-iYX"/>
-                        <outlet property="friendOptionsButton" destination="lFU-4w-Q5K" id="bMi-OE-8TZ"/>
+                        <outlet property="myProfileInfoView" destination="EvH-Un-OVu" id="mKV-xd-RO1"/>
                         <outlet property="myProfileView" destination="5GU-HH-sLd" id="MsP-LE-ogA"/>
                         <outlet property="nameLabel" destination="qxd-F2-tys" id="Wmq-hP-QLv"/>
+                        <outlet property="profileOptionsButton" destination="lFU-4w-Q5K" id="10L-dg-Jfe"/>
                         <outlet property="profileView" destination="cT7-yN-4jb" id="Z1M-cB-OLd"/>
                         <outlet property="settingsTable" destination="XB1-wu-Jzn" id="DbK-5p-fMn"/>
                         <outlet property="usernameLabel" destination="n5K-7k-ncJ" id="GUm-D7-dYb"/>
@@ -519,10 +520,10 @@ Cg
             </objects>
             <point key="canvasLocation" x="1554" y="3459"/>
         </scene>
-        <!--Friend Options View Controller-->
+        <!--Profile Options View Controller-->
         <scene sceneID="4NO-hg-6m7">
             <objects>
-                <viewController id="J8G-8G-gKE" customClass="FriendOptionsViewController" customModule="Ignus" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="J8G-8G-gKE" customClass="ProfileOptionsViewController" customModule="Ignus" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="MPJ-ik-6ti"/>
                         <viewControllerLayoutGuide type="bottom" id="0ht-HT-tVf"/>
@@ -605,4 +606,5 @@ Cg
         <image name="Payments Icon" width="27" height="25"/>
         <image name="Settings Icon" width="23" height="23"/>
     </resources>
+    <color key="tintColor" red="0.91764705879999997" green="0.20000000000000001" blue="0.21960784310000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

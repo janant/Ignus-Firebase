@@ -52,6 +52,7 @@
 		16DEC2F01DC51373003AF4AA /* Gotham-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 16DEC2ED1DC51373003AF4AA /* Gotham-Medium.ttf */; };
 		16F47E181DC7AFC30005C3DB /* SignUpAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F47E171DC7AFC30005C3DB /* SignUpAnimation.swift */; };
 		16F47E1A1DC7AFCD0005C3DB /* SignUpPresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F47E191DC7AFCD0005C3DB /* SignUpPresentation.swift */; };
+		16FDEEEF1E0CF8E2005F3A04 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FDEEEE1E0CF8E2005F3A04 /* MessagesViewController.swift */; };
 		97B16FDA519C68A699AD4705 /* Pods_Ignus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 099B984168BF97EAE675E13E /* Pods_Ignus.framework */; };
 /* End PBXBuildFile section */
 
@@ -105,6 +106,7 @@
 		16DEC2ED1DC51373003AF4AA /* Gotham-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Gotham-Medium.ttf"; path = "Resouces/Gotham Font/Gotham-Medium.ttf"; sourceTree = "<group>"; };
 		16F47E171DC7AFC30005C3DB /* SignUpAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpAnimation.swift; sourceTree = "<group>"; };
 		16F47E191DC7AFCD0005C3DB /* SignUpPresentation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpPresentation.swift; sourceTree = "<group>"; };
+		16FDEEEE1E0CF8E2005F3A04 /* MessagesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
 		2B15A50CE763ED52206529BF /* Pods-Ignus.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ignus.release.xcconfig"; path = "Pods/Target Support Files/Pods-Ignus/Pods-Ignus.release.xcconfig"; sourceTree = "<group>"; };
 		93C498B5225B3BF6684530C5 /* Pods-Ignus.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ignus.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Ignus/Pods-Ignus.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -196,12 +198,10 @@
 				1696D8401DC46A96003BFDA8 /* AppDelegate.swift */,
 				1696D8441DC46A96003BFDA8 /* Main.storyboard */,
 				16D63F861DD7153300287C1F /* Account.storyboard */,
+				16FDEEEE1E0CF8E2005F3A04 /* MessagesViewController.swift */,
 				16D63F851DD7151100287C1F /* Login and Sign Up */,
-				16C717911E09A875002D7270 /* MyAccountViewController.swift */,
-				160C1CCF1E0C470300E139C3 /* ProfileOptionsViewController.swift */,
-				160C1CD51E0C8ABA00E139C3 /* ProfileOptionsAnimation.swift */,
-				160C1CD31E0C8AA400E139C3 /* ProfileOptionsPresentation.swift */,
-				16AE71FF1E0B851300CEE396 /* LoginOptionsTableViewController.swift */,
+				16FDEEEC1E0CF59B005F3A04 /* Settings Tab */,
+				16FDEEED1E0CF5B7005F3A04 /* Universal View Controllers */,
 				16AE71FD1E0B843300CEE396 /* Constants.swift */,
 				1696D8471DC46A96003BFDA8 /* Assets.xcassets */,
 				1696D8491DC46A96003BFDA8 /* LaunchScreen.storyboard */,
@@ -223,6 +223,25 @@
 				16A0D7A81DFCCF5900B89807 /* LogInPresentation.swift */,
 			);
 			name = "Login and Sign Up";
+			sourceTree = "<group>";
+		};
+		16FDEEEC1E0CF59B005F3A04 /* Settings Tab */ = {
+			isa = PBXGroup;
+			children = (
+				16C717911E09A875002D7270 /* MyAccountViewController.swift */,
+				16AE71FF1E0B851300CEE396 /* LoginOptionsTableViewController.swift */,
+			);
+			name = "Settings Tab";
+			sourceTree = "<group>";
+		};
+		16FDEEED1E0CF5B7005F3A04 /* Universal View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				160C1CCF1E0C470300E139C3 /* ProfileOptionsViewController.swift */,
+				160C1CD51E0C8ABA00E139C3 /* ProfileOptionsAnimation.swift */,
+				160C1CD31E0C8AA400E139C3 /* ProfileOptionsPresentation.swift */,
+			);
+			name = "Universal View Controllers";
 			sourceTree = "<group>";
 		};
 		7EDB36F37B09C8AA6494D7D2 /* Frameworks */ = {
@@ -399,6 +418,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16FDEEEF1E0CF8E2005F3A04 /* MessagesViewController.swift in Sources */,
 				160C1CD41E0C8AA400E139C3 /* ProfileOptionsPresentation.swift in Sources */,
 				16A0D7A71DFCCF5000B89807 /* LogInAnimation.swift in Sources */,
 				16C717921E09A875002D7270 /* MyAccountViewController.swift in Sources */,

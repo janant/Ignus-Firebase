@@ -24,6 +24,7 @@
 		16C7F4AF1DC584E50001991A /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C7F4AE1DC584E50001991A /* CreateAccountViewController.swift */; };
 		16D63F841DD7124500287C1F /* PrivacyPolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D63F831DD7124500287C1F /* PrivacyPolicyViewController.swift */; };
 		16D63F871DD7153400287C1F /* Account.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16D63F861DD7153300287C1F /* Account.storyboard */; };
+		16D967541E10BD670019654A /* ChooseFriendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D967531E10BD670019654A /* ChooseFriendViewController.swift */; };
 		16DEC2D41DC51366003AF4AA /* 23.png in Resources */ = {isa = PBXBuildFile; fileRef = 16DEC2BD1DC51366003AF4AA /* 23.png */; };
 		16DEC2D51DC51366003AF4AA /* 21.png in Resources */ = {isa = PBXBuildFile; fileRef = 16DEC2BE1DC51366003AF4AA /* 21.png */; };
 		16DEC2D61DC51366003AF4AA /* 22.png in Resources */ = {isa = PBXBuildFile; fileRef = 16DEC2BF1DC51366003AF4AA /* 22.png */; };
@@ -78,6 +79,7 @@
 		16C7F4AE1DC584E50001991A /* CreateAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountViewController.swift; sourceTree = "<group>"; };
 		16D63F831DD7124500287C1F /* PrivacyPolicyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyViewController.swift; sourceTree = "<group>"; };
 		16D63F861DD7153300287C1F /* Account.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Account.storyboard; sourceTree = "<group>"; };
+		16D967531E10BD670019654A /* ChooseFriendViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChooseFriendViewController.swift; sourceTree = "<group>"; };
 		16DEC2BD1DC51366003AF4AA /* 23.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = 23.png; path = "Resouces/Login Background Frames/23.png"; sourceTree = "<group>"; };
 		16DEC2BE1DC51366003AF4AA /* 21.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = 21.png; path = "Resouces/Login Background Frames/21.png"; sourceTree = "<group>"; };
 		16DEC2BF1DC51366003AF4AA /* 22.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = 22.png; path = "Resouces/Login Background Frames/22.png"; sourceTree = "<group>"; };
@@ -198,8 +200,8 @@
 				1696D8401DC46A96003BFDA8 /* AppDelegate.swift */,
 				1696D8441DC46A96003BFDA8 /* Main.storyboard */,
 				16D63F861DD7153300287C1F /* Account.storyboard */,
-				16FDEEEE1E0CF8E2005F3A04 /* MessagesViewController.swift */,
 				16D63F851DD7151100287C1F /* Login and Sign Up */,
+				16D967551E10BD6D0019654A /* Messages Tab */,
 				16FDEEEC1E0CF59B005F3A04 /* Settings Tab */,
 				16FDEEED1E0CF5B7005F3A04 /* Universal View Controllers */,
 				16AE71FD1E0B843300CEE396 /* Constants.swift */,
@@ -223,6 +225,15 @@
 				16A0D7A81DFCCF5900B89807 /* LogInPresentation.swift */,
 			);
 			name = "Login and Sign Up";
+			sourceTree = "<group>";
+		};
+		16D967551E10BD6D0019654A /* Messages Tab */ = {
+			isa = PBXGroup;
+			children = (
+				16FDEEEE1E0CF8E2005F3A04 /* MessagesViewController.swift */,
+				16D967531E10BD670019654A /* ChooseFriendViewController.swift */,
+			);
+			name = "Messages Tab";
 			sourceTree = "<group>";
 		};
 		16FDEEEC1E0CF59B005F3A04 /* Settings Tab */ = {
@@ -424,6 +435,7 @@
 				16C717921E09A875002D7270 /* MyAccountViewController.swift in Sources */,
 				16F47E1A1DC7AFCD0005C3DB /* SignUpPresentation.swift in Sources */,
 				16C7F4AF1DC584E50001991A /* CreateAccountViewController.swift in Sources */,
+				16D967541E10BD670019654A /* ChooseFriendViewController.swift in Sources */,
 				160C1CD01E0C470300E139C3 /* ProfileOptionsViewController.swift in Sources */,
 				167BB1301DC473D00033FC37 /* LoginViewController.swift in Sources */,
 				160C1CD61E0C8ABA00E139C3 /* ProfileOptionsAnimation.swift in Sources */,

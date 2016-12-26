@@ -77,7 +77,7 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="64"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="34O-yi-Sy9" id="Krf-E8-Vln">
-                                            <rect key="frame" x="0.0" y="0.0" width="342" height="63"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="342" height="63.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view tag="4" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6Fy-ug-3uU">
@@ -336,21 +336,21 @@
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Setting Detail Cell" textLabel="f7a-z0-1n2" detailTextLabel="sUf-ah-G7O" style="IBUITableViewCellStyleValue1" id="x0y-Tb-Wvb">
-                                        <rect key="frame" x="0.0" y="56" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="x0y-Tb-Wvb" id="PJc-wY-f2V">
                                             <rect key="frame" x="0.0" y="0.0" width="342" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="f7a-z0-1n2">
-                                                    <rect key="frame" x="15" y="14" width="37" height="17"/>
+                                                    <rect key="frame" x="15" y="14" width="36.5" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="17"/>
                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="sUf-ah-G7O">
-                                                    <rect key="frame" x="293" y="15" width="47" height="16"/>
+                                                    <rect key="frame" x="293.5" y="15" width="46.5" height="16"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="16"/>
                                                     <color key="textColor" red="0.78039215689999997" green="0.78039215689999997" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -361,7 +361,7 @@
                                         <color key="backgroundColor" red="0.249575564" green="0.249575564" blue="0.249575564" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Setting Cell" textLabel="Dqb-gx-KjL" style="IBUITableViewCellStyleDefault" id="qN5-PH-ZfY">
-                                        <rect key="frame" x="0.0" y="100" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="99.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qN5-PH-ZfY" id="uyz-Ox-IDS">
                                             <rect key="frame" x="0.0" y="0.0" width="342" height="44"/>
@@ -379,7 +379,7 @@
                                         <color key="backgroundColor" red="0.249575564" green="0.249575564" blue="0.249575564" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Log Out Cell" textLabel="WCF-Jp-jd8" style="IBUITableViewCellStyleDefault" id="qHD-Wn-97c">
-                                        <rect key="frame" x="0.0" y="144" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="143.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qHD-Wn-97c" id="t3z-j8-I3E">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -446,7 +446,7 @@
                         <color key="backgroundColor" red="0.19249251840000001" green="0.19249251840000001" blue="0.19249251840000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Setting Cell" textLabel="iFu-zb-fGd" style="IBUITableViewCellStyleDefault" id="2aC-0y-FDg">
-                                <rect key="frame" x="0.0" y="56" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2aC-0y-FDg" id="bwr-e4-cdT">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -670,11 +670,11 @@ Cg
                                         <rect key="frame" x="0.0" y="22" width="200" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="MvQ-ll-d1e" id="fiW-04-cGI">
-                                            <rect key="frame" x="0.0" y="0.0" width="200" height="99"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="200" height="99.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="20" id="v8X-hz-Cw3">
-                                                    <rect key="frame" x="15" y="0.0" width="170" height="99"/>
+                                                    <rect key="frame" x="15" y="0.0" width="170" height="99.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="27"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -737,6 +737,383 @@ Cg
             </objects>
             <point key="canvasLocation" x="693.60000000000002" y="1835.5322338830586"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="bfY-pz-pNo">
+            <objects>
+                <navigationController id="W0k-I2-sSk" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="4Hk-Lb-7ld">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="6Gl-cR-CMX" kind="relationship" relationship="rootViewController" id="CD4-7N-uk2"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="He2-ps-bFW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2638" y="544"/>
+        </scene>
+        <!--New Message-->
+        <scene sceneID="P46-RE-lxG">
+            <objects>
+                <viewController id="6Gl-cR-CMX" customClass="ComposeMessageViewController" customModule="Ignus" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Z2B-sS-BLK"/>
+                        <viewControllerLayoutGuide type="bottom" id="DWg-rZ-T84"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="6bz-e9-euo">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Pit-dH-8Ye">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Select Recipient Cell" textLabel="vtj-sw-WCf" detailTextLabel="Nvs-F9-Mh7" style="IBUITableViewCellStyleValue1" id="inl-Hm-nNR">
+                                        <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="inl-Hm-nNR" id="2fU-8K-yvk">
+                                            <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="To:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="vtj-sw-WCf">
+                                                    <rect key="frame" x="15" y="14" width="23" height="16"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="16"/>
+                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Select" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Nvs-F9-Mh7">
+                                                    <rect key="frame" x="236" y="14" width="49" height="16"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="16"/>
+                                                    <color key="textColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Write Message Cell" rowHeight="120" id="wZz-xH-iJN">
+                                        <rect key="frame" x="0.0" y="66" width="320" height="120"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wZz-xH-iJN" id="2S3-Id-AH4">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="119"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" tag="1" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PQe-G8-7h3">
+                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="119"/>
+                                                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="16"/>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences" keyboardAppearance="alert"/>
+                                                    <connections>
+                                                        <outlet property="delegate" destination="6Gl-cR-CMX" id="PT3-V2-ujS"/>
+                                                    </connections>
+                                                </textView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="PQe-G8-7h3" firstAttribute="leading" secondItem="2S3-Id-AH4" secondAttribute="leading" id="7kI-K3-7cu"/>
+                                                <constraint firstAttribute="trailing" secondItem="PQe-G8-7h3" secondAttribute="trailing" id="mwb-fg-8YV"/>
+                                                <constraint firstAttribute="bottom" secondItem="PQe-G8-7h3" secondAttribute="bottom" id="uJ7-37-Mxi"/>
+                                                <constraint firstItem="PQe-G8-7h3" firstAttribute="top" secondItem="2S3-Id-AH4" secondAttribute="top" id="xLH-Bv-OOZ"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="6Gl-cR-CMX" id="zWZ-kk-az3"/>
+                                    <outlet property="delegate" destination="6Gl-cR-CMX" id="jRt-92-etK"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.19249251840000001" green="0.19249251840000001" blue="0.19249251840000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="Pit-dH-8Ye" secondAttribute="trailing" id="SZf-Zh-sza"/>
+                            <constraint firstItem="Pit-dH-8Ye" firstAttribute="leading" secondItem="6bz-e9-euo" secondAttribute="leading" id="UBn-ak-L2o"/>
+                            <constraint firstItem="Pit-dH-8Ye" firstAttribute="top" secondItem="6bz-e9-euo" secondAttribute="top" id="gHd-mp-zu7"/>
+                            <constraint firstItem="DWg-rZ-T84" firstAttribute="top" secondItem="Pit-dH-8Ye" secondAttribute="bottom" id="nNz-PU-r7T"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="New Message" id="Id3-hK-dMq">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="pf8-NP-Hlf"/>
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="4Se-Nv-vY7">
+                            <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <connections>
+                                <action selector="cancelMessage:" destination="6Gl-cR-CMX" id="Anu-ca-xSv"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Send" style="done" id="cJG-U6-mDi">
+                            <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <connections>
+                                <action selector="sendMessage:" destination="6Gl-cR-CMX" id="IWs-3z-ihe"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="selectRecipientTable" destination="Pit-dH-8Ye" id="7rf-wb-yP1"/>
+                        <outlet property="sendButton" destination="cJG-U6-mDi" id="4Eg-KB-8pA"/>
+                        <segue destination="m3u-eF-cHo" kind="show" identifier="Select Recipient" id="F9M-8S-oMl">
+                            <nil key="action"/>
+                        </segue>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="K1h-sY-ttH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3289" y="874"/>
+        </scene>
+        <!--Select Recipient-->
+        <scene sceneID="hSy-Q0-o4b">
+            <objects>
+                <viewController id="m3u-eF-cHo" customClass="ChooseFriendViewController" customModule="Ignus" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="1ic-fY-gUo"/>
+                        <viewControllerLayoutGuide type="bottom" id="Nmm-xP-8v4"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="bvh-Ru-9fH">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.0" contentMode="scaleToFill" misplaced="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="BPA-Ew-Dwt">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="qJl-t6-gj3">
+                                    <size key="itemSize" width="80" height="117"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="3" minY="3" maxX="3" maxY="3"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Friend Cell" id="oV6-WQ-7Mu">
+                                        <rect key="frame" x="3" y="3" width="80" height="117"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="80" height="117"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <view alpha="0.0" tag="4" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8gA-mW-He5">
+                                                    <rect key="frame" x="0.0" y="0.0" width="80" height="117"/>
+                                                    <color key="backgroundColor" red="0.12201640580000001" green="0.12201640580000001" blue="0.12201640580000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                            <integer key="value" value="9"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                </view>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Aakash" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Xnh-VX-Jb5">
+                                                    <rect key="frame" x="0.0" y="74" width="80" height="16"/>
+                                                    <fontDescription key="fontDescription" name="Gotham-Medium" family="Gotham" pointSize="16"/>
+                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="3" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="240" text="aakash" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="6" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MsQ-Fv-UGQ">
+                                                    <rect key="frame" x="0.0" y="91" width="80" height="19"/>
+                                                    <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="12"/>
+                                                    <color key="textColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Not Loaded Profile.png" translatesAutoresizingMaskIntoConstraints="NO" id="3q0-K2-pFU">
+                                                    <rect key="frame" x="10" y="8" width="60" height="60"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="60" id="C7H-da-feB"/>
+                                                        <constraint firstAttribute="height" constant="60" id="RqC-SK-YkZ"/>
+                                                    </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                            <integer key="value" value="30"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                                    </userDefinedRuntimeAttributes>
+                                                </imageView>
+                                            </subviews>
+                                        </view>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstItem="8gA-mW-He5" firstAttribute="leading" secondItem="oV6-WQ-7Mu" secondAttribute="leading" id="4uc-eW-sMX"/>
+                                            <constraint firstItem="Xnh-VX-Jb5" firstAttribute="leading" secondItem="oV6-WQ-7Mu" secondAttribute="leading" id="EMs-tb-13B"/>
+                                            <constraint firstItem="8gA-mW-He5" firstAttribute="top" secondItem="oV6-WQ-7Mu" secondAttribute="top" id="Jzh-4G-vDL"/>
+                                            <constraint firstItem="Xnh-VX-Jb5" firstAttribute="leading" secondItem="MsQ-Fv-UGQ" secondAttribute="leading" id="SUW-sV-HP5"/>
+                                            <constraint firstAttribute="bottom" secondItem="8gA-mW-He5" secondAttribute="bottom" id="TS6-De-pPC"/>
+                                            <constraint firstAttribute="bottom" secondItem="MsQ-Fv-UGQ" secondAttribute="bottom" constant="7" id="W8C-wf-SdQ"/>
+                                            <constraint firstItem="3q0-K2-pFU" firstAttribute="top" secondItem="oV6-WQ-7Mu" secondAttribute="top" constant="8" id="YLa-hM-Zuc"/>
+                                            <constraint firstAttribute="trailing" secondItem="8gA-mW-He5" secondAttribute="trailing" id="g88-ng-JOe"/>
+                                            <constraint firstItem="MsQ-Fv-UGQ" firstAttribute="top" secondItem="Xnh-VX-Jb5" secondAttribute="bottom" constant="1" id="i5e-1f-Z2W"/>
+                                            <constraint firstItem="Xnh-VX-Jb5" firstAttribute="trailing" secondItem="MsQ-Fv-UGQ" secondAttribute="trailing" id="k6P-Dp-7wm"/>
+                                            <constraint firstAttribute="trailing" secondItem="Xnh-VX-Jb5" secondAttribute="trailing" id="ol3-K0-K8a"/>
+                                            <constraint firstAttribute="centerX" secondItem="3q0-K2-pFU" secondAttribute="centerX" id="xz1-IB-qQx"/>
+                                            <constraint firstAttribute="centerX" secondItem="MsQ-Fv-UGQ" secondAttribute="centerX" id="y9P-dy-3IX"/>
+                                            <constraint firstItem="Xnh-VX-Jb5" firstAttribute="top" secondItem="3q0-K2-pFU" secondAttribute="bottom" constant="6" id="yAX-74-2nE"/>
+                                            <constraint firstAttribute="centerX" secondItem="Xnh-VX-Jb5" secondAttribute="centerX" id="yjt-UD-iVZ"/>
+                                        </constraints>
+                                    </collectionViewCell>
+                                </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="m3u-eF-cHo" id="8aR-UA-MOn"/>
+                                    <outlet property="delegate" destination="m3u-eF-cHo" id="LVD-tj-efM"/>
+                                </connections>
+                            </collectionView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="DMs-hw-sjS">
+                                <rect key="frame" x="141.5" y="265.5" width="37" height="37"/>
+                            </activityIndicatorView>
+                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="No Friends" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xb8-lX-rqU">
+                                <rect key="frame" x="92" y="272" width="136" height="25"/>
+                                <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="25"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.19249251840000001" green="0.19249251840000001" blue="0.19249251840000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="BPA-Ew-Dwt" firstAttribute="top" secondItem="bvh-Ru-9fH" secondAttribute="top" id="LA0-9q-Tfl"/>
+                            <constraint firstItem="BPA-Ew-Dwt" firstAttribute="leading" secondItem="bvh-Ru-9fH" secondAttribute="leading" id="PpJ-Zn-UxO"/>
+                            <constraint firstItem="Nmm-xP-8v4" firstAttribute="top" secondItem="BPA-Ew-Dwt" secondAttribute="bottom" id="Te1-Qb-ypA"/>
+                            <constraint firstAttribute="centerX" secondItem="DMs-hw-sjS" secondAttribute="centerX" id="U1a-UE-fno"/>
+                            <constraint firstAttribute="centerY" secondItem="Xb8-lX-rqU" secondAttribute="centerY" id="ZRD-U1-Cw6"/>
+                            <constraint firstAttribute="trailing" secondItem="BPA-Ew-Dwt" secondAttribute="trailing" id="gT5-du-J8d"/>
+                            <constraint firstAttribute="centerX" secondItem="Xb8-lX-rqU" secondAttribute="centerX" id="hZS-MN-Xat"/>
+                            <constraint firstAttribute="centerY" secondItem="DMs-hw-sjS" secondAttribute="centerY" id="zTS-2k-0P1"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Select Recipient" id="PhY-lt-3um"/>
+                    <connections>
+                        <outlet property="friendsCollectionView" destination="BPA-Ew-Dwt" id="505-yU-pEW"/>
+                        <outlet property="loadingFriendsIndicator" destination="DMs-hw-sjS" id="cUe-m7-x6Z"/>
+                        <outlet property="noFriendsLabel" destination="Xb8-lX-rqU" id="kwF-7A-mz8"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="eis-Bl-irb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3974" y="874"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="B0n-3X-DPk">
+            <objects>
+                <navigationController id="Tok-vI-YZT" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="25r-Js-hgD">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="QwA-d3-g3E" kind="relationship" relationship="rootViewController" id="DIJ-h5-AT5"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ehX-gW-oYJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2358" y="1686"/>
+        </scene>
+        <!--FirstName-->
+        <scene sceneID="O72-SJ-hxt">
+            <objects>
+                <viewController id="QwA-d3-g3E" customClass="ViewMessageViewController" customModule="Ignus" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="LqQ-vX-JaS"/>
+                        <viewControllerLayoutGuide type="bottom" id="x3j-nW-GfS"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="woQ-H9-bs4">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Chp-Gh-6dU">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Sender Cell" textLabel="Vwb-YH-x1F" detailTextLabel="ec7-An-kTr" style="IBUITableViewCellStyleValue1" id="9Dt-cG-MuY">
+                                        <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="9Dt-cG-MuY" id="VwJ-ly-NHT">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="From:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Vwb-YH-x1F">
+                                                    <rect key="frame" x="15" y="14" width="47" height="16"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="16"/>
+                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="username" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ec7-An-kTr">
+                                                    <rect key="frame" x="227" y="14" width="78" height="16"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="16"/>
+                                                    <color key="textColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Message Cell" rowHeight="120" id="mO5-AN-UX3">
+                                        <rect key="frame" x="0.0" y="66" width="320" height="120"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="mO5-AN-UX3" id="3Si-9F-xIo">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="119"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" tag="1" contentMode="scaleToFill" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cZb-UX-hvy">
+                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="119"/>
+                                                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="16"/>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences" keyboardAppearance="alert"/>
+                                                    <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES" address="YES" calendarEvent="YES"/>
+                                                    <connections>
+                                                        <outlet property="delegate" destination="QwA-d3-g3E" id="jGw-16-2ED"/>
+                                                    </connections>
+                                                </textView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="cZb-UX-hvy" firstAttribute="top" secondItem="3Si-9F-xIo" secondAttribute="top" id="1Xe-Lh-zty"/>
+                                                <constraint firstAttribute="bottom" secondItem="cZb-UX-hvy" secondAttribute="bottom" id="gCq-xu-5Zb"/>
+                                                <constraint firstAttribute="trailing" secondItem="cZb-UX-hvy" secondAttribute="trailing" id="gke-yc-G8R"/>
+                                                <constraint firstItem="cZb-UX-hvy" firstAttribute="leading" secondItem="3Si-9F-xIo" secondAttribute="leading" id="vFE-q9-9KY"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="QwA-d3-g3E" id="nhq-YO-eU5"/>
+                                    <outlet property="delegate" destination="QwA-d3-g3E" id="B1F-hl-jju"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.19249251840000001" green="0.19249251840000001" blue="0.19249251840000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="Chp-Gh-6dU" firstAttribute="leading" secondItem="woQ-H9-bs4" secondAttribute="leading" id="H4H-Cs-5fa"/>
+                            <constraint firstAttribute="trailing" secondItem="Chp-Gh-6dU" secondAttribute="trailing" id="ZJu-bH-nlU"/>
+                            <constraint firstItem="x3j-nW-GfS" firstAttribute="top" secondItem="Chp-Gh-6dU" secondAttribute="bottom" id="nKU-U6-jwx"/>
+                            <constraint firstItem="Chp-Gh-6dU" firstAttribute="top" secondItem="woQ-H9-bs4" secondAttribute="top" id="wjH-XM-A2b"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="FirstName" id="y4k-1T-P2y">
+                        <barButtonItem key="backBarButtonItem" title="Cancel" id="vvo-U5-zXB"/>
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="uVQ-qP-TKD">
+                            <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <connections>
+                                <action selector="closeReply:" destination="QwA-d3-g3E" id="bcs-v5-vRB"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="reply" id="3Nx-d5-yam">
+                            <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <connections>
+                                <segue destination="6Gl-cR-CMX" kind="show" identifier="Reply" id="qG3-dA-58y">
+                                    <nil key="action"/>
+                                </segue>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="viewMessageTable" destination="Chp-Gh-6dU" id="IAb-h9-pIx"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tM5-fh-a5Q" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3078" y="1686"/>
+        </scene>
     </scenes>
     <resources>
         <image name="Downward Chevron" width="313" height="175"/>
@@ -744,8 +1121,12 @@ Cg
         <image name="Messages Icon" width="26" height="19"/>
         <image name="Not Loaded Cover" width="1" height="1"/>
         <image name="Not Loaded Profile" width="1" height="1"/>
+        <image name="Not Loaded Profile.png" width="16" height="16"/>
         <image name="Payments Icon" width="27" height="25"/>
         <image name="Settings Icon" width="23" height="23"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="qG3-dA-58y"/>
+    </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.91764705879999997" green="0.20000000000000001" blue="0.21960784310000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

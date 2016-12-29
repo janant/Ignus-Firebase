@@ -332,87 +332,51 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIViewControll
         // Login animation
         beginLoginAnimation()
         
-        print("called0")
-        
-        FIRAuth.auth()?.signIn(withEmail: username, password: password, completion: { (user, error) in
-            if error == nil {
-                // Ensure the user is automatically logged in from now on,
-                // if no option previously set.
-                if let loginOption = UserDefaults.standard.string(forKey: "LoginOptions") {
-                    if loginOption == Constants.LoginOptions.None {
+        // Gets the user's email for Firebase authentication
+        let ref = FIRDatabase.database().reference().child("users").child(username)
+        var handle: UInt = 0
+        handle = ref.observe(.value, with: { (snapshot) in
+            ref.removeObserver(withHandle: handle)
+            guard
+                let userInfo = snapshot.value as? [String: String],
+                let email = userInfo["email"]
+                else {
+                    let errorAlert = UIAlertController(title: "Error", message: "The username specified does not exist.", preferredStyle: .alert)
+                    errorAlert.addAction(UIAlertAction(title: "Done", style: .default, handler: nil))
+                    self.present(errorAlert, animated: true, completion: nil)
+                    self.endLoginAnimation()
+                    
+                    return
+            }
+            
+            // Attempt to log in
+            FIRAuth.auth()?.signIn(withEmail: email, password: password, completion: { (user, error) in
+                if error == nil {
+                    // Ensure the user is automatically logged in from now on,
+                    // if no option previously set.
+                    if let loginOption = UserDefaults.standard.string(forKey: "LoginOptions") {
+                        if loginOption == Constants.LoginOptions.None {
+                            UserDefaults.standard.set(Constants.LoginOptions.AutomaticLogin, forKey: "LoginOptions")
+                            UserDefaults.standard.synchronize()
+                        }
+                    }
+                    else {
                         UserDefaults.standard.set(Constants.LoginOptions.AutomaticLogin, forKey: "LoginOptions")
                         UserDefaults.standard.synchronize()
                     }
+                    
+                    // Successfully logged in
+                    self.performSegue(withIdentifier: "Log In", sender: sender)
+                    self.perform(#selector(LoginViewController.endLoginAnimation), with: nil, afterDelay: 2.0)
                 }
                 else {
-                    UserDefaults.standard.set(Constants.LoginOptions.AutomaticLogin, forKey: "LoginOptions")
-                    UserDefaults.standard.synchronize()
+                    let errorAlert = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert)
+                    errorAlert.addAction(UIAlertAction(title: "Done", style: .default, handler: nil))
+                    self.present(errorAlert, animated: true, completion: nil)
+                    self.endLoginAnimation()
                 }
-                
-                print("called2")
-                // Successfully logged in
-                self.performSegue(withIdentifier: "Log In", sender: sender)
-                self.perform(#selector(LoginViewController.endLoginAnimation), with: nil, afterDelay: 2.0)
-            }
-            else {
-                let errorAlert = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert)
-                errorAlert.addAction(UIAlertAction(title: "Done", style: .default, handler: nil))
-                self.present(errorAlert, animated: true, completion: nil)
-                self.endLoginAnimation()
-            }
+            })
         })
-        
-//        // Gets the user's email for Firebase authentication
-//        let ref = FIRDatabase.database().reference()
-//        ref.child("users").child(username).observeSingleEvent(of: .value, with: { (snapshot) in
-//            guard
-//                let userInfo = snapshot.value as? [String: String],
-//                let email = userInfo["email"]
-//            else {
-//                let errorAlert = UIAlertController(title: "Error", message: "The username specified does not exist.", preferredStyle: .alert)
-//                errorAlert.addAction(UIAlertAction(title: "Done", style: .default, handler: nil))
-//                self.present(errorAlert, animated: true, completion: nil)
-//                self.endLoginAnimation()
-//                
-//                return
-//            }
-//            
-//            print("called")
-//            // Attempt to log in
-//            FIRAuth.auth()?.signIn(withEmail: email, password: password, completion: { (user, error) in
-//                if error == nil {
-//                    // Ensure the user is automatically logged in from now on,
-//                    // if no option previously set.
-//                    if let loginOption = UserDefaults.standard.string(forKey: "LoginOptions") {
-//                        if loginOption == Constants.LoginOptions.None {
-//                            UserDefaults.standard.set(Constants.LoginOptions.AutomaticLogin, forKey: "LoginOptions")
-//                            UserDefaults.standard.synchronize()
-//                        }
-//                    }
-//                    else {
-//                        UserDefaults.standard.set(Constants.LoginOptions.AutomaticLogin, forKey: "LoginOptions")
-//                        UserDefaults.standard.synchronize()
-//                    }
-//                    
-//                    print("called2")
-//                    // Successfully logged in
-//                    self.performSegue(withIdentifier: "Log In", sender: sender)
-//                    self.perform(#selector(LoginViewController.endLoginAnimation), with: nil, afterDelay: 2.0)
-//                }
-//                else {
-//                    let errorAlert = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert)
-//                    errorAlert.addAction(UIAlertAction(title: "Done", style: .default, handler: nil))
-//                    self.present(errorAlert, animated: true, completion: nil)
-//                    self.endLoginAnimation()
-//                }
-//            })
-//        }) { (error) in
-//            print("rektm8")
-//            let errorAlert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
-//            errorAlert.addAction(UIAlertAction(title: "Done", style: .default, handler: nil))
-//            self.present(errorAlert, animated: true, completion: nil)
-//            self.endLoginAnimation()
-//        }
     }
     
     func beginLoginAnimation() {

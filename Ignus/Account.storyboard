@@ -35,7 +35,7 @@
                     <navigationItem key="navigationItem" id="MyH-EU-hbw">
                         <nil key="title"/>
                         <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="0KV-0n-hT7">
-                            <rect key="frame" x="113" y="7" width="150" height="30"/>
+                            <rect key="frame" x="112.5" y="7" width="150" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <segments>
                                 <segment title="First"/>
@@ -65,7 +65,7 @@
                     <navigationItem key="navigationItem" id="aNW-5Q-25L">
                         <nil key="title"/>
                         <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="9fn-pQ-yeO">
-                            <rect key="frame" x="113" y="7" width="150" height="30"/>
+                            <rect key="frame" x="112.5" y="7" width="150" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <segments>
                                 <segment title="First"/>
@@ -91,7 +91,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="64" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Y7f-zk-sUc">
+                            <tableView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="64" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Y7f-zk-sUc">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -174,20 +174,20 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="G0z-Mo-x1f">
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="G0z-Mo-x1f">
                                 <rect key="frame" x="169" y="315" width="37" height="37"/>
                             </activityIndicatorView>
-                            <stackView opaque="NO" alpha="0.0" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="aWv-Sq-q2D">
-                                <rect key="frame" x="82" y="308.5" width="212" height="51"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="0ak-5z-xKT">
+                                <rect key="frame" x="42.5" y="308" width="291.5" height="51"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Messages" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dIL-j9-Gla">
-                                        <rect key="frame" x="24.5" y="0.0" width="163" height="25"/>
+                                        <rect key="frame" x="64.5" y="0.0" width="163" height="25"/>
                                         <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="25"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Messages will appear here." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IyY-xl-ekc">
-                                        <rect key="frame" x="0.0" y="35" width="212" height="16"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Incoming messages will appear here." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IyY-xl-ekc">
+                                        <rect key="frame" x="0.0" y="35" width="291.5" height="16"/>
                                         <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="16"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
@@ -198,13 +198,13 @@
                         <color key="backgroundColor" red="0.19249251840000001" green="0.19249251840000001" blue="0.19249251840000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="Y7f-zk-sUc" firstAttribute="leading" secondItem="RJ6-HA-AND" secondAttribute="leading" id="4Mg-SZ-ZMl"/>
-                            <constraint firstItem="aWv-Sq-q2D" firstAttribute="centerX" secondItem="RJ6-HA-AND" secondAttribute="centerX" id="ADj-wr-eB9"/>
+                            <constraint firstItem="0ak-5z-xKT" firstAttribute="centerY" secondItem="RJ6-HA-AND" secondAttribute="centerY" id="935-l4-hPJ"/>
                             <constraint firstItem="G0z-Mo-x1f" firstAttribute="centerX" secondItem="RJ6-HA-AND" secondAttribute="centerX" id="Aii-rD-Q8C"/>
                             <constraint firstItem="Y7f-zk-sUc" firstAttribute="top" secondItem="RJ6-HA-AND" secondAttribute="top" id="IZz-UF-ySj"/>
                             <constraint firstItem="G0z-Mo-x1f" firstAttribute="centerY" secondItem="RJ6-HA-AND" secondAttribute="centerY" id="QHg-Ld-EdN"/>
                             <constraint firstAttribute="bottom" secondItem="Y7f-zk-sUc" secondAttribute="bottom" id="RI5-3g-DPf"/>
                             <constraint firstAttribute="trailing" secondItem="Y7f-zk-sUc" secondAttribute="trailing" id="rI8-Ck-lCP"/>
-                            <constraint firstItem="aWv-Sq-q2D" firstAttribute="centerY" secondItem="RJ6-HA-AND" secondAttribute="centerY" id="rci-Jd-clM"/>
+                            <constraint firstItem="0ak-5z-xKT" firstAttribute="centerX" secondItem="RJ6-HA-AND" secondAttribute="centerX" id="v3a-Hr-9uL"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Messages" id="kKp-cX-EqA">
@@ -213,7 +213,7 @@
                     <connections>
                         <outlet property="loadingMessagesActivityIndicator" destination="G0z-Mo-x1f" id="VP4-s1-WAe"/>
                         <outlet property="messagesTable" destination="Y7f-zk-sUc" id="50h-jf-ZGN"/>
-                        <outlet property="noMessagesStackView" destination="aWv-Sq-q2D" id="W1c-hk-gaz"/>
+                        <outlet property="noMessagesStackView" destination="0ak-5z-xKT" id="rYN-de-uCm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gzB-jm-hrl" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -247,7 +247,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="2G4-qa-4yW" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Settings" image="Settings Icon" id="hjk-sa-S3p"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="B1P-eD-Cy4">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" barStyle="black" id="B1P-eD-Cy4">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="0.91764705879999997" green="0.20000000000000001" blue="0.21960784310000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -763,7 +763,7 @@ Cg
         <scene sceneID="bfY-pz-pNo">
             <objects>
                 <navigationController id="W0k-I2-sSk" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="4Hk-Lb-7ld">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" barStyle="black" id="4Hk-Lb-7ld">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

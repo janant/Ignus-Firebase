@@ -9,15 +9,77 @@
 import UIKit
 import Firebase
 
-class MessagesViewController: UIViewController {
+class MessagesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet weak var messagesTable: UITableView!
     @IBOutlet weak var noMessagesStackView: UIStackView!
     @IBOutlet weak var loadingMessagesActivityIndicator: UIActivityIndicatorView!
     
-    var unreadMessages = 0
+    var messages = [[String: Any]]()
+    var senders = [[String: String]]()
     
+    var unreadMessages = 0
     let refreshControl = UIRefreshControl()
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        guard
+            let currentUser = FIRAuth.auth()?.currentUser,
+            let username = currentUser.displayName
+            else {
+                return
+        }
+        
+        // Gets data if there are no messages
+        if messages.count == 0 {
+            // Shows the user that messages are loading
+            self.loadingMessagesActivityIndicator.startAnimating()
+            self.loadingMessagesActivityIndicator.alpha = 1.0
+            self.noMessagesStackView.alpha = 0.0
+            self.messagesTable.alpha = 0.0
+            
+            // Gets messages from Firebase
+            let databaseRef = FIRDatabase.database().reference().child("messages").child(username)
+            var handle: UInt = 0
+            handle = databaseRef.observe(.value, with: { (snapshot) in
+                databaseRef.removeObserver(withHandle: handle)
+                guard let messagesData = snapshot.value as? [[String: Any]] else {
+                    // Displays to the user that there are no messages, with animation
+                    UIView.animate(withDuration: 0.25, animations: {
+                        self.loadingMessagesActivityIndicator.alpha = 0.0
+                        self.noMessagesStackView.alpha = 1.0
+                    }, completion: { (completed) in
+                        self.loadingMessagesActivityIndicator.stopAnimating()
+                    })
+                    return
+                }
+                
+                if messagesData.count == 0 {
+                    // Displays to the user that there are no messages, with animation
+                    UIView.animate(withDuration: 0.25, animations: {
+                        self.loadingMessagesActivityIndicator.alpha = 0.0
+                        self.noMessagesStackView.alpha = 1.0
+                    }, completion: { (completed) in
+                        self.loadingMessagesActivityIndicator.stopAnimating()
+                    })
+                }
+                else { // There are messages, displays messages in the table
+                    self.messages = messagesData
+                    self.messagesTable.reloadData()
+                    self.processMessagesData()
+                    
+                    UIView.animate(withDuration: 0.25, animations: {
+                        self.loadingMessagesActivityIndicator.alpha = 0.0
+                        self.messagesTable.alpha = 1.0
+                    }, completion: { (completed) in
+                        self.loadingMessagesActivityIndicator.stopAnimating()
+                        self.messagesTable.isUserInteractionEnabled = true
+                    })
+                }
+            })
+        }
+    }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -35,26 +97,12 @@ class MessagesViewController: UIViewController {
         
         // Sets up the table
         messagesTable.separatorEffect = UIVibrancyEffect(blurEffect: UIBlurEffect(style: .dark))
+        messagesTable.backgroundView = nil
         refreshControl.addTarget(self, action: #selector(MessagesViewController.reloadData), for: .valueChanged)
         refreshControl.tintColor = UIColor.white
         messagesTable.addSubview(refreshControl)
         
-        guard
-            let currentUser = FIRAuth.auth()?.currentUser,
-            let username = currentUser.displayName
-        else {
-            return
-        }
-        
-        let databaseRef = FIRDatabase.database().reference().child("messages").child(username)
-        databaseRef.updateChildValues(["4": ["timeSent": 50, "message": "git gud"]])
-        
-        databaseRef.child("messages").child(username).queryOrdered(byChild: "timeSent").observe(.value, with: { (snapshot) in
-            print(snapshot.value ?? "rekt")
-            print("divider")
-        })
-        
-        print(FIRServerValue.timestamp())
+//        print(FIRServerValue.timestamp())
     }
 
     override func didReceiveMemoryWarning() {
@@ -67,6 +115,31 @@ class MessagesViewController: UIViewController {
         
     }
     
+    func processMessagesData() {
+        // Do nothing for now
+        // TODO: get the user data for sender of each message. Get unread count.
+    }
+    
+    // MARK: - Table view data source
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return messages.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Message Cell", for: indexPath)
+        return cell
+    }
+    
+    // MARK: - Table view delegate
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // Do nothing for now
+    }
 
     /*
     // MARK: - Navigation

@@ -48,4 +48,11 @@ struct Constants {
         static let FriendRequests = 1
     }
     
+    struct AddFriendsSearchBar {
+        static let SearchByNameIndex = 0
+        static let SearchByUsernameIndex = 1
+        static let SearchByNamePlaceholderText = "Search by name"
+        static let SearchByUsernamePlaceholderText = "Search by username"
+    }
+    
 }

@@ -36,4 +36,16 @@ struct Constants {
         static let Cover = "Cover"
     }
     
+    struct NoFriendsLabelText {
+        static let FriendsTitle = "No Friends"
+        static let FriendsDetail = "Add some by tapping +."
+        static let RequestsTitle = "No Friend Requests"
+        static let RequestsDetail = "Incoming friend requests will appear here."
+    }
+    
+    struct FriendsScope {
+        static let MyFriends = 0
+        static let FriendRequests = 1
+    }
+    
 }

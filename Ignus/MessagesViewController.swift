@@ -31,8 +31,8 @@ class MessagesViewController: UIViewController, UITableViewDataSource, UITableVi
                 return
         }
         
-        // Gets data if there are no messages
-        if messages.count == 0 {
+        // Gets data if there are no messages and not already trying to get data
+        if messages.count == 0 && !loadingMessagesActivityIndicator.isAnimating {
             // Shows the user that messages are loading
             self.loadingMessagesActivityIndicator.startAnimating()
             self.loadingMessagesActivityIndicator.alpha = 1.0

@@ -10,6 +10,8 @@
 		160C1CD01E0C470300E139C3 /* ProfileOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160C1CCF1E0C470300E139C3 /* ProfileOptionsViewController.swift */; };
 		160C1CD41E0C8AA400E139C3 /* ProfileOptionsPresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160C1CD31E0C8AA400E139C3 /* ProfileOptionsPresentation.swift */; };
 		160C1CD61E0C8ABA00E139C3 /* ProfileOptionsAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160C1CD51E0C8ABA00E139C3 /* ProfileOptionsAnimation.swift */; };
+		16323ED51E1581FB00D9EA39 /* FriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16323ED41E1581FB00D9EA39 /* FriendsViewController.swift */; };
+		16323ED71E15842000D9EA39 /* AddFriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16323ED61E15842000D9EA39 /* AddFriendsViewController.swift */; };
 		167BB0EE1DC46B7A0033FC37 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 167BB0ED1DC46B7A0033FC37 /* GoogleService-Info.plist */; };
 		167BB1301DC473D00033FC37 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167BB12F1DC473D00033FC37 /* LoginViewController.swift */; };
 		1696D8411DC46A96003BFDA8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1696D8401DC46A96003BFDA8 /* AppDelegate.swift */; };
@@ -62,6 +64,8 @@
 		160C1CCF1E0C470300E139C3 /* ProfileOptionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileOptionsViewController.swift; sourceTree = "<group>"; };
 		160C1CD31E0C8AA400E139C3 /* ProfileOptionsPresentation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileOptionsPresentation.swift; sourceTree = "<group>"; };
 		160C1CD51E0C8ABA00E139C3 /* ProfileOptionsAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileOptionsAnimation.swift; sourceTree = "<group>"; };
+		16323ED41E1581FB00D9EA39 /* FriendsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsViewController.swift; sourceTree = "<group>"; };
+		16323ED61E15842000D9EA39 /* AddFriendsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddFriendsViewController.swift; sourceTree = "<group>"; };
 		167BB0ED1DC46B7A0033FC37 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		167BB12F1DC473D00033FC37 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		1696D83D1DC46A96003BFDA8 /* Ignus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ignus.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -174,6 +178,15 @@
 			name = "Login Background Frames";
 			sourceTree = "<group>";
 		};
+		16800B6B1E15FD8E0075BE07 /* Friends Tab */ = {
+			isa = PBXGroup;
+			children = (
+				16323ED41E1581FB00D9EA39 /* FriendsViewController.swift */,
+				16323ED61E15842000D9EA39 /* AddFriendsViewController.swift */,
+			);
+			name = "Friends Tab";
+			sourceTree = "<group>";
+		};
 		1696D8341DC46A96003BFDA8 = {
 			isa = PBXGroup;
 			children = (
@@ -201,6 +214,7 @@
 				1696D8441DC46A96003BFDA8 /* Main.storyboard */,
 				16D63F861DD7153300287C1F /* Account.storyboard */,
 				16D63F851DD7151100287C1F /* Login and Sign Up */,
+				16800B6B1E15FD8E0075BE07 /* Friends Tab */,
 				16D967551E10BD6D0019654A /* Messages Tab */,
 				16FDEEEC1E0CF59B005F3A04 /* Settings Tab */,
 				16FDEEED1E0CF5B7005F3A04 /* Universal View Controllers */,
@@ -433,7 +447,9 @@
 				160C1CD41E0C8AA400E139C3 /* ProfileOptionsPresentation.swift in Sources */,
 				16A0D7A71DFCCF5000B89807 /* LogInAnimation.swift in Sources */,
 				16C717921E09A875002D7270 /* MyAccountViewController.swift in Sources */,
+				16323ED51E1581FB00D9EA39 /* FriendsViewController.swift in Sources */,
 				16F47E1A1DC7AFCD0005C3DB /* SignUpPresentation.swift in Sources */,
+				16323ED71E15842000D9EA39 /* AddFriendsViewController.swift in Sources */,
 				16C7F4AF1DC584E50001991A /* CreateAccountViewController.swift in Sources */,
 				16D967541E10BD670019654A /* ChooseFriendViewController.swift in Sources */,
 				160C1CD01E0C470300E139C3 /* ProfileOptionsViewController.swift in Sources */,

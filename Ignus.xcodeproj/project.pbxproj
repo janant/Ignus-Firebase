@@ -14,6 +14,7 @@
 		16323ED71E15842000D9EA39 /* AddFriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16323ED61E15842000D9EA39 /* AddFriendsViewController.swift */; };
 		167BB0EE1DC46B7A0033FC37 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 167BB0ED1DC46B7A0033FC37 /* GoogleService-Info.plist */; };
 		167BB1301DC473D00033FC37 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167BB12F1DC473D00033FC37 /* LoginViewController.swift */; };
+		168411231E1746BF0026CC59 /* UserState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168411221E1746BF0026CC59 /* UserState.swift */; };
 		1696D8411DC46A96003BFDA8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1696D8401DC46A96003BFDA8 /* AppDelegate.swift */; };
 		1696D8461DC46A96003BFDA8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1696D8441DC46A96003BFDA8 /* Main.storyboard */; };
 		1696D8481DC46A96003BFDA8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1696D8471DC46A96003BFDA8 /* Assets.xcassets */; };
@@ -22,6 +23,9 @@
 		16A0D7A91DFCCF5900B89807 /* LogInPresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A0D7A81DFCCF5900B89807 /* LogInPresentation.swift */; };
 		16AE71FE1E0B843300CEE396 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AE71FD1E0B843300CEE396 /* Constants.swift */; };
 		16AE72001E0B851300CEE396 /* LoginOptionsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AE71FF1E0B851300CEE396 /* LoginOptionsTableViewController.swift */; };
+		16B1B4B51E17723A00F9830F /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16B1B4B41E17723A00F9830F /* Profile.storyboard */; };
+		16B1B4B71E17760800F9830F /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B1B4B61E17760800F9830F /* ProfileViewController.swift */; };
+		16B1B4B91E17761B00F9830F /* FriendsSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B1B4B81E17761B00F9830F /* FriendsSplitViewController.swift */; };
 		16C717921E09A875002D7270 /* MyAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C717911E09A875002D7270 /* MyAccountViewController.swift */; };
 		16C7F4AF1DC584E50001991A /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C7F4AE1DC584E50001991A /* CreateAccountViewController.swift */; };
 		16D63F841DD7124500287C1F /* PrivacyPolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D63F831DD7124500287C1F /* PrivacyPolicyViewController.swift */; };
@@ -68,6 +72,7 @@
 		16323ED61E15842000D9EA39 /* AddFriendsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddFriendsViewController.swift; sourceTree = "<group>"; };
 		167BB0ED1DC46B7A0033FC37 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		167BB12F1DC473D00033FC37 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		168411221E1746BF0026CC59 /* UserState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserState.swift; sourceTree = "<group>"; };
 		1696D83D1DC46A96003BFDA8 /* Ignus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ignus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1696D8401DC46A96003BFDA8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1696D8451DC46A96003BFDA8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -79,6 +84,9 @@
 		16A0D7A81DFCCF5900B89807 /* LogInPresentation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogInPresentation.swift; sourceTree = "<group>"; };
 		16AE71FD1E0B843300CEE396 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		16AE71FF1E0B851300CEE396 /* LoginOptionsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginOptionsTableViewController.swift; sourceTree = "<group>"; };
+		16B1B4B41E17723A00F9830F /* Profile.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Profile.storyboard; sourceTree = "<group>"; };
+		16B1B4B61E17760800F9830F /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		16B1B4B81E17761B00F9830F /* FriendsSplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsSplitViewController.swift; sourceTree = "<group>"; };
 		16C717911E09A875002D7270 /* MyAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyAccountViewController.swift; sourceTree = "<group>"; };
 		16C7F4AE1DC584E50001991A /* CreateAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountViewController.swift; sourceTree = "<group>"; };
 		16D63F831DD7124500287C1F /* PrivacyPolicyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyViewController.swift; sourceTree = "<group>"; };
@@ -181,6 +189,7 @@
 		16800B6B1E15FD8E0075BE07 /* Friends Tab */ = {
 			isa = PBXGroup;
 			children = (
+				16B1B4B81E17761B00F9830F /* FriendsSplitViewController.swift */,
 				16323ED41E1581FB00D9EA39 /* FriendsViewController.swift */,
 				16323ED61E15842000D9EA39 /* AddFriendsViewController.swift */,
 			);
@@ -213,12 +222,14 @@
 				1696D8401DC46A96003BFDA8 /* AppDelegate.swift */,
 				1696D8441DC46A96003BFDA8 /* Main.storyboard */,
 				16D63F861DD7153300287C1F /* Account.storyboard */,
+				16B1B4B41E17723A00F9830F /* Profile.storyboard */,
 				16D63F851DD7151100287C1F /* Login and Sign Up */,
 				16800B6B1E15FD8E0075BE07 /* Friends Tab */,
 				16D967551E10BD6D0019654A /* Messages Tab */,
 				16FDEEEC1E0CF59B005F3A04 /* Settings Tab */,
 				16FDEEED1E0CF5B7005F3A04 /* Universal View Controllers */,
 				16AE71FD1E0B843300CEE396 /* Constants.swift */,
+				168411221E1746BF0026CC59 /* UserState.swift */,
 				1696D8471DC46A96003BFDA8 /* Assets.xcassets */,
 				1696D8491DC46A96003BFDA8 /* LaunchScreen.storyboard */,
 				167BB0ED1DC46B7A0033FC37 /* GoogleService-Info.plist */,
@@ -265,6 +276,7 @@
 				160C1CCF1E0C470300E139C3 /* ProfileOptionsViewController.swift */,
 				160C1CD51E0C8ABA00E139C3 /* ProfileOptionsAnimation.swift */,
 				160C1CD31E0C8AA400E139C3 /* ProfileOptionsPresentation.swift */,
+				16B1B4B61E17760800F9830F /* ProfileViewController.swift */,
 			);
 			name = "Universal View Controllers";
 			sourceTree = "<group>";
@@ -380,6 +392,7 @@
 				16DEC2E31DC51366003AF4AA /* 16.png in Resources */,
 				16DEC2EE1DC51373003AF4AA /* Gotham-Light.ttf in Resources */,
 				16DEC2E91DC51366003AF4AA /* 14.png in Resources */,
+				16B1B4B51E17723A00F9830F /* Profile.storyboard in Resources */,
 				16DEC2D41DC51366003AF4AA /* 23.png in Resources */,
 				16DEC2E41DC51366003AF4AA /* 11.png in Resources */,
 				16DEC2D51DC51366003AF4AA /* 21.png in Resources */,
@@ -445,6 +458,7 @@
 			files = (
 				16FDEEEF1E0CF8E2005F3A04 /* MessagesViewController.swift in Sources */,
 				160C1CD41E0C8AA400E139C3 /* ProfileOptionsPresentation.swift in Sources */,
+				16B1B4B71E17760800F9830F /* ProfileViewController.swift in Sources */,
 				16A0D7A71DFCCF5000B89807 /* LogInAnimation.swift in Sources */,
 				16C717921E09A875002D7270 /* MyAccountViewController.swift in Sources */,
 				16323ED51E1581FB00D9EA39 /* FriendsViewController.swift in Sources */,
@@ -453,6 +467,8 @@
 				16C7F4AF1DC584E50001991A /* CreateAccountViewController.swift in Sources */,
 				16D967541E10BD670019654A /* ChooseFriendViewController.swift in Sources */,
 				160C1CD01E0C470300E139C3 /* ProfileOptionsViewController.swift in Sources */,
+				168411231E1746BF0026CC59 /* UserState.swift in Sources */,
+				16B1B4B91E17761B00F9830F /* FriendsSplitViewController.swift in Sources */,
 				167BB1301DC473D00033FC37 /* LoginViewController.swift in Sources */,
 				160C1CD61E0C8ABA00E139C3 /* ProfileOptionsAnimation.swift in Sources */,
 				16AE71FE1E0B843300CEE396 /* Constants.swift in Sources */,

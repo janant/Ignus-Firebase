@@ -243,21 +243,12 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
                         if profileError == nil {
                             coverRef.put(coverData, metadata: nil, completion: { (coverMetadata, coverError) in
                                 if coverError == nil {
-                                    guard
-                                        let profileURL = profileMetadata?.downloadURL(),
-                                        let coverURL = coverMetadata?.downloadURL()
-                                    else {
-                                        return
-                                    }
-                                    
                                     // Creates an additional Firebase object with additional user information
                                     let newUserInfo = [
                                             "firstName": firstName,
                                             "lastName": lastName,
                                             "username": username,
                                             "email": email,
-                                            "profile": profileURL.absoluteString,
-                                            "cover": coverURL.absoluteString
                                     ]
                                     let ref = FIRDatabase.database().reference()
                                     ref.child("users").child(username).setValue(newUserInfo)

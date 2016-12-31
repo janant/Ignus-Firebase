@@ -21,9 +21,9 @@ class FriendsViewController: UIViewController {
     @IBOutlet weak var noFriendsTitle: UILabel!
     @IBOutlet weak var noFriendsDetail: UILabel!
     
-    
-    var friends = [[String: String]]()
-    var requests = [[String: Any]]()
+    var friends                 = [String]()
+    var friendRequestsSent      = [String]()
+    var friendRequestsReceived  = [String]()
     
     let refreshControl = UIRefreshControl()
     
@@ -56,12 +56,8 @@ class FriendsViewController: UIViewController {
             return
         }
         
-        guard
-            let currentUser = FIRAuth.auth()?.currentUser,
-            let username = currentUser.displayName
-            else {
-                return
-        }
+        var noFriendsTitleText: String!
+        var noFriendsDetailText: String!
         
         if selectedIndex == Constants.FriendsScope.MyFriends {
             // Gets data if there are no friends
@@ -72,25 +68,12 @@ class FriendsViewController: UIViewController {
                 self.noFriendsStackView.alpha = 0.0
                 self.friendsTable.alpha = 0.0
                 
-                // Gets friends from Firebase
-                let databaseRef = FIRDatabase.database().reference().child("friends").child(username)
-                var handle: UInt = 0
-                handle = databaseRef.observe(.value, with: { (snapshot) in
+                // Get friends from UserState
+                UserState.getFriends(with: { (friendsData) in
+                    self.friends = friendsData
                     
-                    databaseRef.removeObserver(withHandle: handle)
-                    guard let friendsData = snapshot.value as? [[String: String]] else {
-                        // Displays to the user that there are no friends, with animation
-                        UIView.animate(withDuration: 0.25, animations: {
-                            self.loadingFriendsActivityIndicator.alpha = 0.0
-                            self.noFriendsStackView.alpha = 1.0
-                        }, completion: { (completed) in
-                            self.loadingFriendsActivityIndicator.stopAnimating()
-                        })
-                        return
-                    }
-                    
-                    if friendsData.count == 0 {
-                        // Displays to the user that there are no friends, with animation
+                    // If there are no friends, display this to the user
+                    if self.friends.count == 0 {
                         UIView.animate(withDuration: 0.25, animations: {
                             self.loadingFriendsActivityIndicator.alpha = 0.0
                             self.noFriendsStackView.alpha = 1.0
@@ -99,7 +82,6 @@ class FriendsViewController: UIViewController {
                         })
                     }
                     else { // There are friends, displays friends in the table
-                        self.friends = friendsData
                         self.friendsTable.reloadData()
                         
                         UIView.animate(withDuration: 0.25, animations: {
@@ -110,40 +92,36 @@ class FriendsViewController: UIViewController {
                             self.friendsTable.isUserInteractionEnabled = true
                         })
                     }
-                    
                 })
+                
+                // Sets appropriate text
+                noFriendsTitleText = Constants.NoFriendsLabelText.FriendsTitle
+                noFriendsDetailText = Constants.NoFriendsLabelText.FriendsDetail
             }
-            
-            noFriendsTitle.text = Constants.NoFriendsLabelText.FriendsTitle
-            noFriendsDetail.text = Constants.NoFriendsLabelText.FriendsDetail
         }
         else if selectedIndex == Constants.FriendsScope.FriendRequests {
             // Gets data if there are no requests
-            if requests.count == 0 && !self.loadingFriendsActivityIndicator.isAnimating {
+            if (friendRequestsSent.count == 0 || friendRequestsReceived.count == 0)
+                && !self.loadingFriendsActivityIndicator.isAnimating {
+                
                 // Shows the user that requests are loading
                 self.loadingFriendsActivityIndicator.startAnimating()
                 self.loadingFriendsActivityIndicator.alpha = 1.0
                 self.noFriendsStackView.alpha = 0.0
                 self.friendsTable.alpha = 0.0
                 
-                // Gets requests from Firebase
-                let databaseRef = FIRDatabase.database().reference().child("friendRequests").child(username).child("received")
-                var handle: UInt = 0
-                handle = databaseRef.observe(.value, with: { (snapshot) in
-                    
-                    databaseRef.removeObserver(withHandle: handle)
-                    guard let requestsData = snapshot.value as? [[String: Any]] else {
-                        // Displays to the user that there are no requests, with animation
-                        UIView.animate(withDuration: 0.25, animations: {
-                            self.loadingFriendsActivityIndicator.alpha = 0.0
-                            self.noFriendsStackView.alpha = 1.0
-                        }, completion: { (completed) in
-                            self.loadingFriendsActivityIndicator.stopAnimating()
-                        })
-                        return
+                // Gets requests from UserState
+                UserState.getFriendRequests(with: { (friendRequestsData) in
+                    // Saves friend request data, if available
+                    if let friendRequestsSentData = friendRequestsData["sent"] {
+                        self.friendRequestsSent = friendRequestsSentData
+                    }
+                    if let friendRequestsReceivedData = friendRequestsData["received"] {
+                        self.friendRequestsReceived = friendRequestsReceivedData
                     }
                     
-                    if requestsData.count == 0 {
+                    // If no friend requests, display this to the user
+                    if self.friendRequestsSent.count == 0 && self.friendRequestsReceived.count == 0 {
                         // Displays to the user that there are no requests, with animation
                         UIView.animate(withDuration: 0.25, animations: {
                             self.loadingFriendsActivityIndicator.alpha = 0.0
@@ -153,7 +131,6 @@ class FriendsViewController: UIViewController {
                         })
                     }
                     else { // There are requests, displays requests in the table
-                        self.requests = requestsData
                         self.friendsTable.reloadData()
                         
                         UIView.animate(withDuration: 0.25, animations: {
@@ -164,14 +141,32 @@ class FriendsViewController: UIViewController {
                             self.friendsTable.isUserInteractionEnabled = true
                         })
                     }
-                    
                 })
             }
             
-            noFriendsTitle.text = Constants.NoFriendsLabelText.RequestsTitle
-            noFriendsDetail.text = Constants.NoFriendsLabelText.RequestsDetail
+            // Sets appropriate text
+            noFriendsTitleText = Constants.NoFriendsLabelText.RequestsTitle
+            noFriendsDetailText = Constants.NoFriendsLabelText.RequestsDetail
         }
-    
+        
+        // Sets the text labels. Because they are attributed text labels, it is a little more complicated
+        
+        guard
+            let noFriendsTitleAttributedString = noFriendsTitle.attributedText,
+            let noFriendsDetailAttributedString = noFriendsDetail.attributedText
+        else {
+                print("rekt")
+                return
+        }
+        
+        let noFriendsTitleMutableAttributedString = NSMutableAttributedString(attributedString: noFriendsTitleAttributedString)
+        let noFriendsDetailMutableAttributedString = NSMutableAttributedString(attributedString: noFriendsDetailAttributedString)
+        
+        noFriendsTitleMutableAttributedString.mutableString.setString(noFriendsTitleText)
+        noFriendsDetailMutableAttributedString.mutableString.setString(noFriendsDetailText)
+        
+        noFriendsTitle.attributedText = noFriendsTitleMutableAttributedString
+        noFriendsDetail.attributedText = noFriendsDetailMutableAttributedString
     }
 
     

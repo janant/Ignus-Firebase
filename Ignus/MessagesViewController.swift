@@ -24,13 +24,6 @@ class MessagesViewController: UIViewController, UITableViewDataSource, UITableVi
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        guard
-            let currentUser = FIRAuth.auth()?.currentUser,
-            let username = currentUser.displayName
-            else {
-                return
-        }
-        
         // Gets data if there are no messages and not already trying to get data
         if messages.count == 0 && !loadingMessagesActivityIndicator.isAnimating {
             // Shows the user that messages are loading
@@ -39,24 +32,12 @@ class MessagesViewController: UIViewController, UITableViewDataSource, UITableVi
             self.noMessagesStackView.alpha = 0.0
             self.messagesTable.alpha = 0.0
             
-            // Gets messages from Firebase
-            let databaseRef = FIRDatabase.database().reference().child("messages").child(username)
-            var handle: UInt = 0
-            handle = databaseRef.observe(.value, with: { (snapshot) in
-                databaseRef.removeObserver(withHandle: handle)
-                guard let messagesData = snapshot.value as? [[String: Any]] else {
-                    // Displays to the user that there are no messages, with animation
-                    UIView.animate(withDuration: 0.25, animations: {
-                        self.loadingMessagesActivityIndicator.alpha = 0.0
-                        self.noMessagesStackView.alpha = 1.0
-                    }, completion: { (completed) in
-                        self.loadingMessagesActivityIndicator.stopAnimating()
-                    })
-                    return
-                }
+            // Gets messages from UserState
+            UserState.getMessages(with: { (messagesData) in
+                self.messages = messagesData
                 
-                if messagesData.count == 0 {
-                    // Displays to the user that there are no messages, with animation
+                // If there are no messages, display this to the user
+                if self.messages.count == 0 {
                     UIView.animate(withDuration: 0.25, animations: {
                         self.loadingMessagesActivityIndicator.alpha = 0.0
                         self.noMessagesStackView.alpha = 1.0
@@ -65,7 +46,6 @@ class MessagesViewController: UIViewController, UITableViewDataSource, UITableVi
                     })
                 }
                 else { // There are messages, displays messages in the table
-                    self.messages = messagesData
                     self.messagesTable.reloadData()
                     self.processMessagesData()
                     

@@ -54,17 +54,13 @@ class MyAccountViewController: UIViewController, UITableViewDataSource, UITableV
             return
         }
         
-        // Getes user info dictionary from Firebase
-        let databaseRef = FIRDatabase.database().reference()
-        databaseRef.child("users").child(currentUser.displayName!).observeSingleEvent(of: .value, with: { (snapshot) in
-            
-            // Ensures necessary user info is gathered
+        // Gets data from UserState class
+        UserState.getCurrentUserInfo { (currentUserInfo) in
             guard
-                let userInfo  = snapshot.value as? [String: String],
-                let firstName = userInfo["firstName"],
-                let lastName  = userInfo["lastName"]
-            else {
-                return
+                let firstName = currentUserInfo["firstName"],
+                let lastName  = currentUserInfo["lastName"]
+                else {
+                    return
             }
             
             // Gets profile and cover photo references from Firebase
@@ -90,13 +86,13 @@ class MyAccountViewController: UIViewController, UITableViewDataSource, UITableV
             })
             
             // Fades in new data
-            UIView.transition(with: self.nameLabel, duration: 0.2, options: .transitionCrossDissolve, animations: { 
+            UIView.transition(with: self.nameLabel, duration: 0.2, options: .transitionCrossDissolve, animations: {
                 self.nameLabel.text = "\(firstName) \(lastName)"
             }, completion: nil)
             UIView.transition(with: self.usernameLabel, duration: 0.2, options: .transitionCrossDissolve, animations: {
                 self.usernameLabel.text = username
             }, completion: nil)
-        })
+        }
         
         NotificationCenter.default.addObserver(self, selector: #selector(MyAccountViewController.refreshProfile(_:)), name: NSNotification.Name(rawValue: Constants.NotificationNames.ReloadProfileImages), object: nil)
     }
@@ -181,6 +177,9 @@ class MyAccountViewController: UIViewController, UITableViewDataSource, UITableV
             // Creates and presents logout action sheet
             let logoutConfirmation = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             logoutConfirmation.addAction(UIAlertAction(title: "Log Out", style: .destructive, handler: { (action) -> Void in
+                
+                UserState.resetState()
+                
                 // Logs out
                 try? FIRAuth.auth()?.signOut()
                 
@@ -188,6 +187,7 @@ class MyAccountViewController: UIViewController, UITableViewDataSource, UITableV
                 UserDefaults.standard.synchronize()
                 
                 self.dismiss(animated: true, completion: nil)
+                
             }))
             logoutConfirmation.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) -> Void in
                 self.settingsTable.deselectRow(at: indexPath, animated: true)

@@ -55,4 +55,9 @@ struct Constants {
         static let SearchByUsernamePlaceholderText = "Search by username"
     }
     
+    struct ProfileSegueSenderKeys {
+        static let ProfileData = "ProfileData"
+        static let FriendRequestsData = "FriendRequestsData"
+    }
+    
 }

@@ -9,7 +9,12 @@
 import UIKit
 import Firebase
 
-class FriendsViewController: UIViewController {
+protocol FriendsViewControllerAddFriendsDelegate: class {
+    func didTapAddFriendsButton()
+    func dismissAddFriends()
+}
+
+class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate {
     
     // Main views
     @IBOutlet weak var friendsTable: UITableView!
@@ -21,11 +26,17 @@ class FriendsViewController: UIViewController {
     @IBOutlet weak var noFriendsTitle: UILabel!
     @IBOutlet weak var noFriendsDetail: UILabel!
     
+    @IBOutlet var friendsNavItemSegmentedControl: UISegmentedControl!
+    @IBOutlet var friendsNavItemAddButton: UIBarButtonItem!
+    @IBOutlet weak var addFriendsContainerView: UIView!
+    
     var friends                 = [String]()
     var friendRequestsSent      = [String]()
     var friendRequestsReceived  = [String]()
     
     let refreshControl = UIRefreshControl()
+    
+    weak var addFriendsDelegate: FriendsViewControllerAddFriendsDelegate?
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -168,11 +179,60 @@ class FriendsViewController: UIViewController {
         noFriendsTitle.attributedText = noFriendsTitleMutableAttributedString
         noFriendsDetail.attributedText = noFriendsDetailMutableAttributedString
     }
+    
+    // MARK: - AddFriendsViewControllerDelegate methods
+    
+    func didSelectUser(withProfileData profileData: [String : String]) {
+        
+        UserState.getFriendRequests(with: { (friendRequests) in
+            
+            let senderData: [String : Any] =
+                [Constants.ProfileSegueSenderKeys.ProfileData:          profileData,
+                 Constants.ProfileSegueSenderKeys.FriendRequestsData:   friendRequests]
+            
+            self.performSegue(withIdentifier: "Show Profile Detail", sender: senderData)
+            
+        })
+        
+    }
 
+    @IBAction func tappedAddFriends(_ sender: Any) {
+        self.addFriendsDelegate?.didTapAddFriendsButton()
+        
+        if let addFriendsVC = self.addFriendsDelegate as? AddFriendsViewController {
+            let fadeTextTransition = CATransition()
+            fadeTextTransition.duration = 0.5
+            fadeTextTransition.type = kCATransitionFade
+            
+            self.navigationController?.navigationBar.layer.add(fadeTextTransition, forKey: "fadeText")
+            self.navigationItem.titleView = nil
+            self.navigationItem.title = "Add Friends"
+            self.navigationItem.rightBarButtonItem = addFriendsVC.navigationItem.rightBarButtonItem
+            self.navigationController?.navigationBar.layer.removeAnimation(forKey: "fadeText")
+            
+            addFriendsContainerView.isUserInteractionEnabled = true
+        }
+    }
     
     // MARK: - Navigation
     
     @IBAction func dismissAddFriends(segue: UIStoryboardSegue) {
+        self.addFriendsDelegate?.dismissAddFriends()
+        
+        if let addFriendsVC = self.addFriendsDelegate as? AddFriendsViewController {
+            let fadeTextTransition = CATransition()
+            fadeTextTransition.duration = 0.5
+            fadeTextTransition.type = kCATransitionFade
+            self.navigationController?.navigationBar.layer.add(fadeTextTransition, forKey: "fadeText")
+            
+            self.navigationItem.title = nil
+            self.navigationItem.titleView = friendsNavItemSegmentedControl
+            self.navigationItem.rightBarButtonItem = friendsNavItemAddButton
+            
+            self.navigationController?.navigationBar.layer.removeAnimation(forKey: "fadeText")
+            
+            addFriendsContainerView.isUserInteractionEnabled = false
+        }
         
     }
 
@@ -180,6 +240,32 @@ class FriendsViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        if segue.identifier == "Show Profile Detail" {
+            guard
+                let profileNavVC = segue.destination as? UINavigationController,
+                let profileVC = profileNavVC.topViewController as? ProfileViewController,
+            
+                let senderData = sender as? [String : Any],
+                let profileData = senderData[Constants.ProfileSegueSenderKeys.ProfileData] as? [String : String],
+                let friendRequestsData = senderData[Constants.ProfileSegueSenderKeys.FriendRequestsData] as? [String : [String]]
+            else {
+                return
+            }
+            
+            profileVC.profileInfo = profileData
+            profileVC.friendRequests = friendRequestsData
+        }
+        else if segue.identifier == "Add Friends" {
+            guard
+                let addFriendsNavVC = segue.destination as? UINavigationController,
+                let addFriendsVC = addFriendsNavVC.topViewController as? AddFriendsViewController
+            else {
+                return
+            }
+            
+            addFriendsVC.delegate = self
+            self.addFriendsDelegate = addFriendsVC
+        }
     }
     
 

@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -22,24 +21,44 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="V7O-fv-pcb">
-                                <rect key="frame" x="16" y="20" width="121" height="29"/>
-                                <segments>
-                                    <segment title="First"/>
-                                    <segment title="Second"/>
-                                </segments>
-                            </segmentedControl>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rs1-Gq-SIa">
+                                <rect key="frame" x="20" y="317" width="335" height="33"/>
+                                <attributedString key="attributedText">
+                                    <fragment content="Select a user on the left.">
+                                        <attributes>
+                                            <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <font key="NSFont" size="25" name="Gotham-Book"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="1.3" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kHp-Lg-1fF">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.19249251840000001" green="0.19249251840000001" blue="0.19249251840000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="V7O-fv-pcb" firstAttribute="top" secondItem="VUe-zL-z97" secondAttribute="bottom" id="hFm-Sx-2nq"/>
-                            <constraint firstItem="V7O-fv-pcb" firstAttribute="leading" secondItem="i8O-Ac-4m2" secondAttribute="leadingMargin" id="wUm-pm-LUp"/>
+                            <constraint firstItem="kHp-Lg-1fF" firstAttribute="leading" secondItem="i8O-Ac-4m2" secondAttribute="leading" id="HOn-6m-5wz"/>
+                            <constraint firstItem="kHp-Lg-1fF" firstAttribute="top" secondItem="VUe-zL-z97" secondAttribute="bottom" id="M9T-Og-CCD"/>
+                            <constraint firstAttribute="trailing" secondItem="kHp-Lg-1fF" secondAttribute="trailing" id="TzI-D8-vW0"/>
+                            <constraint firstItem="sU6-ws-2Zq" firstAttribute="top" secondItem="kHp-Lg-1fF" secondAttribute="bottom" id="UYE-Or-eYy"/>
+                            <constraint firstItem="rs1-Gq-SIa" firstAttribute="leading" secondItem="i8O-Ac-4m2" secondAttribute="leading" constant="20" id="jdA-az-bTG"/>
+                            <constraint firstItem="rs1-Gq-SIa" firstAttribute="centerY" secondItem="i8O-Ac-4m2" secondAttribute="centerY" id="jgE-sT-pty"/>
+                            <constraint firstAttribute="trailing" secondItem="rs1-Gq-SIa" secondAttribute="trailing" constant="20" id="kHV-rN-WHW"/>
+                            <constraint firstItem="rs1-Gq-SIa" firstAttribute="centerX" secondItem="i8O-Ac-4m2" secondAttribute="centerX" id="nnf-PO-GbY"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="profileView" destination="kHp-Lg-1fF" id="Gyl-s4-8is"/>
+                        <outlet property="selectUserLabel" destination="rs1-Gq-SIa" id="BEr-Sj-zCL"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NGd-El-hef" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="121" y="121"/>
+            <point key="canvasLocation" x="120.8" y="120.98950524737631"/>
         </scene>
     </scenes>
 </document>

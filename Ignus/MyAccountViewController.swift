@@ -140,6 +140,10 @@ class MyAccountViewController: UIViewController, UITableViewDataSource, UITableV
             backgroundView.backgroundColor = UIColor.gray
             cell.selectedBackgroundView = backgroundView
             
+            var cellFrame = cell.frame
+            cellFrame = CGRect(x: cellFrame.origin.x, y: cellFrame.origin.y, width: cellFrame.width - 200, height: cellFrame.height)
+            cell.frame = cellFrame
+            
             return cell
         }
         else if (indexPath as NSIndexPath).section == 1 {

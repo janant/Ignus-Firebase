@@ -1,32 +1,21 @@
 //
-//  ProfileViewController.swift
+//  FriendsNavigationViewController.swift
 //  Ignus
 //
-//  Created by Anant Jain on 12/30/16.
+//  Created by Anant Jain on 12/31/16.
 //  Copyright © 2016 Anant Jain. All rights reserved.
 //
 
 import UIKit
 
-class ProfileViewController: UIViewController {
-    
-    @IBOutlet weak var selectUserLabel: UILabel!
-    @IBOutlet weak var profileView: UIView!
-    
-    var profileInfo: [String: String]?
-    var friendRequests: [String: [String]]?
+class FriendsNavigationViewController: UINavigationController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        
-        // Hides/shows views based on available information
-        guard let profileInfo = profileInfo else {
-            profileView.isHidden = true
-            return
-        }
-        selectUserLabel.isHidden = true
+        self.view.backgroundColor = UIColor(red: 49/255, green: 49/255, blue: 49/255, alpha: 1.0)
+        self.navigationBar.backgroundColor = UIColor(red: 49/255, green: 49/255, blue: 49/255, alpha: 1.0)
     }
 
     override func didReceiveMemoryWarning() {

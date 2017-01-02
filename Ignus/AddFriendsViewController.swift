@@ -9,16 +9,32 @@
 import UIKit
 import Firebase
 
-class AddFriendsViewController: UIViewController, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate {
+protocol AddFriendsViewControllerDelegate: class {
+    func didSelectUser(withProfileData profileData: [String: String])
+}
+
+class AddFriendsViewController: UIViewController, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, FriendsViewControllerAddFriendsDelegate {
 
     @IBOutlet weak var addFriendsTable: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var noResultsText: UILabel!
     
+    @IBOutlet weak var backgroundBlurView: UIVisualEffectView!
+    
+    weak var delegate: AddFriendsViewControllerDelegate?
+    
     var allUserData: [[String: String]]?
     var searchResults = [[String: String]]()
     
     let usersDatabaseRef = FIRDatabase.database().reference().child("users")
+    
+    var topInset: CGFloat = 0.0
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        self.view.endEditing(true)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,8 +42,9 @@ class AddFriendsViewController: UIViewController, UISearchBarDelegate, UITableVi
         // Do any additional setup after loading the view.
         
         // Configures scroll inset and scroll position (so search bar is visible)
-        addFriendsTable.contentInset = UIEdgeInsets(top: self.navigationController!.navigationBar.frame.size.height + UIApplication.shared.statusBarFrame.size.height, left: 0, bottom: 0, right: 0)
-        addFriendsTable.setContentOffset(CGPoint(x: 0, y: -64), animated: false)
+        topInset = self.navigationController!.navigationBar.frame.size.height + UIApplication.shared.statusBarFrame.size.height
+        addFriendsTable.contentInset = UIEdgeInsets(top: topInset, left: 0, bottom: 0, right: 0)
+        addFriendsTable.setContentOffset(CGPoint(x: 0, y: -topInset), animated: false)
         
         // Configures table
         searchBar.keyboardAppearance = .dark
@@ -49,6 +66,9 @@ class AddFriendsViewController: UIViewController, UISearchBarDelegate, UITableVi
         // Notifications to handle keyboard appearances and disappearances
         NotificationCenter.default.addObserver(self, selector: #selector(AddFriendsViewController.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(AddFriendsViewController.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        
+        backgroundBlurView.effect = nil
+        backgroundBlurView.contentView.alpha = 0.0
     }
 
     override func didReceiveMemoryWarning() {
@@ -139,6 +159,13 @@ class AddFriendsViewController: UIViewController, UISearchBarDelegate, UITableVi
         return cell
     }
     
+    // MARK: - Table view delegate methods
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.view.endEditing(true)
+        self.delegate?.didSelectUser(withProfileData: searchResults[indexPath.row])
+    }
+    
     // MARK: - Search bar delegate methods
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -186,7 +213,7 @@ class AddFriendsViewController: UIViewController, UISearchBarDelegate, UITableVi
         }()
         
         // Scrolls back to top
-        addFriendsTable.setContentOffset(CGPoint(x: 0, y: -64), animated: true)
+        addFriendsTable.setContentOffset(CGPoint(x: 0, y: -topInset), animated: true)
         
         if searchText.characters.count > 0 {
             
@@ -281,15 +308,53 @@ class AddFriendsViewController: UIViewController, UISearchBarDelegate, UITableVi
         }
     }
     
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        
+        if isViewLoaded {
+            coordinator.animate(alongsideTransition: nil) { (context) in
+                
+                let newInset = self.navigationController!.navigationBar.frame.size.height + UIApplication.shared.statusBarFrame.size.height
+                self.topInset = newInset
+                self.addFriendsTable.setContentOffset(CGPoint(x: 0, y: -newInset), animated: true)
+                
+            }
+        }
+    }
+    
+    // MARK: - FriendsViewControllerAddFriendsDelegate methods
+    
+    func didTapAddFriendsButton() {
+        self.searchBar.becomeFirstResponder()
+        UIView.animate(withDuration: 0.5, animations: { 
+            self.backgroundBlurView.effect = UIBlurEffect(style: .dark)
+            self.backgroundBlurView.contentView.alpha = 1.0
+        })
+    }
+    
+    func dismissAddFriends() {
+        UIView.animate(withDuration: 0.5, animations: {
+            self.backgroundBlurView.effect = nil
+            self.backgroundBlurView.contentView.alpha = 0.0
+        }) { (completed) in
+            self.searchBar.resignFirstResponder()
+            self.searchBar.text = ""
+            self.searchBar.selectedScopeButtonIndex = Constants.AddFriendsSearchBar.SearchByNameIndex
+            
+            self.searchBar(self.searchBar, textDidChange: "")
+            self.searchBar(self.searchBar, selectedScopeButtonIndexDidChange: Constants.AddFriendsSearchBar.SearchByNameIndex)
+        }
+    }
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        
     }
-    */
+    
 
 }

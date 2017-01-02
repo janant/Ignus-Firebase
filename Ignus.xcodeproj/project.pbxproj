@@ -10,6 +10,7 @@
 		160C1CD01E0C470300E139C3 /* ProfileOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160C1CCF1E0C470300E139C3 /* ProfileOptionsViewController.swift */; };
 		160C1CD41E0C8AA400E139C3 /* ProfileOptionsPresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160C1CD31E0C8AA400E139C3 /* ProfileOptionsPresentation.swift */; };
 		160C1CD61E0C8ABA00E139C3 /* ProfileOptionsAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160C1CD51E0C8ABA00E139C3 /* ProfileOptionsAnimation.swift */; };
+		16318AC71E18445F0099858C /* FriendsNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16318AC61E18445F0099858C /* FriendsNavigationViewController.swift */; };
 		16323ED51E1581FB00D9EA39 /* FriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16323ED41E1581FB00D9EA39 /* FriendsViewController.swift */; };
 		16323ED71E15842000D9EA39 /* AddFriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16323ED61E15842000D9EA39 /* AddFriendsViewController.swift */; };
 		167BB0EE1DC46B7A0033FC37 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 167BB0ED1DC46B7A0033FC37 /* GoogleService-Info.plist */; };
@@ -68,6 +69,7 @@
 		160C1CCF1E0C470300E139C3 /* ProfileOptionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileOptionsViewController.swift; sourceTree = "<group>"; };
 		160C1CD31E0C8AA400E139C3 /* ProfileOptionsPresentation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileOptionsPresentation.swift; sourceTree = "<group>"; };
 		160C1CD51E0C8ABA00E139C3 /* ProfileOptionsAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileOptionsAnimation.swift; sourceTree = "<group>"; };
+		16318AC61E18445F0099858C /* FriendsNavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsNavigationViewController.swift; sourceTree = "<group>"; };
 		16323ED41E1581FB00D9EA39 /* FriendsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsViewController.swift; sourceTree = "<group>"; };
 		16323ED61E15842000D9EA39 /* AddFriendsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddFriendsViewController.swift; sourceTree = "<group>"; };
 		167BB0ED1DC46B7A0033FC37 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -190,6 +192,7 @@
 			isa = PBXGroup;
 			children = (
 				16B1B4B81E17761B00F9830F /* FriendsSplitViewController.swift */,
+				16318AC61E18445F0099858C /* FriendsNavigationViewController.swift */,
 				16323ED41E1581FB00D9EA39 /* FriendsViewController.swift */,
 				16323ED61E15842000D9EA39 /* AddFriendsViewController.swift */,
 			);
@@ -468,6 +471,7 @@
 				16D967541E10BD670019654A /* ChooseFriendViewController.swift in Sources */,
 				160C1CD01E0C470300E139C3 /* ProfileOptionsViewController.swift in Sources */,
 				168411231E1746BF0026CC59 /* UserState.swift in Sources */,
+				16318AC71E18445F0099858C /* FriendsNavigationViewController.swift in Sources */,
 				16B1B4B91E17761B00F9830F /* FriendsSplitViewController.swift in Sources */,
 				167BB1301DC473D00033FC37 /* LoginViewController.swift in Sources */,
 				160C1CD61E0C8ABA00E139C3 /* ProfileOptionsAnimation.swift in Sources */,

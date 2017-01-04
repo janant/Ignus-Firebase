@@ -93,6 +93,7 @@
 		16C7F4AE1DC584E50001991A /* CreateAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountViewController.swift; sourceTree = "<group>"; };
 		16D63F831DD7124500287C1F /* PrivacyPolicyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyViewController.swift; sourceTree = "<group>"; };
 		16D63F861DD7153300287C1F /* Account.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Account.storyboard; sourceTree = "<group>"; };
+		16D95E581E1CCC840066A32D /* Ignus-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Ignus-Bridging-Header.h"; sourceTree = "<group>"; };
 		16D967531E10BD670019654A /* ChooseFriendViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChooseFriendViewController.swift; sourceTree = "<group>"; };
 		16DEC2BD1DC51366003AF4AA /* 23.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = 23.png; path = "Resouces/Login Background Frames/23.png"; sourceTree = "<group>"; };
 		16DEC2BE1DC51366003AF4AA /* 21.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = 21.png; path = "Resouces/Login Background Frames/21.png"; sourceTree = "<group>"; };
@@ -237,6 +238,7 @@
 				1696D8491DC46A96003BFDA8 /* LaunchScreen.storyboard */,
 				167BB0ED1DC46B7A0033FC37 /* GoogleService-Info.plist */,
 				1696D84C1DC46A96003BFDA8 /* Info.plist */,
+				16D95E581E1CCC840066A32D /* Ignus-Bridging-Header.h */,
 			);
 			path = Ignus;
 			sourceTree = "<group>";
@@ -337,6 +339,7 @@
 					1696D83C1DC46A96003BFDA8 = {
 						CreatedOnToolsVersion = 8.1;
 						DevelopmentTeam = RENT9T8393;
+						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Keychain = {
@@ -606,6 +609,7 @@
 			baseConfigurationReference = 93C498B5225B3BF6684530C5 /* Pods-Ignus.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Ignus/Ignus.entitlements;
 				DEVELOPMENT_TEAM = RENT9T8393;
 				INFOPLIST_FILE = Ignus/Info.plist;
@@ -613,6 +617,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.anantsapps.Ignus;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Ignus/Ignus-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -622,6 +628,7 @@
 			baseConfigurationReference = 2B15A50CE763ED52206529BF /* Pods-Ignus.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Ignus/Ignus.entitlements;
 				DEVELOPMENT_TEAM = RENT9T8393;
 				INFOPLIST_FILE = Ignus/Info.plist;
@@ -629,6 +636,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.anantsapps.Ignus;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Ignus/Ignus-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;

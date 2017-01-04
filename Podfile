@@ -11,5 +11,6 @@ target 'Ignus' do
   pod 'Firebase/Database'
   pod 'Firebase/Core'
   pod 'Firebase/Storage'
+  pod 'XYPieChart'
 
 end

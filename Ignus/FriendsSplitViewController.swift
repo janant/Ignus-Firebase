@@ -6,7 +6,7 @@
 //  Copyright © 2016 Anant Jain. All rights reserved.
 //
 
-import UIKit
+import UIKit    
 
 class FriendsSplitViewController: UISplitViewController, UISplitViewControllerDelegate {
 

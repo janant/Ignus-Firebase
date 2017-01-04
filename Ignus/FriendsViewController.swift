@@ -219,21 +219,18 @@ class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate 
     @IBAction func dismissAddFriends(segue: UIStoryboardSegue) {
         self.addFriendsDelegate?.dismissAddFriends()
         
-        if let addFriendsVC = self.addFriendsDelegate as? AddFriendsViewController {
-            let fadeTextTransition = CATransition()
-            fadeTextTransition.duration = 0.5
-            fadeTextTransition.type = kCATransitionFade
-            self.navigationController?.navigationBar.layer.add(fadeTextTransition, forKey: "fadeText")
-            
-            self.navigationItem.title = nil
-            self.navigationItem.titleView = friendsNavItemSegmentedControl
-            self.navigationItem.rightBarButtonItem = friendsNavItemAddButton
-            
-            self.navigationController?.navigationBar.layer.removeAnimation(forKey: "fadeText")
-            
-            addFriendsContainerView.isUserInteractionEnabled = false
-        }
+        let fadeTextTransition = CATransition()
+        fadeTextTransition.duration = 0.5
+        fadeTextTransition.type = kCATransitionFade
+        self.navigationController?.navigationBar.layer.add(fadeTextTransition, forKey: "fadeText")
         
+        self.navigationItem.title = nil
+        self.navigationItem.titleView = friendsNavItemSegmentedControl
+        self.navigationItem.rightBarButtonItem = friendsNavItemAddButton
+        
+        self.navigationController?.navigationBar.layer.removeAnimation(forKey: "fadeText")
+        
+        addFriendsContainerView.isUserInteractionEnabled = false
     }
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation

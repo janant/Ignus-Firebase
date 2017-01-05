@@ -278,10 +278,10 @@
 		16FDEEED1E0CF5B7005F3A04 /* Universal View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				16B1B4B61E17760800F9830F /* ProfileViewController.swift */,
 				160C1CCF1E0C470300E139C3 /* ProfileOptionsViewController.swift */,
 				160C1CD51E0C8ABA00E139C3 /* ProfileOptionsAnimation.swift */,
 				160C1CD31E0C8AA400E139C3 /* ProfileOptionsPresentation.swift */,
-				16B1B4B61E17760800F9830F /* ProfileViewController.swift */,
 			);
 			name = "Universal View Controllers";
 			sourceTree = "<group>";

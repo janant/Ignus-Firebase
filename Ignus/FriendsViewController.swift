@@ -42,6 +42,9 @@ class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate 
         super.viewWillAppear(animated)
         
         friendsCategoryChanged(friendsCategorySegmentedControl)
+        if let selectedIndex = friendsTable.indexPathForSelectedRow {
+            friendsTable.deselectRow(at: selectedIndex, animated: true)
+        }
     }
 
     override func viewDidLoad() {
@@ -166,8 +169,7 @@ class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate 
             let noFriendsTitleAttributedString = noFriendsTitle.attributedText,
             let noFriendsDetailAttributedString = noFriendsDetail.attributedText
         else {
-                print("rekt")
-                return
+            return
         }
         
         let noFriendsTitleMutableAttributedString = NSMutableAttributedString(attributedString: noFriendsTitleAttributedString)
@@ -251,6 +253,7 @@ class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate 
             
             profileVC.profileInfo = profileData
             profileVC.friendRequests = friendRequestsData
+            profileVC.friends = friends
         }
         else if segue.identifier == "Add Friends" {
             guard

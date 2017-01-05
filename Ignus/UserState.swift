@@ -73,7 +73,8 @@ struct UserState {
                 self.friendRequests = friendRequestsData
             }
             else {
-                self.friendRequests = [String: [String]]()
+                self.friendRequests = ["sent":      [String](),
+                                       "received":  [String]()]
             }
         })
         

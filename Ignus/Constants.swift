@@ -29,6 +29,7 @@ struct Constants {
     
     struct NotificationNames {
         static let ReloadProfileImages = "ReloadProfileImages"
+        static let ReloadFriends = "ReloadFriends"
     }
     
     struct UserInfoKeys {
@@ -58,6 +59,11 @@ struct Constants {
     struct ProfileSegueSenderKeys {
         static let ProfileData = "ProfileData"
         static let FriendRequestsData = "FriendRequestsData"
+    }
+    
+    struct FriendRequestResponses {
+        static let Accepted = "Accepted"
+        static let Declined = "Declined"
     }
     
 }

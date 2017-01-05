@@ -30,6 +30,14 @@ class AddFriendsViewController: UIViewController, UISearchBarDelegate, UITableVi
     
     var topInset: CGFloat = 0.0
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if let selectedIndex = addFriendsTable.indexPathForSelectedRow {
+            addFriendsTable.deselectRow(at: selectedIndex, animated: true)
+        }
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         

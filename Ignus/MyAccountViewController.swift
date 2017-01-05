@@ -458,11 +458,11 @@ class MyAccountViewController: UIViewController, UITableViewDataSource, UITableV
             }
         }
         else if segue.identifier == "Show Profile Options" {
-            let friendOptionsVC = segue.destination as! ProfileOptionsViewController
-            friendOptionsVC.profileType = Constants.ProfileTypes.CurrentUser
-            friendOptionsVC.delegate = self
-            friendOptionsVC.modalPresentationStyle = .custom
-            friendOptionsVC.transitioningDelegate = self
+            let profileOptionsVC = segue.destination as! ProfileOptionsViewController
+            profileOptionsVC.profileType = Constants.ProfileTypes.CurrentUser
+            profileOptionsVC.delegate = self
+            profileOptionsVC.modalPresentationStyle = .custom
+            profileOptionsVC.transitioningDelegate = self
         }
     }
  

@@ -8,17 +8,18 @@
 
 import UIKit
 
-@objc protocol ProfileOptionsViewControllerDelegate {
+@objc protocol ProfileOptionsViewControllerDelegate: class {
     @objc optional func changeProfilePicture()
     @objc optional func changeCoverPicture()
-    @objc optional func sentFriendRequest()
-    @objc optional func respondedToFriendRequest(_ response: String)
-    @objc optional func canceledFriendRequest()
+    
+    @objc optional func sendFriendRequest()
+    @objc optional func cancelFriendRequest()
+    
+    @objc optional func respondToFriendRequest(_ response: String)
+    @objc optional func unfriend()
+    
     @objc optional func requestPayment()
     @objc optional func message()
-    @objc optional func writeReview()
-    @objc optional func unfriended()
-    @objc optional func report()
 }
 
 class ProfileOptionsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
@@ -59,7 +60,7 @@ class ProfileOptionsViewController: UIViewController, UITableViewDataSource, UIT
         case Constants.ProfileTypes.CurrentUser:
             return 2
         case Constants.ProfileTypes.Friend:
-            return 4
+            return 3
         case Constants.ProfileTypes.User:
             return 1
         case Constants.ProfileTypes.PendingFriend:
@@ -95,8 +96,6 @@ class ProfileOptionsViewController: UIViewController, UITableViewDataSource, UIT
             case 1:
                 cell.textLabel?.text = "Request Payment"
             case 2:
-                cell.textLabel?.text = "Write Review"
-            case 3:
                 cell.textLabel?.text = "Unfriend"
             default:
                 break
@@ -160,88 +159,40 @@ class ProfileOptionsViewController: UIViewController, UITableViewDataSource, UIT
             }
             
         }
-//        else if profileType == "Friend" {
-//            if (indexPath as NSIndexPath).row == 0 { // Message
-//                self.dismiss(animated: true, completion: { () -> Void in
-//                    self.delegate?.message!()
-//                })
-//            }
-//            else if (indexPath as NSIndexPath).row == 1 { // Request payment
-//                self.dismiss(animated: true, completion: { () -> Void in
-//                    self.delegate?.requestPayment!()
-//                })
-//            }
-//            else if (indexPath as NSIndexPath).row == 2 { // Write review
-//                self.dismiss(animated: true, completion: { () -> Void in
-//                    self.delegate?.writeReview!()
-//                })
-//            }
-//            else if (indexPath as NSIndexPath).row == 3 { // Unfriend
-//                DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.high).async(execute: { () -> Void in
-//                    self.unfriend()
-//                    NotificationCenter.default.post(name: Notification.Name(rawValue: "Reload Friends"), object: nil)
-//                    DispatchQueue.main.async(execute: { () -> Void in
-//                        self.dismiss(animated: true, completion: {(completed) -> Void in
-//                            if let delegate = self.delegate {
-//                                delegate.unfriended!()
-//                            }
-//                        })
-//                    })
-//                })
-//            }
-//        }
-//        else if profileType == "User" {
-//            DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.high).async(execute: { () -> Void in
-//                self.sendFriendRequest()
-//                DispatchQueue.main.async(execute: { () -> Void in
-//                    self.dismiss(animated: true, completion: {(completed) -> Void in
-//                        if let delegate = self.delegate {
-//                            delegate.sentFriendRequest!()
-//                        }
-//                    })
-//                })
-//            })
-//        }
-//        else if profileType == "Pending Friend" {
-//            DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.high).async(execute: { () -> Void in
-//                self.cancelFriendRequest()
-//                DispatchQueue.main.async(execute: { () -> Void in
-//                    self.dismiss(animated: true, completion: {(completed) -> Void in
-//                        if let delegate = self.delegate {
-//                            delegate.canceledFriendRequest!()
-//                        }
-//                    })
-//                })
-//            })
-//        }
-//        else if profileType == "Requested Friend" {
-//            if (indexPath as NSIndexPath).row == 0 {
-//                DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.high).async(execute: { () -> Void in
-//                    self.respondToFriendRequest("Accepted")
-//                    NotificationCenter.default.post(name: Notification.Name(rawValue: "Reload Friends"), object: nil)
-//                    DispatchQueue.main.async(execute: { () -> Void in
-//                        self.dismiss(animated: true, completion: {(completed) -> Void in
-//                            if let delegate = self.delegate {
-//                                delegate.respondedToFriendRequest!("Accepted")
-//                            }
-//                        })
-//                    })
-//                })
-//            }
-//            else if (indexPath as NSIndexPath).row == 1 {
-//                DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.high).async(execute: { () -> Void in
-//                    self.respondToFriendRequest("Declined")
-//                    NotificationCenter.default.post(name: Notification.Name(rawValue: "Reload Friends"), object: nil)
-//                    DispatchQueue.main.async(execute: { () -> Void in
-//                        self.dismiss(animated: true, completion: {(completed) -> Void in
-//                            if let delegate = self.delegate {
-//                                delegate.respondedToFriendRequest!("Declined")
-//                            }
-//                        })
-//                    })
-//                })
-//            }
-//        }
+        else if profileType == Constants.ProfileTypes.Friend {
+            if (indexPath as NSIndexPath).row == 0 { // Message
+                self.dismiss(animated: true, completion: { () -> Void in
+                    self.delegate?.message?()
+                })
+            }
+            else if (indexPath as NSIndexPath).row == 1 { // Request payment
+                self.dismiss(animated: true, completion: { () -> Void in
+                    self.delegate?.requestPayment!()
+                })
+            }
+            else if (indexPath as NSIndexPath).row == 2 { // Unfriend
+                self.delegate?.unfriend?()
+                self.dismiss(animated: true, completion: nil)
+            }
+        }
+        else if profileType == "User" {
+            self.delegate?.sendFriendRequest?()
+            self.dismiss(animated: true, completion: nil)
+        }
+        else if profileType == "Pending Friend" {
+            self.delegate?.cancelFriendRequest?()
+            self.dismiss(animated: true, completion: nil)
+        }
+        else if profileType == "Requested Friend" {
+            if (indexPath as NSIndexPath).row == 0 { // Accept friend request
+                self.delegate?.respondToFriendRequest?(Constants.FriendRequestResponses.Accepted)
+                self.dismiss(animated: true, completion: nil)
+            }
+            else if (indexPath as NSIndexPath).row == 1 { // Decline friend request
+                self.delegate?.respondToFriendRequest?(Constants.FriendRequestResponses.Declined)
+                self.dismiss(animated: true, completion: nil)
+            }
+        }
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {

@@ -82,8 +82,8 @@ class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate 
                 self.noFriendsStackView.alpha = 0.0
                 self.friendsTable.alpha = 0.0
                 
-                // Get friends from UserState
-                UserState.getFriends(with: { (friendsData) in
+                // Get friends from IgnusBackend
+                IgnusBackend.getFriends(with: { (friendsData) in
                     self.friends = friendsData
                     
                     // If there are no friends, display this to the user
@@ -124,8 +124,8 @@ class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate 
                 self.noFriendsStackView.alpha = 0.0
                 self.friendsTable.alpha = 0.0
                 
-                // Gets requests from UserState
-                UserState.getFriendRequests(with: { (friendRequestsData) in
+                // Gets requests from IgnusBackend
+                IgnusBackend.getFriendRequests(with: { (friendRequestsData) in
                     // Saves friend request data, if available
                     if let friendRequestsSentData = friendRequestsData["sent"] {
                         self.friendRequestsSent = friendRequestsSentData
@@ -186,7 +186,7 @@ class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate 
     
     func didSelectUser(withProfileData profileData: [String : String]) {
         
-        UserState.getFriendRequests(with: { (friendRequests) in
+        IgnusBackend.getFriendRequests(with: { (friendRequests) in
             
             let senderData: [String : Any] =
                 [Constants.ProfileSegueSenderKeys.ProfileData:          profileData,

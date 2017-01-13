@@ -56,13 +56,13 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
             
             let firstName = profileInfo["firstName"],
             let lastName = profileInfo["lastName"],
-            let username = profileInfo["username"],
-            
-            let friendRequestsSent = friendRequests["sent"],
-            let friendRequestsReceived = friendRequests["received"]
+            let username = profileInfo["username"]
         else {
             return
         }
+        
+        let friendRequestsSent = friendRequests["sent"] ?? [String]()
+        let friendRequestsReceived = friendRequests["received"] ?? [String]()
         
         // Gets profile and cover photo references from Firebase
         let storageRef = FIRStorage.storage().reference()
@@ -128,7 +128,35 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
     }
     
     func sendFriendRequest() {
-        print("should send friend request")
+        profileOptionsButton.isEnabled = false
+        IgnusBackend.getFriendRequests { (myRequests) in
+            guard
+                let currentUser = FIRAuth.auth()?.currentUser,
+                let myUsername = currentUser.displayName,
+                let profileUsername = self.profileInfo?["username"]
+            else {
+                self.profileOptionsButton.isEnabled = true
+                return
+            }
+            
+            var mySentRequests = myRequests["sent"] ?? [String]()
+            var profileReceivedRequests = self.friendRequests?["received"] ?? [String]()
+            
+            mySentRequests.insert(profileUsername, at: 0)
+            profileReceivedRequests.insert(myUsername, at: 0)
+            
+            let databaseRef = FIRDatabase.database().reference().child("friendRequests")
+            databaseRef.child("\(myUsername)/sent").setValue(mySentRequests, withCompletionBlock: { (error, reference) in
+                if error == nil {
+                    databaseRef.child("\(profileUsername)/received").setValue(profileReceivedRequests, withCompletionBlock: { (error, reference) in
+                        if error == nil {
+                            self.profileOptionsButton.isEnabled = true
+                            self.profileType = Constants.ProfileTypes.PendingFriend
+                        }
+                    })
+                }
+            })
+        }
     }
     
     func cancelFriendRequest() {

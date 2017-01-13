@@ -1,15 +1,15 @@
 //
-//  UserState.swift
+//  IgnusBackend.swift
 //  Ignus
 //
-//  Created by Anant Jain on 12/30/16.
-//  Copyright © 2016 Anant Jain. All rights reserved.
+//  Created by Anant Jain on 1/12/17.
+//  Copyright © 2017 Anant Jain. All rights reserved.
 //
 
 import Foundation
 import Firebase
 
-struct UserState {
+struct IgnusBackend {
     
     // MARK: - Data variables
     

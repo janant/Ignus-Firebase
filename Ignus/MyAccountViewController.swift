@@ -54,8 +54,8 @@ class MyAccountViewController: UIViewController, UITableViewDataSource, UITableV
             return
         }
         
-        // Gets data from UserState class
-        UserState.getCurrentUserInfo { (currentUserInfo) in
+        // Gets data from IgnusBackend class
+        IgnusBackend.getCurrentUserInfo { (currentUserInfo) in
             guard
                 let firstName = currentUserInfo["firstName"],
                 let lastName  = currentUserInfo["lastName"]
@@ -182,7 +182,7 @@ class MyAccountViewController: UIViewController, UITableViewDataSource, UITableV
             let logoutConfirmation = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             logoutConfirmation.addAction(UIAlertAction(title: "Log Out", style: .destructive, handler: { (action) -> Void in
                 
-                UserState.resetState()
+                IgnusBackend.resetState()
                 
                 // Logs out
                 try? FIRAuth.auth()?.signOut()

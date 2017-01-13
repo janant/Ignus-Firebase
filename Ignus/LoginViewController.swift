@@ -65,7 +65,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIViewControll
                 
                 switch loginOption {
                 case Constants.LoginOptions.AutomaticLogin:
-                    UserState.configureState(forUser: currentUser)
+                    IgnusBackend.configureState(forUser: currentUser)
                     // Automatically log in
                     let loginDelay: TimeInterval = 0.25;
                     perform(#selector(LoginViewController.skipAnimatedEntrance), with: nil, afterDelay: loginDelay)
@@ -76,7 +76,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIViewControll
                         context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: "Authenticate to login to your Ignus account.", reply: { (success, error) in
                             DispatchQueue.main.async {
                                 if success {
-                                    UserState.configureState(forUser: currentUser)
+                                    IgnusBackend.configureState(forUser: currentUser)
                                     self.perform(#selector(LoginViewController.skipAnimatedEntrance), with: nil, afterDelay: 0.35)
                                 }
                                 else {
@@ -359,7 +359,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIViewControll
                         return
                     }
                     
-                    UserState.configureState(forUser: currentUser)
+                    IgnusBackend.configureState(forUser: currentUser)
                     
                     // Ensure the user is automatically logged in from now on,
                     // if no option previously set.

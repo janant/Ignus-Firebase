@@ -32,8 +32,8 @@ class MessagesViewController: UIViewController, UITableViewDataSource, UITableVi
             self.noMessagesStackView.alpha = 0.0
             self.messagesTable.alpha = 0.0
             
-            // Gets messages from UserState
-            UserState.getMessages(with: { (messagesData) in
+            // Gets messages from IgnusBackend
+            IgnusBackend.getMessages(with: { (messagesData) in
                 self.messages = messagesData
                 
                 // If there are no messages, display this to the user

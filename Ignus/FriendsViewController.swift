@@ -107,11 +107,11 @@ class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate 
                         })
                     }
                 })
-                
-                // Sets appropriate text
-                noFriendsTitleText = Constants.NoFriendsLabelText.FriendsTitle
-                noFriendsDetailText = Constants.NoFriendsLabelText.FriendsDetail
             }
+            
+            // Sets appropriate text
+            noFriendsTitleText = Constants.NoFriendsLabelText.FriendsTitle
+            noFriendsDetailText = Constants.NoFriendsLabelText.FriendsDetail
         }
         else if selectedIndex == Constants.FriendsScope.FriendRequests {
             // Gets data if there are no requests
@@ -267,6 +267,4 @@ class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate 
             self.addFriendsDelegate = addFriendsVC
         }
     }
-    
-
 }

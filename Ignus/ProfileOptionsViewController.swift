@@ -175,15 +175,15 @@ class ProfileOptionsViewController: UIViewController, UITableViewDataSource, UIT
                 self.dismiss(animated: true, completion: nil)
             }
         }
-        else if profileType == "User" {
+        else if profileType == Constants.ProfileTypes.User {
             self.delegate?.sendFriendRequest?()
             self.dismiss(animated: true, completion: nil)
         }
-        else if profileType == "Pending Friend" {
+        else if profileType == Constants.ProfileTypes.PendingFriend {
             self.delegate?.cancelFriendRequest?()
             self.dismiss(animated: true, completion: nil)
         }
-        else if profileType == "Requested Friend" {
+        else if profileType == Constants.ProfileTypes.RequestedFriend {
             if (indexPath as NSIndexPath).row == 0 { // Accept friend request
                 self.delegate?.respondToFriendRequest?(Constants.FriendRequestResponses.Accepted)
                 self.dismiss(animated: true, completion: nil)

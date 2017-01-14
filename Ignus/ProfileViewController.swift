@@ -129,6 +129,7 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
     
     func sendFriendRequest() {
         profileOptionsButton.isEnabled = false
+        
         IgnusBackend.getFriendRequests { (myRequests) in
             guard
                 let currentUser = FIRAuth.auth()?.currentUser,
@@ -160,17 +161,112 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
     }
     
     func cancelFriendRequest() {
-        print("should cancel friend request")
+        profileOptionsButton.isEnabled = false
+        
+        IgnusBackend.getFriendRequests { (myRequests) in
+            guard
+                let currentUser = FIRAuth.auth()?.currentUser,
+                let myUsername = currentUser.displayName,
+                let profileUsername = self.profileInfo?["username"]
+                else {
+                    self.profileOptionsButton.isEnabled = true
+                    return
+            }
+            
+            var mySentRequests = myRequests["sent"] ?? [String]()
+            var profileReceivedRequests = self.friendRequests?["received"] ?? [String]()
+            
+            mySentRequests = mySentRequests.filter { $0 != profileUsername }
+            profileReceivedRequests = profileReceivedRequests.filter { $0 != myUsername }
+            
+            let databaseRef = FIRDatabase.database().reference().child("friendRequests")
+            databaseRef.child("\(myUsername)/sent").setValue(mySentRequests)
+            databaseRef.child("\(profileUsername)/received").setValue(profileReceivedRequests)
+            
+            self.profileOptionsButton.isEnabled = true
+            self.profileType = Constants.ProfileTypes.User
+        }
     }
     
     func respondToFriendRequest(_ response: String) {
-        print("should respond to friend request \(response)")
-        NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NotificationNames.ReloadFriends), object: nil)
+        profileOptionsButton.isEnabled = false
+        
+        // Deletes the friend requests first
+        IgnusBackend.getFriendRequests { (myRequests) in
+            guard
+                let currentUser = FIRAuth.auth()?.currentUser,
+                let myUsername = currentUser.displayName,
+                let profileUsername = self.profileInfo?["username"]
+                else {
+                    self.profileOptionsButton.isEnabled = true
+                    return
+            }
+            
+            var myReceivedRequests = myRequests["received"] ?? [String]()
+            var profileSentRequests = self.friendRequests?["sent"] ?? [String]()
+            
+            myReceivedRequests = myReceivedRequests.filter { $0 != profileUsername }
+            profileSentRequests = profileSentRequests.filter { $0 != myUsername }
+            
+            let databaseRef = FIRDatabase.database().reference()
+            databaseRef.child("friendRequests/\(myUsername)/received").setValue(myReceivedRequests)
+            databaseRef.child("friendRequests/\(profileUsername)/sent").setValue(profileSentRequests)
+            
+            // Now adds as a friend, if friend request was accepted
+            if response == Constants.FriendRequestResponses.Accepted {
+                IgnusBackend.getFriends(with: { (myFriendsData) in
+                    
+                    var myFriends = myFriendsData
+                    var profileFriends = self.friends ?? [String]()
+                    
+                    myFriends.insert(profileUsername, at: 0)
+                    profileFriends.insert(myUsername, at: 0)
+                    
+                    databaseRef.child("friends/\(myUsername)").setValue(myFriends)
+                    databaseRef.child("friends/\(profileUsername)").setValue(profileFriends)
+                    
+                    self.profileOptionsButton.isEnabled = true
+                    self.profileType = Constants.ProfileTypes.Friend
+                    
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NotificationNames.ReloadFriends), object: nil)
+                })
+            }
+            else {
+                self.profileOptionsButton.isEnabled = true
+                self.profileType = Constants.ProfileTypes.User
+            }
+        }
     }
     
     func unfriend() {
-        print("should unfriend")
-        NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NotificationNames.ReloadFriends), object: nil)
+        // Removes friends
+        IgnusBackend.getFriends { (myFriendsData) in
+            guard
+                let currentUser = FIRAuth.auth()?.currentUser,
+                let myUsername = currentUser.displayName,
+                let profileUsername = self.profileInfo?["username"]
+                else {
+                    self.profileOptionsButton.isEnabled = true
+                    return
+            }
+            
+            var myFriends = myFriendsData
+            var profileFriends = self.friends ?? [String]()
+            
+            myFriends = myFriends.filter { $0 != profileUsername }
+            profileFriends = profileFriends.filter { $0 != myUsername }
+            
+            print(myFriends)
+            print(profileFriends)
+            
+            let databaseRef = FIRDatabase.database().reference().child("friends")
+            databaseRef.child("\(myUsername)").setValue(myFriends)
+            databaseRef.child("\(profileUsername)").setValue(profileFriends)
+            
+            self.profileType = Constants.ProfileTypes.User
+            
+            NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NotificationNames.ReloadFriends), object: nil)
+        }
     }
     
     func requestPayment() {

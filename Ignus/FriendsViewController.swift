@@ -58,6 +58,8 @@ class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate 
         refreshControl.addTarget(self, action: #selector(MessagesViewController.reloadData), for: .valueChanged)
         refreshControl.tintColor = UIColor.white
         friendsTable.addSubview(refreshControl)
+        
+//        NotificationCenter.default.addObserver(self, selector: <#T##Selector#>, name: <#T##NSNotification.Name?#>, object: <#T##Any?#>)
     }
 
     override func didReceiveMemoryWarning() {
@@ -252,8 +254,8 @@ class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate 
             }
             
             profileVC.profileInfo = profileData
-            profileVC.friendRequests = friendRequestsData
-            profileVC.friends = friends
+            profileVC.currentUserFriendRequests = friendRequestsData
+            profileVC.currentUserFriends = friends
         }
         else if segue.identifier == "Add Friends" {
             guard

@@ -25,8 +25,8 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
     @IBOutlet weak var profileInfoView: UIView!
     
     var profileInfo: [String: String]?
-    var friendRequests: [String: [String]]?
-    var friends: [String]?
+    var currentUserFriendRequests: [String: [String]]?
+    var currentUserFriends: [String]?
     
     var profileType: String!
 
@@ -43,8 +43,8 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
         selectUserLabel.isHidden = true
         
         guard
-            let friendRequests = friendRequests,
-            let friends = friends
+            let myFriendRequests = currentUserFriendRequests,
+            let myFriends = currentUserFriends
         else {
             return
         }
@@ -61,8 +61,8 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
             return
         }
         
-        let friendRequestsSent = friendRequests["sent"] ?? [String]()
-        let friendRequestsReceived = friendRequests["received"] ?? [String]()
+        let myFriendRequestsSent = myFriendRequests["sent"] ?? [String]()
+        let myFriendRequestsReceived = myFriendRequests["received"] ?? [String]()
         
         // Gets profile and cover photo references from Firebase
         let storageRef = FIRStorage.storage().reference()
@@ -98,13 +98,13 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
         if username == currentUserUsername {
             profileType = Constants.ProfileTypes.CurrentUser
         }
-        else if friends.contains(username) {
+        else if myFriends.contains(username) {
             profileType = Constants.ProfileTypes.Friend
         }
-        else if friendRequestsSent.contains(username) {
+        else if myFriendRequestsSent.contains(username) {
             profileType = Constants.ProfileTypes.PendingFriend
         }
-        else if friendRequestsReceived.contains(username) {
+        else if myFriendRequestsReceived.contains(username) {
             profileType = Constants.ProfileTypes.RequestedFriend
         }
         else {
@@ -128,106 +128,111 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
     }
     
     func sendFriendRequest() {
+        guard
+            let currentUser = FIRAuth.auth()?.currentUser,
+            let myUsername = currentUser.displayName,
+            let profileUsername = self.profileInfo?["username"]
+        else {
+            return
+        }
+        
         profileOptionsButton.isEnabled = false
         
-        IgnusBackend.getFriendRequests { (myRequests) in
-            guard
-                let currentUser = FIRAuth.auth()?.currentUser,
-                let myUsername = currentUser.displayName,
-                let profileUsername = self.profileInfo?["username"]
-            else {
-                self.profileOptionsButton.isEnabled = true
-                return
-            }
-            
-            var mySentRequests = myRequests["sent"] ?? [String]()
-            var profileReceivedRequests = self.friendRequests?["received"] ?? [String]()
+        // Gets friend requests data for profile user
+        let databaseRef = FIRDatabase.database().reference().child("friendRequests")
+        databaseRef.child("\(profileUsername)/received").observeSingleEvent(of: .value, with: { (snapshot) in
+            var profileReceivedRequests = (snapshot.value as? [String]) ?? [String]()
+            var mySentRequests = self.currentUserFriendRequests?["sent"] ?? [String]()
             
             mySentRequests.insert(profileUsername, at: 0)
             profileReceivedRequests.insert(myUsername, at: 0)
             
-            let databaseRef = FIRDatabase.database().reference().child("friendRequests")
-            databaseRef.child("\(myUsername)/sent").setValue(mySentRequests, withCompletionBlock: { (error, reference) in
-                if error == nil {
-                    databaseRef.child("\(profileUsername)/received").setValue(profileReceivedRequests, withCompletionBlock: { (error, reference) in
-                        if error == nil {
-                            self.profileOptionsButton.isEnabled = true
-                            self.profileType = Constants.ProfileTypes.PendingFriend
-                        }
-                    })
-                }
-            })
-        }
+            databaseRef.child("\(myUsername)/sent").setValue(mySentRequests)
+            databaseRef.child("\(profileUsername)/received").setValue(profileReceivedRequests)
+            
+            self.profileOptionsButton.isEnabled = true
+            self.profileType = Constants.ProfileTypes.PendingFriend
+            
+            self.currentUserFriendRequests?["sent"] = mySentRequests
+        })
     }
     
     func cancelFriendRequest() {
+        guard
+            let currentUser = FIRAuth.auth()?.currentUser,
+            let myUsername = currentUser.displayName,
+            let profileUsername = self.profileInfo?["username"]
+            else {
+                return
+        }
+        
         profileOptionsButton.isEnabled = false
         
-        IgnusBackend.getFriendRequests { (myRequests) in
-            guard
-                let currentUser = FIRAuth.auth()?.currentUser,
-                let myUsername = currentUser.displayName,
-                let profileUsername = self.profileInfo?["username"]
-                else {
-                    self.profileOptionsButton.isEnabled = true
-                    return
-            }
+        // Gets friend requests data for profile user
+        let databaseRef = FIRDatabase.database().reference().child("friendRequests")
+        databaseRef.child("\(profileUsername)/received").observeSingleEvent(of: .value, with: { (snapshot) in
+            var profileReceivedRequests = (snapshot.value as? [String]) ?? [String]()
+            var mySentRequests = self.currentUserFriendRequests?["sent"] ?? [String]()
             
-            var mySentRequests = myRequests["sent"] ?? [String]()
-            var profileReceivedRequests = self.friendRequests?["received"] ?? [String]()
+            print(profileReceivedRequests)
+            print(mySentRequests)
             
             mySentRequests = mySentRequests.filter { $0 != profileUsername }
             profileReceivedRequests = profileReceivedRequests.filter { $0 != myUsername }
             
-            let databaseRef = FIRDatabase.database().reference().child("friendRequests")
             databaseRef.child("\(myUsername)/sent").setValue(mySentRequests)
             databaseRef.child("\(profileUsername)/received").setValue(profileReceivedRequests)
             
             self.profileOptionsButton.isEnabled = true
             self.profileType = Constants.ProfileTypes.User
-        }
+            
+            self.currentUserFriendRequests?["sent"] = mySentRequests
+        })
     }
     
     func respondToFriendRequest(_ response: String) {
+        guard
+            let currentUser = FIRAuth.auth()?.currentUser,
+            let myUsername = currentUser.displayName,
+            let profileUsername = self.profileInfo?["username"]
+            else {
+                return
+        }
+        
         profileOptionsButton.isEnabled = false
         
-        // Deletes the friend requests first
-        IgnusBackend.getFriendRequests { (myRequests) in
-            guard
-                let currentUser = FIRAuth.auth()?.currentUser,
-                let myUsername = currentUser.displayName,
-                let profileUsername = self.profileInfo?["username"]
-                else {
-                    self.profileOptionsButton.isEnabled = true
-                    return
-            }
-            
-            var myReceivedRequests = myRequests["received"] ?? [String]()
-            var profileSentRequests = self.friendRequests?["sent"] ?? [String]()
+        // Gets friend requests data for profile user
+        let requestsDatabaseRef = FIRDatabase.database().reference().child("friendRequests")
+        requestsDatabaseRef.child("\(profileUsername)/sent").observeSingleEvent(of: .value, with: { (snapshot) in
+            // Deletes friend requests first
+            var profileSentRequests = (snapshot.value as? [String]) ?? [String]()
+            var myReceivedRequests = self.currentUserFriendRequests?["received"] ?? [String]()
             
             myReceivedRequests = myReceivedRequests.filter { $0 != profileUsername }
             profileSentRequests = profileSentRequests.filter { $0 != myUsername }
             
-            let databaseRef = FIRDatabase.database().reference()
-            databaseRef.child("friendRequests/\(myUsername)/received").setValue(myReceivedRequests)
-            databaseRef.child("friendRequests/\(profileUsername)/sent").setValue(profileSentRequests)
+            requestsDatabaseRef.child("\(myUsername)/received").setValue(myReceivedRequests)
+            requestsDatabaseRef.child("\(profileUsername)/sent").setValue(profileSentRequests)
+            
+            self.currentUserFriendRequests?["received"] = myReceivedRequests
             
             // Now adds as a friend, if friend request was accepted
             if response == Constants.FriendRequestResponses.Accepted {
-                IgnusBackend.getFriends(with: { (myFriendsData) in
+                let friendsDatabaseRef = FIRDatabase.database().reference().child("friends")
+                friendsDatabaseRef.child(profileUsername).observeSingleEvent(of: .value, with: { (snapshot) in
+                    var profileFriends = (snapshot.value as? [String]) ?? [String]()
+                    var myFriends = self.currentUserFriends ?? [String]()
                     
-                    var myFriends = myFriendsData
-                    var profileFriends = self.friends ?? [String]()
-                    
-                    myFriends.insert(profileUsername, at: 0)
                     profileFriends.insert(myUsername, at: 0)
+                    myFriends.insert(profileUsername, at: 0)
                     
-                    databaseRef.child("friends/\(myUsername)").setValue(myFriends)
-                    databaseRef.child("friends/\(profileUsername)").setValue(profileFriends)
+                    friendsDatabaseRef.child(myUsername).setValue(myFriends)
+                    friendsDatabaseRef.child(profileUsername).setValue(profileFriends)
                     
                     self.profileOptionsButton.isEnabled = true
                     self.profileType = Constants.ProfileTypes.Friend
                     
+                    self.currentUserFriends = myFriends
                     NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NotificationNames.ReloadFriends), object: nil)
                 })
             }
@@ -235,38 +240,38 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
                 self.profileOptionsButton.isEnabled = true
                 self.profileType = Constants.ProfileTypes.User
             }
-        }
+        })
     }
     
     func unfriend() {
-        // Removes friends
-        IgnusBackend.getFriends { (myFriendsData) in
-            guard
-                let currentUser = FIRAuth.auth()?.currentUser,
-                let myUsername = currentUser.displayName,
-                let profileUsername = self.profileInfo?["username"]
-                else {
-                    self.profileOptionsButton.isEnabled = true
-                    return
-            }
+        guard
+            let currentUser = FIRAuth.auth()?.currentUser,
+            let myUsername = currentUser.displayName,
+            let profileUsername = self.profileInfo?["username"]
+        else {
+            return
+        }
+        
+        self.profileOptionsButton.isEnabled = false
+        
+        // Deletes friends
+        let friendsDatabaseRef = FIRDatabase.database().reference().child("friends")
+        friendsDatabaseRef.child(profileUsername).observeSingleEvent(of: .value, with: { (snapshot) in
+            var profileFriends = (snapshot.value as? [String]) ?? [String]()
+            var myFriends = self.currentUserFriends ?? [String]()
             
-            var myFriends = myFriendsData
-            var profileFriends = self.friends ?? [String]()
-            
-            myFriends = myFriends.filter { $0 != profileUsername }
             profileFriends = profileFriends.filter { $0 != myUsername }
+            myFriends = myFriends.filter { $0 != profileUsername }
             
-            print(myFriends)
-            print(profileFriends)
+            friendsDatabaseRef.child(myUsername).setValue(myFriends)
+            friendsDatabaseRef.child(profileUsername).setValue(profileFriends)
             
-            let databaseRef = FIRDatabase.database().reference().child("friends")
-            databaseRef.child("\(myUsername)").setValue(myFriends)
-            databaseRef.child("\(profileUsername)").setValue(profileFriends)
-            
+            self.profileOptionsButton.isEnabled = true
             self.profileType = Constants.ProfileTypes.User
             
+            self.currentUserFriends = myFriends
             NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NotificationNames.ReloadFriends), object: nil)
-        }
+        })
     }
     
     func requestPayment() {

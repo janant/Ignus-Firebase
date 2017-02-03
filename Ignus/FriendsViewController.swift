@@ -14,7 +14,7 @@ protocol FriendsViewControllerAddFriendsDelegate: class {
     func dismissAddFriends()
 }
 
-class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate {
+class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate, UITableViewDataSource, UITableViewDelegate {
     
     // Main views
     @IBOutlet weak var friendsTable: UITableView!
@@ -55,6 +55,7 @@ class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate 
         // Sets up the table
         friendsTable.separatorEffect = UIVibrancyEffect(blurEffect: UIBlurEffect(style: .dark))
         friendsTable.backgroundView = nil
+        friendsTable.backgroundColor = UIColor.clear
         refreshControl.addTarget(self, action: #selector(MessagesViewController.reloadData), for: .valueChanged)
         refreshControl.tintColor = UIColor.white
         friendsTable.addSubview(refreshControl)
@@ -65,6 +66,94 @@ class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    // MARK: - Table view data source methods
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        switch friendsCategorySegmentedControl.selectedSegmentIndex {
+        case Constants.FriendsScope.MyFriends:
+            return 1
+        case Constants.FriendsScope.FriendRequests:
+            return 2
+        default:
+            return 0
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        switch friendsCategorySegmentedControl.selectedSegmentIndex {
+        case Constants.FriendsScope.MyFriends:
+            return friends.count;
+        case Constants.FriendsScope.FriendRequests:
+            switch section {
+            case 0:
+                return friendRequestsReceived.count
+            case 1:
+                return friendRequestsSent.count
+            default:
+                return 0;
+            }
+        default:
+            return 0;
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if friendsCategorySegmentedControl.selectedSegmentIndex == Constants.FriendsScope.MyFriends {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "Friend Cell", for: indexPath)
+            
+            // Gets views needed for setting up the table cell
+            guard
+                let personImageView = cell.viewWithTag(1) as? UIImageView,
+                let personNameView = cell.viewWithTag(2) as? UILabel,
+                let personUsernameView = cell.viewWithTag(3) as? UILabel
+            else {
+                return cell
+            }
+            
+            // Gets database info for this friend
+            let username = friends[indexPath.row]
+            let usersDatabaseReference = FIRDatabase.database().reference().child("users/\(username)")
+            usersDatabaseReference.observeSingleEvent(of: .value, with: { (snapshot) in
+                guard
+                    let friendData = snapshot.value as? [String: String],
+                
+                    let firstName = friendData["firstName"],
+                    let lastName = friendData["lastName"]
+                else {
+                    return
+                }
+                
+                UIView.transition(with: personNameView, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                    personNameView.text = "\(firstName) \(lastName)"
+                }, completion: nil)
+                UIView.transition(with: personUsernameView, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                    personUsernameView.text = username
+                }, completion: nil)
+            })
+            
+            personImageView.image = #imageLiteral(resourceName: "Not Loaded Profile")
+            // Gets profile image data
+            let profileRef = FIRStorage.storage().reference().child("User_Pictures/\(username)/profile.jpg")
+            profileRef.data(withMaxSize: INT64_MAX, completion: { (data, error) in
+                if error == nil && data != nil {
+                    UIView.transition(with: personImageView, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                        personImageView.image = UIImage(data: data!)
+                    }, completion: nil)
+                }
+            })
+            
+            
+            cell.backgroundColor = UIColor.clear
+            
+            let backgroundView = UIView()
+            backgroundView.backgroundColor = UIColor.gray
+            cell.selectedBackgroundView = backgroundView
+            
+            return cell
+        }
+        return UITableViewCell()
     }
     
     @IBAction func friendsCategoryChanged(_ sender: Any) {
@@ -109,6 +198,13 @@ class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate 
                         })
                     }
                 })
+            }
+            else if friends.count > 0 {
+                self.friendsTable.alpha = 1.0
+                self.friendsTable.isUserInteractionEnabled = true
+                self.friendsTable.reloadData()
+                self.loadingFriendsActivityIndicator.alpha = 0.0
+                self.noFriendsStackView.alpha = 0.0
             }
             
             // Sets appropriate text
@@ -158,6 +254,13 @@ class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate 
                         })
                     }
                 })
+            }
+            else if (friendRequestsSent.count + friendRequestsReceived.count) > 0 {
+                self.friendsTable.alpha = 1.0
+                self.friendsTable.isUserInteractionEnabled = true
+                self.friendsTable.reloadData()
+                self.loadingFriendsActivityIndicator.alpha = 0.0
+                self.noFriendsStackView.alpha = 0.0
             }
             
             // Sets appropriate text

@@ -60,12 +60,94 @@ class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate,
         refreshControl.tintColor = UIColor.white
         friendsTable.addSubview(refreshControl)
         
-//        NotificationCenter.default.addObserver(self, selector: <#T##Selector#>, name: <#T##NSNotification.Name?#>, object: <#T##Any?#>)
+        NotificationCenter.default.addObserver(self, selector: #selector(MessagesViewController.reloadData), name: NSNotification.Name(Constants.NotificationNames.ReloadFriends), object: nil)
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func reloadData() {
+        // Get friends from IgnusBackend
+        IgnusBackend.getFriends(with: { (friendsData) in
+            // Only saves data and refreshes if there is actually new data
+            if self.friends != friendsData {
+                self.friends = friendsData
+            }
+        })
+        IgnusBackend.getFriendRequests(with: { (friendRequestsData) in
+            // Saves friend request data
+            let newSentData = friendRequestsData["sent"] ?? [String]()
+            let newReceivedData = friendRequestsData["received"] ?? [String]()
+            
+            // Only saves data and refreshes if there is actually new data
+            if !(self.friendRequestsSent == newSentData && self.friendRequestsReceived == newReceivedData) {
+                self.friendRequestsSent = newSentData
+                self.friendRequestsReceived = newReceivedData
+                
+                if self.friendsCategorySegmentedControl.selectedSegmentIndex == Constants.FriendsScope.MyFriends {
+                    // If there are no friends, display this to the user
+                    if self.friends.count == 0 {
+                        self.friendsTable.reloadData()
+                        
+                        UIView.animate(withDuration: 0.25, animations: {
+                            self.loadingFriendsActivityIndicator.alpha = 0.0
+                            self.noFriendsStackView.alpha = 1.0
+                            self.friendsTable.alpha = 0.0
+                        }, completion: { (completed) in
+                            self.loadingFriendsActivityIndicator.stopAnimating()
+                            self.friendsTable.isUserInteractionEnabled = false
+                        })
+                    }
+                    else { // There are friends, displays friends in the table
+                        self.friendsTable.reloadData()
+                        
+                        UIView.animate(withDuration: 0.25, animations: {
+                            self.loadingFriendsActivityIndicator.alpha = 0.0
+                            self.noFriendsStackView.alpha = 0.0
+                            self.friendsTable.alpha = 1.0
+                        }, completion: { (completed) in
+                            self.loadingFriendsActivityIndicator.stopAnimating()
+                            self.friendsTable.isUserInteractionEnabled = true
+                        })
+                    }
+                }
+                else if self.friendsCategorySegmentedControl.selectedSegmentIndex == Constants.FriendsScope.FriendRequests {
+                    // If no friend requests, display this to the user
+                    if self.friendRequestsSent.count == 0 && self.friendRequestsReceived.count == 0 {
+                        self.friendsTable.reloadData()
+                        
+                        // Displays to the user that there are no requests, with animation
+                        UIView.animate(withDuration: 0.25, animations: {
+                            self.loadingFriendsActivityIndicator.alpha = 0.0
+                            self.noFriendsStackView.alpha = 1.0
+                            self.friendsTable.alpha = 0.0
+                        }, completion: { (completed) in
+                            self.loadingFriendsActivityIndicator.stopAnimating()
+                            self.friendsTable.isUserInteractionEnabled = false
+                        })
+                    }
+                    else { // There are requests, displays requests in the table
+                        self.friendsTable.reloadData()
+                        
+                        UIView.animate(withDuration: 0.25, animations: {
+                            self.loadingFriendsActivityIndicator.alpha = 0.0
+                            self.noFriendsStackView.alpha = 0.0
+                            self.friendsTable.alpha = 1.0
+                        }, completion: { (completed) in
+                            self.loadingFriendsActivityIndicator.stopAnimating()
+                            self.friendsTable.isUserInteractionEnabled = true
+                        })
+                    }
+                }
+            }
+        })
+        
+        // If the refresh was caused by pulling the refresh control, end refresh animation
+        if refreshControl.isRefreshing {
+            refreshControl.endRefreshing()
+        }
     }
     
     // MARK: - Table view data source methods
@@ -75,7 +157,15 @@ class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate,
         case Constants.FriendsScope.MyFriends:
             return 1
         case Constants.FriendsScope.FriendRequests:
-            return 2
+            if friendRequestsSent.count == 0 && friendRequestsReceived.count == 0 {
+                return 0
+            }
+            else if friendRequestsSent.count == 0 || friendRequestsReceived.count == 0 {
+                return 1
+            }
+            else {
+                return 2
+            }
         default:
             return 0
         }
@@ -88,7 +178,12 @@ class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate,
         case Constants.FriendsScope.FriendRequests:
             switch section {
             case 0:
-                return friendRequestsReceived.count
+                if friendRequestsReceived.count > 0 {
+                    return friendRequestsReceived.count
+                }
+                else {
+                    return friendRequestsSent.count
+                }
             case 1:
                 return friendRequestsSent.count
             default:
@@ -97,6 +192,40 @@ class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate,
         default:
             return 0;
         }
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if friendsCategorySegmentedControl.selectedSegmentIndex == Constants.FriendsScope.FriendRequests {
+            switch section {
+            case 0:
+                if friendRequestsReceived.count > 0 {
+                    return "Friend Requests"
+                }
+                else {
+                    return "Pending Requests"
+                }
+            case 1:
+                return "Pending Requests"
+            default:
+                return nil
+            }
+        }
+        return nil
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if friendsCategorySegmentedControl.selectedSegmentIndex == Constants.FriendsScope.FriendRequests {
+            return 25
+        }
+        return 0
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        guard let headerView = view as? UITableViewHeaderFooterView else {
+            return
+        }
+        view.tintColor = #colorLiteral(red: 0.1215686275, green: 0.1215686275, blue: 0.1215686275, alpha: 1)
+        headerView.textLabel?.textColor = UIColor.white
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -111,6 +240,10 @@ class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate,
             else {
                 return cell
             }
+            
+            // Sets initial text to blank, since cells get reused
+            personNameView.text = ""
+            personUsernameView.text = ""
             
             // Gets database info for this friend
             let username = friends[indexPath.row]
@@ -152,6 +285,123 @@ class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate,
             cell.selectedBackgroundView = backgroundView
             
             return cell
+        }
+        else if friendsCategorySegmentedControl.selectedSegmentIndex == Constants.FriendsScope.FriendRequests {
+            if indexPath.section == 0 && friendRequestsReceived.count > 0 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "Request Cell", for: indexPath)
+                
+                // Gets views needed for setting up the table cell
+                guard
+                    let personImageView = cell.viewWithTag(1) as? UIImageView,
+                    let personNameView = cell.viewWithTag(2) as? UILabel,
+                    let personUsernameView = cell.viewWithTag(3) as? UILabel,
+                    let responseButton = cell.viewWithTag(4) as? UIButton
+                else {
+                    return cell
+                }
+                
+                // Sets initial text to blank, since cells get reused
+                personNameView.text = ""
+                personUsernameView.text = ""
+                
+                // Gets database info for this friend
+                let username = friendRequestsReceived[indexPath.row]
+                let usersDatabaseReference = FIRDatabase.database().reference().child("users/\(username)")
+                usersDatabaseReference.observeSingleEvent(of: .value, with: { (snapshot) in
+                    guard
+                        let friendData = snapshot.value as? [String: String],
+                        
+                        let firstName = friendData["firstName"],
+                        let lastName = friendData["lastName"]
+                        else {
+                            return
+                    }
+                    
+                    UIView.transition(with: personNameView, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                        personNameView.text = "\(firstName) \(lastName)"
+                    }, completion: nil)
+                    UIView.transition(with: personUsernameView, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                        personUsernameView.text = username
+                    }, completion: nil)
+                })
+                
+                personImageView.image = #imageLiteral(resourceName: "Not Loaded Profile")
+                // Gets profile image data
+                let profileRef = FIRStorage.storage().reference().child("User_Pictures/\(username)/profile.jpg")
+                profileRef.data(withMaxSize: INT64_MAX, completion: { (data, error) in
+                    if error == nil && data != nil {
+                        UIView.transition(with: personImageView, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                            personImageView.image = UIImage(data: data!)
+                        }, completion: nil)
+                    }
+                })
+                
+                
+                cell.backgroundColor = UIColor.clear
+                
+                let backgroundView = UIView()
+                backgroundView.backgroundColor = UIColor.gray
+                cell.selectedBackgroundView = backgroundView
+                
+                return cell
+            }
+            else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "Friend Cell", for: indexPath)
+                
+                // Gets views needed for setting up the table cell
+                guard
+                    let personImageView = cell.viewWithTag(1) as? UIImageView,
+                    let personNameView = cell.viewWithTag(2) as? UILabel,
+                    let personUsernameView = cell.viewWithTag(3) as? UILabel
+                else {
+                    return cell
+                }
+                
+                // Sets initial text to blank, since cells get reused
+                personNameView.text = ""
+                personUsernameView.text = ""
+                
+                // Gets database info for this friend
+                let username = friendRequestsSent[indexPath.row]
+                let usersDatabaseReference = FIRDatabase.database().reference().child("users/\(username)")
+                usersDatabaseReference.observeSingleEvent(of: .value, with: { (snapshot) in
+                    guard
+                        let friendData = snapshot.value as? [String: String],
+                        
+                        let firstName = friendData["firstName"],
+                        let lastName = friendData["lastName"]
+                        else {
+                            return
+                    }
+                    
+                    UIView.transition(with: personNameView, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                        personNameView.text = "\(firstName) \(lastName)"
+                    }, completion: nil)
+                    UIView.transition(with: personUsernameView, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                        personUsernameView.text = username
+                    }, completion: nil)
+                })
+                
+                personImageView.image = #imageLiteral(resourceName: "Not Loaded Profile")
+                // Gets profile image data
+                let profileRef = FIRStorage.storage().reference().child("User_Pictures/\(username)/profile.jpg")
+                profileRef.data(withMaxSize: INT64_MAX, completion: { (data, error) in
+                    if error == nil && data != nil {
+                        UIView.transition(with: personImageView, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                            personImageView.image = UIImage(data: data!)
+                        }, completion: nil)
+                    }
+                })
+                
+                
+                cell.backgroundColor = UIColor.clear
+                
+                let backgroundView = UIView()
+                backgroundView.backgroundColor = UIColor.gray
+                cell.selectedBackgroundView = backgroundView
+                
+                return cell
+            }
         }
         return UITableViewCell()
     }

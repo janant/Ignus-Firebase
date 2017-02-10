@@ -147,13 +147,16 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
             mySentRequests.insert(profileUsername, at: 0)
             profileReceivedRequests.insert(myUsername, at: 0)
             
-            databaseRef.child("\(myUsername)/sent").setValue(mySentRequests)
-            databaseRef.child("\(profileUsername)/received").setValue(profileReceivedRequests)
-            
-            self.profileOptionsButton.isEnabled = true
-            self.profileType = Constants.ProfileTypes.PendingFriend
-            
-            self.currentUserFriendRequests?["sent"] = mySentRequests
+            databaseRef.child("\(myUsername)/sent").setValue(mySentRequests, withCompletionBlock: { (error, database) in
+                databaseRef.child("\(profileUsername)/received").setValue(profileReceivedRequests, withCompletionBlock: { (error2, database2) in
+                    self.profileOptionsButton.isEnabled = true
+                    self.profileType = Constants.ProfileTypes.PendingFriend
+                    
+                    self.currentUserFriendRequests?["sent"] = mySentRequests
+                    
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NotificationNames.ReloadFriends), object: nil)
+                })
+            })
         })
     }
     
@@ -174,19 +177,20 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
             var profileReceivedRequests = (snapshot.value as? [String]) ?? [String]()
             var mySentRequests = self.currentUserFriendRequests?["sent"] ?? [String]()
             
-            print(profileReceivedRequests)
-            print(mySentRequests)
             
             mySentRequests = mySentRequests.filter { $0 != profileUsername }
             profileReceivedRequests = profileReceivedRequests.filter { $0 != myUsername }
             
-            databaseRef.child("\(myUsername)/sent").setValue(mySentRequests)
-            databaseRef.child("\(profileUsername)/received").setValue(profileReceivedRequests)
-            
-            self.profileOptionsButton.isEnabled = true
-            self.profileType = Constants.ProfileTypes.User
-            
-            self.currentUserFriendRequests?["sent"] = mySentRequests
+            databaseRef.child("\(myUsername)/sent").setValue(mySentRequests, withCompletionBlock: { (error, database) in
+                databaseRef.child("\(profileUsername)/received").setValue(profileReceivedRequests, withCompletionBlock: { (error2, database2) in
+                    self.profileOptionsButton.isEnabled = true
+                    self.profileType = Constants.ProfileTypes.User
+                    
+                    self.currentUserFriendRequests?["sent"] = mySentRequests
+                    
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NotificationNames.ReloadFriends), object: nil)
+                })
+            })
         })
     }
     
@@ -211,35 +215,40 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
             myReceivedRequests = myReceivedRequests.filter { $0 != profileUsername }
             profileSentRequests = profileSentRequests.filter { $0 != myUsername }
             
-            requestsDatabaseRef.child("\(myUsername)/received").setValue(myReceivedRequests)
-            requestsDatabaseRef.child("\(profileUsername)/sent").setValue(profileSentRequests)
-            
-            self.currentUserFriendRequests?["received"] = myReceivedRequests
-            
-            // Now adds as a friend, if friend request was accepted
-            if response == Constants.FriendRequestResponses.Accepted {
-                let friendsDatabaseRef = FIRDatabase.database().reference().child("friends")
-                friendsDatabaseRef.child(profileUsername).observeSingleEvent(of: .value, with: { (snapshot) in
-                    var profileFriends = (snapshot.value as? [String]) ?? [String]()
-                    var myFriends = self.currentUserFriends ?? [String]()
+            requestsDatabaseRef.child("\(myUsername)/received").setValue(myReceivedRequests, withCompletionBlock: { (error, database) in
+                requestsDatabaseRef.child("\(profileUsername)/sent").setValue(profileSentRequests, withCompletionBlock: { (error2, database2) in
+                    self.currentUserFriendRequests?["received"] = myReceivedRequests
                     
-                    profileFriends.insert(myUsername, at: 0)
-                    myFriends.insert(profileUsername, at: 0)
-                    
-                    friendsDatabaseRef.child(myUsername).setValue(myFriends)
-                    friendsDatabaseRef.child(profileUsername).setValue(profileFriends)
-                    
-                    self.profileOptionsButton.isEnabled = true
-                    self.profileType = Constants.ProfileTypes.Friend
-                    
-                    self.currentUserFriends = myFriends
-                    NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NotificationNames.ReloadFriends), object: nil)
+                    // Now adds as a friend, if friend request was accepted
+                    if response == Constants.FriendRequestResponses.Accepted {
+                        let friendsDatabaseRef = FIRDatabase.database().reference().child("friends")
+                        friendsDatabaseRef.child(profileUsername).observeSingleEvent(of: .value, with: { (snapshot) in
+                            var profileFriends = (snapshot.value as? [String]) ?? [String]()
+                            var myFriends = self.currentUserFriends ?? [String]()
+                            
+                            profileFriends.insert(myUsername, at: 0)
+                            myFriends.insert(profileUsername, at: 0)
+                            
+                            friendsDatabaseRef.child(myUsername).setValue(myFriends, withCompletionBlock: { (error3, database3) in
+                                friendsDatabaseRef.child(profileUsername).setValue(profileFriends, withCompletionBlock: { (error4, database4) in
+                                    self.profileOptionsButton.isEnabled = true
+                                    self.profileType = Constants.ProfileTypes.Friend
+                                    
+                                    self.currentUserFriends = myFriends
+                                    
+                                    NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NotificationNames.ReloadFriends), object: nil)
+                                })
+                            })
+                        })
+                    }
+                    else {
+                        self.profileOptionsButton.isEnabled = true
+                        self.profileType = Constants.ProfileTypes.User
+                        
+                        NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NotificationNames.ReloadFriends), object: nil)
+                    }
                 })
-            }
-            else {
-                self.profileOptionsButton.isEnabled = true
-                self.profileType = Constants.ProfileTypes.User
-            }
+            })
         })
     }
     
@@ -263,14 +272,16 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
             profileFriends = profileFriends.filter { $0 != myUsername }
             myFriends = myFriends.filter { $0 != profileUsername }
             
-            friendsDatabaseRef.child(myUsername).setValue(myFriends)
-            friendsDatabaseRef.child(profileUsername).setValue(profileFriends)
             
-            self.profileOptionsButton.isEnabled = true
-            self.profileType = Constants.ProfileTypes.User
-            
-            self.currentUserFriends = myFriends
-            NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NotificationNames.ReloadFriends), object: nil)
+            friendsDatabaseRef.child(myUsername).setValue(myFriends, withCompletionBlock: { (error, database) in
+                friendsDatabaseRef.child(profileUsername).setValue(profileFriends, withCompletionBlock: { (error2, database) in
+                    self.profileOptionsButton.isEnabled = true
+                    self.profileType = Constants.ProfileTypes.User
+                    
+                    self.currentUserFriends = myFriends
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NotificationNames.ReloadFriends), object: nil)
+                })
+            })
         })
     }
     

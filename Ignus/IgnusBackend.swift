@@ -112,7 +112,7 @@ struct IgnusBackend {
     // provided by the caller, which has the data as a parameter.
     
     static func getCurrentUserInfo(with completionHandler: @escaping ([String: String]) -> Void) {
-        DispatchQueue.main.async {
+        DispatchQueue.global(qos: .background).async {
             while self.currentUserInfo == nil {
                 usleep(100000)
             }
@@ -121,29 +121,38 @@ struct IgnusBackend {
     }
     
     static func getFriends(with completionHandler: @escaping ([String]) -> Void) {
-        DispatchQueue.main.async {
+        DispatchQueue.global(qos: .background).async {
             while self.friends == nil {
-                usleep(100000)
+                usleep(1000000)
             }
-            completionHandler(self.friends!)
+            
+            DispatchQueue.main.async {
+                completionHandler(self.friends!)
+            }
+            
         }
     }
     
     static func getFriendRequests(with completionHandler: @escaping ([String: [String]]) -> Void) {
-        DispatchQueue.main.async {
+        DispatchQueue.global(qos: .background).async {
             while self.friendRequests == nil {
                 usleep(100000)
             }
-            completionHandler(self.friendRequests!)
+            
+            DispatchQueue.main.async {
+                completionHandler(self.friendRequests!)
+            }
         }
     }
     
     static func getMessages(with completionHandler: @escaping ([[String: Any]]) -> Void) {
-        DispatchQueue.main.async {
+        DispatchQueue.global(qos: .background).async {
             while self.messages == nil {
                 usleep(100000)
             }
-            completionHandler(self.messages!)
+            DispatchQueue.main.async {
+                completionHandler(self.messages!)
+            }
         }
     }
     

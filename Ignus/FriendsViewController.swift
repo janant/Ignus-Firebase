@@ -69,6 +69,13 @@ class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate,
     }
     
     func reloadData() {
+        guard let currentUser = FIRAuth.auth()?.currentUser else {
+            return
+        }
+        
+        IgnusBackend.resetState()
+        IgnusBackend.configureState(forUser: currentUser)
+        
         // Get friends from IgnusBackend
         IgnusBackend.getFriends(with: { (friendsData) in
             // Only saves data and refreshes if there is actually new data

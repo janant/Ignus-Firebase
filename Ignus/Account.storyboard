@@ -422,7 +422,7 @@
                     <navigationItem key="navigationItem" title="Messages" id="kKp-cX-EqA">
                         <barButtonItem key="rightBarButtonItem" systemItem="compose" id="9YQ-jx-N6l">
                             <connections>
-                                <segue destination="W0k-I2-sSk" kind="presentation" id="EZy-Wb-jft"/>
+                                <segue destination="W0k-I2-sSk" kind="presentation" identifier="Show Message" id="EZy-Wb-jft"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -1009,10 +1009,10 @@ Cg
             </objects>
             <point key="canvasLocation" x="2402" y="1801"/>
         </scene>
-        <!--New Message-->
+        <!--Message View Controller-->
         <scene sceneID="P46-RE-lxG">
             <objects>
-                <viewController id="6Gl-cR-CMX" sceneMemberID="viewController">
+                <viewController id="6Gl-cR-CMX" customClass="MessageViewController" customModule="Ignus" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Z2B-sS-BLK"/>
                         <viewControllerLayoutGuide type="bottom" id="DWg-rZ-T84"/>
@@ -1078,6 +1078,10 @@ Cg
                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="6Gl-cR-CMX" id="EWI-9U-E9k"/>
+                                    <outlet property="delegate" destination="6Gl-cR-CMX" id="bi7-3Q-yGs"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" red="0.19249251840000001" green="0.19249251840000001" blue="0.19249251840000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1088,13 +1092,17 @@ Cg
                             <constraint firstItem="DWg-rZ-T84" firstAttribute="top" secondItem="Pit-dH-8Ye" secondAttribute="bottom" id="nNz-PU-r7T"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="New Message" id="Id3-hK-dMq">
+                    <navigationItem key="navigationItem" id="Id3-hK-dMq">
                         <barButtonItem key="backBarButtonItem" title="Back" id="pf8-NP-Hlf"/>
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="4Se-Nv-vY7"/>
-                        <barButtonItem key="rightBarButtonItem" title="Send" style="done" id="cJG-U6-mDi"/>
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="4Se-Nv-vY7">
+                            <connections>
+                                <action selector="dismissMessage:" destination="6Gl-cR-CMX" id="dMk-7M-fXM"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <segue destination="m3u-eF-cHo" kind="show" identifier="Select Recipient" id="F9M-8S-oMl">
+                        <outlet property="messageTable" destination="Pit-dH-8Ye" id="7hZ-xQ-vge"/>
+                        <segue destination="m3u-eF-cHo" kind="show" identifier="Choose Friend" id="F9M-8S-oMl">
                             <nil key="action"/>
                         </segue>
                     </connections>
@@ -1106,7 +1114,7 @@ Cg
         <!--Select Recipient-->
         <scene sceneID="hSy-Q0-o4b">
             <objects>
-                <viewController id="m3u-eF-cHo" customClass="ChooseFriendViewController" customModule="Ignus" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="m3u-eF-cHo" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="1ic-fY-gUo"/>
                         <viewControllerLayoutGuide type="bottom" id="Nmm-xP-8v4"/>
@@ -1115,8 +1123,8 @@ Cg
                         <rect key="frame" x="0.0" y="0.0" width="335" height="244"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.0" contentMode="scaleToFill" misplaced="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="BPA-Ew-Dwt">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.0" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="BPA-Ew-Dwt">
+                                <rect key="frame" x="0.0" y="0.0" width="335" height="244"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="qJl-t6-gj3">
                                     <size key="itemSize" width="80" height="117"/>
@@ -1189,13 +1197,9 @@ Cg
                                         </constraints>
                                     </collectionViewCell>
                                 </cells>
-                                <connections>
-                                    <outlet property="dataSource" destination="m3u-eF-cHo" id="8aR-UA-MOn"/>
-                                    <outlet property="delegate" destination="m3u-eF-cHo" id="LVD-tj-efM"/>
-                                </connections>
                             </collectionView>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="DMs-hw-sjS">
-                                <rect key="frame" x="141.5" y="265.5" width="37" height="37"/>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="DMs-hw-sjS">
+                                <rect key="frame" x="149" y="103.5" width="37" height="37"/>
                             </activityIndicatorView>
                             <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="No Friends" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xb8-lX-rqU">
                                 <rect key="frame" x="92" y="272" width="136" height="25"/>
@@ -1217,11 +1221,6 @@ Cg
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Select Recipient" id="PhY-lt-3um"/>
-                    <connections>
-                        <outlet property="friendsCollectionView" destination="BPA-Ew-Dwt" id="505-yU-pEW"/>
-                        <outlet property="loadingFriendsIndicator" destination="DMs-hw-sjS" id="cUe-m7-x6Z"/>
-                        <outlet property="noFriendsLabel" destination="Xb8-lX-rqU" id="kwF-7A-mz8"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eis-Bl-irb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

@@ -14,6 +14,8 @@
 		16318AC71E18445F0099858C /* FriendsNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16318AC61E18445F0099858C /* FriendsNavigationViewController.swift */; };
 		16323ED51E1581FB00D9EA39 /* FriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16323ED41E1581FB00D9EA39 /* FriendsViewController.swift */; };
 		16323ED71E15842000D9EA39 /* AddFriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16323ED61E15842000D9EA39 /* AddFriendsViewController.swift */; };
+		16391FEB1E527E8900AAEE88 /* ComposeTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16391FE91E527E8900AAEE88 /* ComposeTransition.swift */; };
+		16391FED1E52940700AAEE88 /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16391FEC1E52940700AAEE88 /* MessageViewController.swift */; };
 		167BB0EE1DC46B7A0033FC37 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 167BB0ED1DC46B7A0033FC37 /* GoogleService-Info.plist */; };
 		167BB1301DC473D00033FC37 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167BB12F1DC473D00033FC37 /* LoginViewController.swift */; };
 		1696D8411DC46A96003BFDA8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1696D8401DC46A96003BFDA8 /* AppDelegate.swift */; };
@@ -73,6 +75,8 @@
 		16318AC61E18445F0099858C /* FriendsNavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsNavigationViewController.swift; sourceTree = "<group>"; };
 		16323ED41E1581FB00D9EA39 /* FriendsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsViewController.swift; sourceTree = "<group>"; };
 		16323ED61E15842000D9EA39 /* AddFriendsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddFriendsViewController.swift; sourceTree = "<group>"; };
+		16391FE91E527E8900AAEE88 /* ComposeTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComposeTransition.swift; sourceTree = "<group>"; };
+		16391FEC1E52940700AAEE88 /* MessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageViewController.swift; sourceTree = "<group>"; };
 		167BB0ED1DC46B7A0033FC37 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		167BB12F1DC473D00033FC37 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		1696D83D1DC46A96003BFDA8 /* Ignus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ignus.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -261,7 +265,9 @@
 			isa = PBXGroup;
 			children = (
 				16FDEEEE1E0CF8E2005F3A04 /* MessagesViewController.swift */,
+				16391FEC1E52940700AAEE88 /* MessageViewController.swift */,
 				16D967531E10BD670019654A /* ChooseFriendViewController.swift */,
+				16391FE91E527E8900AAEE88 /* ComposeTransition.swift */,
 			);
 			name = "Messages Tab";
 			sourceTree = "<group>";
@@ -472,6 +478,7 @@
 				16F47E1A1DC7AFCD0005C3DB /* SignUpPresentation.swift in Sources */,
 				16323ED71E15842000D9EA39 /* AddFriendsViewController.swift in Sources */,
 				16C7F4AF1DC584E50001991A /* CreateAccountViewController.swift in Sources */,
+				16391FED1E52940700AAEE88 /* MessageViewController.swift in Sources */,
 				16D967541E10BD670019654A /* ChooseFriendViewController.swift in Sources */,
 				160C1CD01E0C470300E139C3 /* ProfileOptionsViewController.swift in Sources */,
 				16318AC71E18445F0099858C /* FriendsNavigationViewController.swift in Sources */,
@@ -481,6 +488,7 @@
 				16AE71FE1E0B843300CEE396 /* Constants.swift in Sources */,
 				16A0D7A91DFCCF5900B89807 /* LogInPresentation.swift in Sources */,
 				16D63F841DD7124500287C1F /* PrivacyPolicyViewController.swift in Sources */,
+				16391FEB1E527E8900AAEE88 /* ComposeTransition.swift in Sources */,
 				16F47E181DC7AFC30005C3DB /* SignUpAnimation.swift in Sources */,
 				16AE72001E0B851300CEE396 /* LoginOptionsTableViewController.swift in Sources */,
 				1696D8411DC46A96003BFDA8 /* AppDelegate.swift in Sources */,

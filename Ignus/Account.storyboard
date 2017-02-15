@@ -1111,10 +1111,10 @@ Cg
             </objects>
             <point key="canvasLocation" x="3086" y="1801"/>
         </scene>
-        <!--Select Recipient-->
+        <!--Select Friend-->
         <scene sceneID="hSy-Q0-o4b">
             <objects>
-                <viewController id="m3u-eF-cHo" sceneMemberID="viewController">
+                <viewController id="m3u-eF-cHo" customClass="ChooseFriendViewController" customModule="Ignus" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="1ic-fY-gUo"/>
                         <viewControllerLayoutGuide type="bottom" id="Nmm-xP-8v4"/>
@@ -1197,8 +1197,12 @@ Cg
                                         </constraints>
                                     </collectionViewCell>
                                 </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="m3u-eF-cHo" id="BtP-h2-0jn"/>
+                                    <outlet property="delegate" destination="m3u-eF-cHo" id="Thi-xQ-cI0"/>
+                                </connections>
                             </collectionView>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="DMs-hw-sjS">
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="DMs-hw-sjS">
                                 <rect key="frame" x="149" y="103.5" width="37" height="37"/>
                             </activityIndicatorView>
                             <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="No Friends" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xb8-lX-rqU">
@@ -1220,7 +1224,12 @@ Cg
                             <constraint firstAttribute="centerY" secondItem="DMs-hw-sjS" secondAttribute="centerY" id="zTS-2k-0P1"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Select Recipient" id="PhY-lt-3um"/>
+                    <navigationItem key="navigationItem" title="Select Friend" id="PhY-lt-3um"/>
+                    <connections>
+                        <outlet property="friendsCollectionView" destination="BPA-Ew-Dwt" id="zns-SG-vur"/>
+                        <outlet property="friendsLoadingIndicatorView" destination="DMs-hw-sjS" id="fNY-1b-nUj"/>
+                        <outlet property="noFriendsLabel" destination="Xb8-lX-rqU" id="lq3-En-Ssq"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eis-Bl-irb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1288,7 +1297,7 @@ Cg
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Results Found" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qNe-ne-BjW">
-                                                        <rect key="frame" x="86" y="322" width="203" height="23"/>
+                                                        <rect key="frame" x="86.5" y="322" width="202.5" height="23"/>
                                                         <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="23"/>
                                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>

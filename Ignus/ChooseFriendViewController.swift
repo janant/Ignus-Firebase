@@ -8,7 +8,12 @@
 
 import UIKit
 
-class ChooseFriendViewController: UIViewController {
+class ChooseFriendViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
+    
+    
+    @IBOutlet weak var friendsCollectionView: UICollectionView!
+    @IBOutlet weak var friendsLoadingIndicatorView: UIActivityIndicatorView!
+    @IBOutlet weak var noFriendsLabel: UILabel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,7 +25,6 @@ class ChooseFriendViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
 
     /*
     // MARK: - Navigation

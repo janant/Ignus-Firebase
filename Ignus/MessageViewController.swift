@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MessageViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class MessageViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITextViewDelegate {
     
     // Table in which the message is displayed
     @IBOutlet weak var messageTable: UITableView!
@@ -70,6 +70,7 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
         self.title = "Reply"
         self.messageTextView.text = ""
         self.messageTextView.becomeFirstResponder()
+        self.selectedSender = defaultSender
     }
     
     // MARK: - Table view data source
@@ -106,8 +107,8 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
             
             messageTextView = cell.viewWithTag(1) as? UITextView
             messageTextView.becomeFirstResponder()
-            // Sets text inset
             messageTextView.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+            messageTextView.delegate = self
             
             return cell
         }
@@ -134,6 +135,17 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
             performSegue(withIdentifier: "Choose Friend", sender: nil)
+        }
+    }
+    
+    // MARK: - Text view delegate methods
+    
+    func textViewDidChange(_ textView: UITextView) {
+        // Enables and disables send button depending on conditions
+        if let sendButton = self.navigationItem.rightBarButtonItem
+        {
+            let whitespaceClearedText = textView.text.replacingOccurrences(of: " ", with: "")
+            sendButton.isEnabled = whitespaceClearedText.characters.count != 0 && selectedSender != nil
         }
     }
     

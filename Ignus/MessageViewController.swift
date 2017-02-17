@@ -8,18 +8,19 @@
 
 import UIKit
 
-class MessageViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITextViewDelegate {
+class MessageViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITextViewDelegate, ChooseFriendViewControllerDelegate {
     
     // Table in which the message is displayed
     @IBOutlet weak var messageTable: UITableView!
     
     // The message text view
     var messageTextView: UITextView!
+    var recipientLabel: UILabel!
     
     var messageToDisplay: String?
-    var defaultSender: String?
     
-    var selectedSender: String?
+    var defaultRecipient: String?
+    var selectedRecipient: String?
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
@@ -70,7 +71,7 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
         self.title = "Reply"
         self.messageTextView.text = ""
         self.messageTextView.becomeFirstResponder()
-        self.selectedSender = defaultSender
+        self.selectedRecipient = defaultRecipient
     }
     
     // MARK: - Table view data source
@@ -88,9 +89,11 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "Select Recipient Cell", for: indexPath)
             
+            recipientLabel = cell.detailTextLabel
+            
             // Makes cell unselectable if the sender has been predetermined
-            if defaultSender != nil {
-                cell.detailTextLabel?.text = defaultSender!
+            if defaultRecipient != nil {
+                cell.detailTextLabel?.text = defaultRecipient!
                 cell.isUserInteractionEnabled = false
                 cell.accessoryType = .none
             }
@@ -145,22 +148,37 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
         if let sendButton = self.navigationItem.rightBarButtonItem
         {
             let whitespaceClearedText = textView.text.replacingOccurrences(of: " ", with: "")
-            sendButton.isEnabled = whitespaceClearedText.characters.count != 0 && selectedSender != nil
+            sendButton.isEnabled = whitespaceClearedText.characters.count != 0 && selectedRecipient != nil
         }
     }
     
-    @IBAction func dismissMessage(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
+    // MARK: - ChooseFriendViewController delegate methods
+    
+    func choseFriend(_ friend: String) {
+        self.selectedRecipient = friend
+        recipientLabel.text = friend
+        self.textViewDidChange(messageTextView)
     }
 
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        if segue.identifier == "Choose Friend" {
+            if let chooseFriendVC = segue.destination as? ChooseFriendViewController {
+                chooseFriendVC.delegate = self
+            }
+        }
     }
-    */
+    
+    @IBAction func returnToMessage(_ segue: UIStoryboardSegue) {
+        
+    }
+    
+    @IBAction func dismissMessage(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
 
 }

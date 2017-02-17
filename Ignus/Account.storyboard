@@ -193,7 +193,7 @@
                                 <rect key="frame" x="20" y="307" width="335" height="54"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Friends" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lhb-16-cqc">
-                                        <rect key="frame" x="99.5" y="0.0" width="136" height="25"/>
+                                        <rect key="frame" x="100" y="0.0" width="136" height="25"/>
                                         <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="25"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
@@ -349,7 +349,7 @@
                                                             </subviews>
                                                         </stackView>
                                                         <label opaque="NO" userInteractionEnabled="NO" tag="3" contentMode="left" horizontalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N7C-gb-nab">
-                                                            <rect key="frame" x="0.0" y="22" width="35.5" height="13"/>
+                                                            <rect key="frame" x="0.0" y="22" width="36" height="13"/>
                                                             <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="13"/>
                                                             <color key="textColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -390,7 +390,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IyY-xl-ekc">
-                                        <rect key="frame" x="22" y="33" width="291.5" height="21"/>
+                                        <rect key="frame" x="22" y="33" width="292" height="21"/>
                                         <attributedString key="attributedText">
                                             <fragment content="Incoming messages will appear here.">
                                                 <attributes>
@@ -463,7 +463,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="2G4-qa-4yW" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Settings" image="Settings Icon" id="hjk-sa-S3p"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" barStyle="black" id="B1P-eD-Cy4">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="B1P-eD-Cy4">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="0.91764705879999997" green="0.20000000000000001" blue="0.21960784310000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -978,7 +978,7 @@ Cg
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Ges-1Y-ZKk" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Messages" image="Messages Icon" id="drD-hE-f2w"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" barStyle="black" id="NWC-JA-6lV">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="NWC-JA-6lV">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -997,7 +997,7 @@ Cg
                 <navigationController id="W0k-I2-sSk" sceneMemberID="viewController">
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="335" height="244"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" barStyle="black" id="4Hk-Lb-7ld">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="4Hk-Lb-7ld">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1123,7 +1123,7 @@ Cg
                         <rect key="frame" x="0.0" y="0.0" width="335" height="244"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.0" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="BPA-Ew-Dwt">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="BPA-Ew-Dwt">
                                 <rect key="frame" x="0.0" y="0.0" width="335" height="244"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="qJl-t6-gj3">
@@ -1203,7 +1203,7 @@ Cg
                                 </connections>
                             </collectionView>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="DMs-hw-sjS">
-                                <rect key="frame" x="149" y="103.5" width="37" height="37"/>
+                                <rect key="frame" x="149" y="104" width="37" height="37"/>
                             </activityIndicatorView>
                             <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="No Friends" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xb8-lX-rqU">
                                 <rect key="frame" x="92" y="272" width="136" height="25"/>
@@ -1229,9 +1229,11 @@ Cg
                         <outlet property="friendsCollectionView" destination="BPA-Ew-Dwt" id="zns-SG-vur"/>
                         <outlet property="friendsLoadingIndicatorView" destination="DMs-hw-sjS" id="fNY-1b-nUj"/>
                         <outlet property="noFriendsLabel" destination="Xb8-lX-rqU" id="lq3-En-Ssq"/>
+                        <segue destination="O8k-e0-Cea" kind="unwind" identifier="Return to Previous" unwindAction="returnToMessage:" id="UXf-Yl-ady"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eis-Bl-irb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="O8k-e0-Cea" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="3774" y="1801"/>
         </scene>
@@ -1241,7 +1243,7 @@ Cg
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="1gL-sa-368" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Payments" image="Payments Icon" id="gcm-Hg-RgR"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" barStyle="black" id="L0n-E9-mic">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="L0n-E9-mic">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1259,7 +1261,7 @@ Cg
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="AOA-Nn-KfR" customClass="FriendsNavigationViewController" customModule="Ignus" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" barStyle="black" id="X2h-0e-HMu">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="X2h-0e-HMu">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1297,7 +1299,7 @@ Cg
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Results Found" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qNe-ne-BjW">
-                                                        <rect key="frame" x="86.5" y="322" width="202.5" height="23"/>
+                                                        <rect key="frame" x="86" y="322" width="203" height="23"/>
                                                         <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="23"/>
                                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -1428,7 +1430,7 @@ Cg
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" modalPresentationStyle="overFullScreen" id="9yh-Yr-Fr5" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" barStyle="black" id="5e8-nE-5WP">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="5e8-nE-5WP">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1446,7 +1448,7 @@ Cg
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="eQ9-Rh-Jdb" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" barStyle="black" id="qpz-Kz-iQK">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="qpz-Kz-iQK">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

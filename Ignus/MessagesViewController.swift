@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class MessagesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class MessagesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, MessageViewControllerDelegate {
     
     @IBOutlet weak var messagesTable: UITableView!
     @IBOutlet weak var noMessagesStackView: UIStackView!
@@ -121,15 +121,36 @@ class MessagesViewController: UIViewController, UITableViewDataSource, UITableVi
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // Do nothing for now
     }
+    
+    // MARK: - MessageViewController delegate methods
+    
+    func canceledNewMessage(messageVC: MessageViewController) {
+        messageVC.dismiss(animated: true, completion: nil)
+    }
+    
+    func canceledViewMessage(messageVC: MessageViewController) {
+        messageVC.dismiss(animated: true, completion: nil)
+    }
+    
+    func sentNewMessage(messageVC: MessageViewController) {
+        messageVC.dismiss(animated: true, completion: nil)
+    }
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        if segue.identifier == "Show Message" {
+            if let navVC = segue.destination as? UINavigationController {
+                if let messageVC = navVC.topViewController as? MessageViewController {
+                    messageVC.delegate = self
+                }
+            }
+        }
     }
-    */
+    
 
 }

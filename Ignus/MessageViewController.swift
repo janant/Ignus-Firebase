@@ -7,6 +7,13 @@
 //
 
 import UIKit
+import Firebase
+
+protocol MessageViewControllerDelegate: class {
+    func canceledNewMessage(messageVC: MessageViewController)
+    func canceledViewMessage(messageVC: MessageViewController)
+    func sentNewMessage(messageVC: MessageViewController)
+}
 
 class MessageViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITextViewDelegate, ChooseFriendViewControllerDelegate {
     
@@ -21,6 +28,8 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
     
     var defaultRecipient: String?
     var selectedRecipient: String?
+    
+    weak var delegate: MessageViewControllerDelegate?
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
@@ -64,6 +73,36 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func sendMessage() {
+        self.title = "Sending..."
+        self.navigationItem.rightBarButtonItem?.isEnabled = false
+        
+        guard
+            let currentUser = FIRAuth.auth()?.currentUser,
+            let currentUserUsername = currentUser.displayName,
+            let recipientUsername = selectedRecipient
+        else {
+            return
+        }
+        let recipientMessagesDatabase = FIRDatabase.database().reference().child("messages/\(recipientUsername)")
+        
+        var newMessageData = [String: Any]()
+        newMessageData["sender"] = currentUserUsername
+        newMessageData["recipient"] = recipientUsername
+        newMessageData["message"] = messageTextView.text
+        newMessageData["unread"] = true
+        newMessageData["timestamp"] = FIRServerValue.timestamp()
+        
+        recipientMessagesDatabase.observeSingleEvent(of: .value, with: { (snapshot) in
+            var recipientMessages = (snapshot.value as? [[String: Any]]) ?? [[String: Any]]()
+            recipientMessages.insert(newMessageData, at: 0)
+            
+            recipientMessagesDatabase.setValue(recipientMessages, withCompletionBlock: { (error, databaseReference) in
+                if error == nil {
+                    self.messageTextView.resignFirstResponder()
+                    self.delegate?.sentNewMessage(messageVC: self)
+                }
+            })
+        })
         
     }
     
@@ -178,7 +217,14 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     @IBAction func dismissMessage(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
+        self.messageTextView.resignFirstResponder()
+        
+        if messageToDisplay != nil {
+            self.delegate?.canceledViewMessage(messageVC: self)
+        }
+        else {
+            self.delegate?.canceledNewMessage(messageVC: self)
+        }
     }
 
 }

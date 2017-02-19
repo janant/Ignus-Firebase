@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class MessagesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, MessageViewControllerDelegate {
+class MessagesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, MessageViewControllerDelegate, UIViewControllerTransitioningDelegate {
     
     @IBOutlet weak var messagesTable: UITableView!
     @IBOutlet weak var noMessagesStackView: UIStackView!
@@ -78,11 +78,10 @@ class MessagesViewController: UIViewController, UITableViewDataSource, UITableVi
         // Sets up the table
         messagesTable.separatorEffect = UIVibrancyEffect(blurEffect: UIBlurEffect(style: .dark))
         messagesTable.backgroundView = nil
+        messagesTable.backgroundColor = UIColor.clear
         refreshControl.addTarget(self, action: #selector(MessagesViewController.reloadData), for: .valueChanged)
         refreshControl.tintColor = UIColor.white
         messagesTable.addSubview(refreshControl)
-        
-//        print(FIRServerValue.timestamp())
     }
 
     override func didReceiveMemoryWarning() {
@@ -107,12 +106,82 @@ class MessagesViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
-        //return messages.count
+        return messages.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Message Cell", for: indexPath)
+        
+        let messageData = messages[indexPath.row]
+        
+        // Gets views needed for setting up the table cell
+        guard
+            let profileImageView = cell.viewWithTag(1) as? UIImageView,
+            let nameLabel = cell.viewWithTag(2) as? UILabel,
+            let messageLabel = cell.viewWithTag(3) as? UILabel,
+            let unreadIndicator = cell.viewWithTag(4),
+            let dateLabel = cell.viewWithTag(5) as? UILabel,
+        
+            let senderUsername = messageData["sender"]
+        else {
+            return cell
+        }
+        
+        // Sets initial data to blank, since cells get reused
+        nameLabel.text = ""
+        messageLabel.text = ""
+        unreadIndicator.isHidden = true
+        dateLabel.text = ""
+        profileImageView.image = #imageLiteral(resourceName: "Not Loaded Profile")
+        
+        // Gets name info for this sender
+        let usersDatabaseReference = FIRDatabase.database().reference().child("users/\(senderUsername)")
+        usersDatabaseReference.observeSingleEvent(of: .value, with: { (snapshot) in
+            guard
+                let senderData = snapshot.value as? [String: String],
+                let firstName = senderData["firstName"],
+                let lastName = senderData["lastName"]
+            else {
+                return
+            }
+            
+            UIView.transition(with: nameLabel, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                nameLabel.text = "\(firstName) \(lastName)"
+            }, completion: nil)
+        })
+        
+        // Gets profile image data
+        let profileRef = FIRStorage.storage().reference().child("User_Pictures/\(senderUsername)/profile.jpg")
+        profileRef.data(withMaxSize: INT64_MAX, completion: { (data, error) in
+            if error == nil && data != nil {
+                UIView.transition(with: profileImageView, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                    profileImageView.image = UIImage(data: data!)
+                }, completion: nil)
+            }
+        })
+        
+        // Sets message text
+        messageLabel.text = messageData["message"] as? String
+        
+        // Shows/hides unread indicator
+        if let messageUnread = messageData["unread"] as? Bool {
+            unreadIndicator.isHidden = !messageUnread
+        }
+        
+        // Sets timestamp
+        if let timeSent = messageData["timestamp"] as? Double {
+            let messageDate = Date(timeIntervalSince1970: timeSent / 1000)
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = (Calendar.current.isDateInToday(messageDate)) ? "h:mm a" : "MM/dd/yy"
+            dateLabel.text = dateFormatter.string(from: messageDate)
+        }
+        
+        cell.backgroundColor = UIColor.clear
+        
+        let backgroundView = UIView()
+        backgroundView.backgroundColor = UIColor.gray
+        cell.selectedBackgroundView = backgroundView
+        
         return cell
     }
     
@@ -135,7 +204,29 @@ class MessagesViewController: UIViewController, UITableViewDataSource, UITableVi
     func sentNewMessage(messageVC: MessageViewController) {
         messageVC.dismiss(animated: true, completion: nil)
     }
-
+    
+    // MARK: - Transitioning delegate methods
+    
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        if presented is MessageViewController {
+            return nil
+        }
+        return nil
+    }
+    
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        if dismissed is MessageViewController {
+            return nil
+        }
+        return nil
+    }
+    
+    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
+        if presented is MessageViewController {
+            return nil
+        }
+        return nil
+    }
     
     // MARK: - Navigation
 

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MessageTransition: NSObject {
+class MessageTransition: NSObject, UIViewControllerAnimatedTransitioning {
     
     var presenting: Bool
     var isViewingMessage: Bool
@@ -25,11 +25,42 @@ class MessageTransition: NSObject {
     }
     
     func composePresentAnimation(using transitionContext: UIViewControllerContextTransitioning) {
+        guard
+            let toVC = transitionContext.viewController(forKey: .to)
+        else {
+            transitionContext.completeTransition(false)
+            return
+        }
         
+        // Sets final frame of toVC
+        toVC.view.frame = transitionContext.finalFrame(for: toVC)
+        
+        // Transparent + increased scale for animation beginning
+        toVC.view.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+        toVC.view.alpha = 0.0
+        
+        UIView.animate(withDuration: self.transitionDuration(using: transitionContext), delay: 0, options: .curveEaseOut, animations: { () -> Void in
+            toVC.view.alpha = 1.0
+            toVC.view.transform = CGAffineTransform.identity
+        }, completion: { (completed) -> Void in
+            transitionContext.completeTransition(true)
+        })
     }
     
     func composeDismissAnimation(using transitionContext: UIViewControllerContextTransitioning) {
+        guard
+            let fromVC = transitionContext.viewController(forKey: .from)
+            else {
+                transitionContext.completeTransition(false)
+                return
+        }
         
+        UIView.animate(withDuration: self.transitionDuration(using: transitionContext), delay: 0, options: .curveEaseIn, animations: { () -> Void in
+            fromVC.view.alpha = 0.0
+            fromVC.view.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+        }, completion: { (completed) -> Void in
+            transitionContext.completeTransition(true)
+        })
     }
     
     func replyDismissAnimation(using transitionContext: UIViewControllerContextTransitioning) {

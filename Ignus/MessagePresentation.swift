@@ -13,7 +13,13 @@ class MessagePresentation: UIPresentationController {
     let shadowView = UIView()
     
     override var frameOfPresentedViewInContainerView: CGRect {
-        return CGRect(x: 20, y: 20, width: min(Int(presentingViewController.view.frame.width) - 40, 400), height: 244)
+        let presentingFrame = presentingViewController.view.frame
+        let intendedWidth: CGFloat = 500 // Want to make the view at most 500 pixels
+        let maxPossibleWidth: CGFloat = presentingFrame.width - 40 // View width, 20px side margins
+        
+        let actualWidth = min(intendedWidth, maxPossibleWidth)
+        
+        return CGRect(x: presentingFrame.midX - (actualWidth / 2), y: 30, width: actualWidth, height: 244)
     }
     
     override func presentationTransitionWillBegin() {
@@ -21,10 +27,16 @@ class MessagePresentation: UIPresentationController {
         shadowView.backgroundColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.4)
         shadowView.frame = presentingViewController.view.frame
         shadowView.alpha = 0.0
+        
+        // Adds corner radius to message view controller
+        presentedViewController.view.layer.cornerRadius = 10
+        presentedViewController.view.layer.masksToBounds = true
+        
         if let container = self.containerView {
             container.addSubview(shadowView)
             container.addSubview(presentedViewController.view)
         }
+        
         if let transitionCoordinator = presentingViewController.transitionCoordinator {
             transitionCoordinator.animate(alongsideTransition: { (context) in
                 self.shadowView.alpha = 1.0
@@ -39,12 +51,10 @@ class MessagePresentation: UIPresentationController {
     }
     
     override func dismissalTransitionWillBegin() {
-        if presentingViewController.traitCollection.horizontalSizeClass == .regular {
-            if let transitionCoordinator = presentingViewController.transitionCoordinator {
-                transitionCoordinator.animate(alongsideTransition: { (context) in
-                    self.shadowView.alpha = 0.0
-                }, completion: nil)
-            }
+        if let transitionCoordinator = presentingViewController.transitionCoordinator {
+            transitionCoordinator.animate(alongsideTransition: { (context) in
+                self.shadowView.alpha = 0.0
+            }, completion: nil)
         }
     }
     

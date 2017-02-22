@@ -21,6 +21,8 @@ class MessagesViewController: UIViewController, UITableViewDataSource, UITableVi
     var unreadMessages = 0
     let refreshControl = UIRefreshControl()
     
+    var messageTransition: UIViewControllerAnimatedTransitioning!
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -194,6 +196,7 @@ class MessagesViewController: UIViewController, UITableViewDataSource, UITableVi
     // MARK: - MessageViewController delegate methods
     
     func canceledNewMessage(messageVC: MessageViewController) {
+        messageTransition = MessageTransition(presenting: false)
         messageVC.dismiss(animated: true, completion: nil)
     }
     
@@ -208,22 +211,28 @@ class MessagesViewController: UIViewController, UITableViewDataSource, UITableVi
     // MARK: - Transitioning delegate methods
     
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        if presented is MessageViewController {
-            return nil
+        if let navVC = presented as? UINavigationController {
+            if navVC.topViewController is MessageViewController {
+                return messageTransition
+            }
         }
         return nil
     }
     
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        if dismissed is MessageViewController {
-            return nil
+        if let navVC = dismissed as? UINavigationController {
+            if navVC.topViewController is MessageViewController {
+                return messageTransition
+            }
         }
         return nil
     }
     
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
-        if presented is MessageViewController {
-            return nil
+        if let navVC = presented as? UINavigationController {
+            if navVC.topViewController is MessageViewController {
+                return MessagePresentation(presentedViewController: presented, presenting: presenting)
+            }
         }
         return nil
     }
@@ -234,8 +243,12 @@ class MessagesViewController: UIViewController, UITableViewDataSource, UITableVi
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-        if segue.identifier == "Show Message" {
+        if segue.identifier == "Compose Message" {
             if let navVC = segue.destination as? UINavigationController {
+                navVC.transitioningDelegate = self
+                navVC.modalPresentationStyle = .custom
+                messageTransition = MessageTransition(presenting: true)
+                
                 if let messageVC = navVC.topViewController as? MessageViewController {
                     messageVC.delegate = self
                 }

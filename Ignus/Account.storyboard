@@ -9,6 +9,7 @@
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="Segues with Peek and Pop" minToolsVersion="7.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -370,6 +371,12 @@
                                                 <constraint firstItem="6Fy-ug-3uU" firstAttribute="leading" secondItem="Krf-E8-Vln" secondAttribute="leading" constant="8" id="xwC-az-OY3"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="W0k-I2-sSk" kind="presentation" identifier="View Message" id="Xwj-P5-aYr">
+                                                <segue key="commit" inheritsFrom="parent" id="asr-h4-roZ"/>
+                                                <segue key="preview" inheritsFrom="commit" id="baz-eR-3d7"/>
+                                            </segue>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -1503,6 +1510,7 @@ Cg
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="EGd-w1-jih"/>
+        <segue reference="Xwj-P5-aYr"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.91764705879999997" green="0.20000000000000001" blue="0.21960784310000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

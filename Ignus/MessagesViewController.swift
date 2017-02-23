@@ -201,10 +201,21 @@ class MessagesViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     func canceledViewMessage(messageVC: MessageViewController) {
+        // Generates appropriate animation
+        if let selectedCellIndex = messagesTable.indexPathForSelectedRow {
+            let cellFrame = messagesTable.rectForRow(at: selectedCellIndex)
+            let sourceFrame = cellFrame.offsetBy(dx: -messagesTable.contentOffset.x, dy: -messagesTable.contentOffset.y)
+            messageTransition = MessageTransition(presenting: false, isViewingMessage: true, sentMessage: false, sourceFrame: sourceFrame)
+        }
+        else {
+            messageTransition = MessageTransition(presenting: false, isViewingMessage: true, sentMessage: false)
+        }
+        
         messageVC.dismiss(animated: true, completion: nil)
     }
     
     func sentNewMessage(messageVC: MessageViewController) {
+        messageTransition = MessageTransition(presenting: false, isViewingMessage: false, sentMessage: true)
         messageVC.dismiss(animated: true, completion: nil)
     }
     
@@ -251,6 +262,39 @@ class MessagesViewController: UIViewController, UITableViewDataSource, UITableVi
                 
                 if let messageVC = navVC.topViewController as? MessageViewController {
                     messageVC.delegate = self
+                }
+            }
+        }
+        else if segue.identifier == "View Message" {
+            if let navVC = segue.destination as? UINavigationController {
+                navVC.transitioningDelegate = self
+                navVC.modalPresentationStyle = .custom
+                
+                guard
+                    let senderCell = sender as? UITableViewCell,
+                    let senderCellIndex = messagesTable.indexPath(for: senderCell)
+                else {
+                    return
+                }
+                
+                let cellFrame = messagesTable.rectForRow(at: senderCellIndex)
+                let sourceFrame = cellFrame.offsetBy(dx: -messagesTable.contentOffset.x, dy: -messagesTable.contentOffset.y)
+                
+                messageTransition = MessageTransition(presenting: true, isViewingMessage: true, sentMessage: false, sourceFrame: sourceFrame)
+                
+                if let messageVC = navVC.topViewController as? MessageViewController {
+                    let messageData = messages[senderCellIndex.row]
+                    
+                    guard
+                        let messageSender = messageData["sender"] as? String,
+                        let messageText = messageData["message"] as? String
+                    else {
+                        return
+                    }
+                    
+                    messageVC.delegate = self
+                    messageVC.defaultRecipient = messageSender
+                    messageVC.messageToDisplay = messageText
                 }
             }
         }

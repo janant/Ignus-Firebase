@@ -23,11 +23,17 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
     // The message text view
     var messageTextView: UITextView!
     var recipientLabel: UILabel!
+    var recipientKindLabel: UILabel!
+    
+    var replyButton: UIBarButtonItem!
+    var sendButton: UIBarButtonItem!
     
     var messageToDisplay: String?
     
     var defaultRecipient: String?
     var selectedRecipient: String?
+    
+    var isReplying = false
     
     weak var delegate: MessageViewControllerDelegate?
     
@@ -45,12 +51,15 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
 
         // Do any additional setup after loading the view.
         
+        // Sets up buttons
+        replyButton = UIBarButtonItem(barButtonSystemItem: .reply, target: self, action: #selector(MessageViewController.replyToMessage))
+        sendButton = UIBarButtonItem(title: "Send", style: .done, target: self, action: #selector(MessageViewController.sendMessage))
+        
         // If viewing a message someone sent you
         if messageToDisplay != nil {
             self.title = "Message"
             
             // Sets right bar button item to reply button
-            let replyButton = UIBarButtonItem(barButtonSystemItem: .reply, target: self, action: #selector(MessageViewController.replyToMessage))
             self.navigationItem.rightBarButtonItem = replyButton
         }
         //
@@ -58,7 +67,6 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
             self.title = "New Message"
             
             // Sets right bar button item to send button
-            let sendButton = UIBarButtonItem(title: "Send", style: .done, target: self, action: #selector(MessageViewController.sendMessage))
             sendButton.isEnabled = false
             self.navigationItem.rightBarButtonItem = sendButton
         }
@@ -108,9 +116,23 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
     
     func replyToMessage() {
         self.title = "Reply"
-        self.messageTextView.text = ""
+        
+        UIView.transition(with: recipientKindLabel, duration: 0.15, options: .transitionCrossDissolve, animations: {
+            self.recipientKindLabel.text = "To:"
+        }, completion: nil)
+        
+        UIView.transition(with: messageTextView, duration: 0.15, options: .transitionCrossDissolve, animations: {
+            self.messageTextView.text = ""
+        }, completion: nil)
+        
+        messageTextView.isEditable = true
         self.messageTextView.becomeFirstResponder()
         self.selectedRecipient = defaultRecipient
+        
+        sendButton.isEnabled = false
+        self.navigationItem.setRightBarButton(sendButton, animated: true)
+        
+        isReplying = true
     }
     
     // MARK: - Table view data source
@@ -129,12 +151,15 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
             let cell = tableView.dequeueReusableCell(withIdentifier: "Select Recipient Cell", for: indexPath)
             
             recipientLabel = cell.detailTextLabel
+            recipientKindLabel = cell.textLabel
             
             // Makes cell unselectable if the sender has been predetermined
             if defaultRecipient != nil {
                 cell.detailTextLabel?.text = defaultRecipient!
                 cell.isUserInteractionEnabled = false
                 cell.accessoryType = .none
+                
+                recipientKindLabel.text = "From:"
             }
             
             // Configures selection highlight color
@@ -148,9 +173,16 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
             let cell = tableView.dequeueReusableCell(withIdentifier: "Write Message Cell", for: indexPath)
             
             messageTextView = cell.viewWithTag(1) as? UITextView
-            messageTextView.becomeFirstResponder()
             messageTextView.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
             messageTextView.delegate = self
+            
+            if let messageText = messageToDisplay {
+                messageTextView.text = messageText
+                messageTextView.isEditable = false
+            }
+            else {
+                messageTextView.becomeFirstResponder()
+            }
             
             return cell
         }
@@ -184,11 +216,8 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
     
     func textViewDidChange(_ textView: UITextView) {
         // Enables and disables send button depending on conditions
-        if let sendButton = self.navigationItem.rightBarButtonItem
-        {
-            let whitespaceClearedText = textView.text.replacingOccurrences(of: " ", with: "")
-            sendButton.isEnabled = whitespaceClearedText.characters.count != 0 && selectedRecipient != nil
-        }
+        let whitespaceClearedText = textView.text.replacingOccurrences(of: " ", with: "")
+        sendButton.isEnabled = whitespaceClearedText.characters.count != 0 && selectedRecipient != nil
     }
     
     // MARK: - ChooseFriendViewController delegate methods
@@ -217,13 +246,33 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     @IBAction func dismissMessage(_ sender: Any) {
+        messageTextView.isEditable = false
         self.messageTextView.resignFirstResponder()
         
-        if messageToDisplay != nil {
-            self.delegate?.canceledViewMessage(messageVC: self)
+        if isReplying {
+            self.title = "Message"
+            isReplying = false
+            
+            sendButton.isEnabled = false
+            self.navigationItem.setRightBarButton(replyButton, animated: true)
+            
+            UIView.transition(with: recipientKindLabel, duration: 0.15, options: .transitionCrossDissolve, animations: {
+                self.recipientKindLabel.text = "From:"
+            }, completion: nil)
+            
+            UIView.transition(with: messageTextView, duration: 0.15, options: .transitionCrossDissolve, animations: {
+                if let messageText = self.messageToDisplay {
+                    self.messageTextView.text = messageText
+                }
+            }, completion: nil)
         }
         else {
-            self.delegate?.canceledNewMessage(messageVC: self)
+            if messageToDisplay != nil {
+                self.delegate?.canceledViewMessage(messageVC: self)
+            }
+            else {
+                self.delegate?.canceledNewMessage(messageVC: self)
+            }
         }
     }
 

@@ -45,6 +45,7 @@ class MessagesViewController: UIViewController, UITableViewDataSource, UITableVi
                         self.noMessagesStackView.alpha = 1.0
                     }, completion: { (completed) in
                         self.loadingMessagesActivityIndicator.stopAnimating()
+                        self.messagesTable.isUserInteractionEnabled = false
                     })
                 }
                 else { // There are messages, displays messages in the table
@@ -93,7 +94,32 @@ class MessagesViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     func reloadData() {
-        
+        IgnusBackend.getMessages(with: { (messagesData) in
+            self.messages = messagesData
+            
+            // If there are no messages, display this to the user
+            if self.messages.count == 0 {
+                UIView.animate(withDuration: 0.25, animations: {
+                    self.messagesTable.alpha = 0.0
+                    self.noMessagesStackView.alpha = 1.0
+                }, completion: { (completed) in
+                    self.messagesTable.isUserInteractionEnabled = false
+                    self.refreshControl.endRefreshing()
+                })
+            }
+            else { // There are messages, displays messages in the table
+                self.messagesTable.reloadData()
+                self.processMessagesData()
+                
+                UIView.animate(withDuration: 0.25, animations: {
+                    self.messagesTable.alpha = 1.0
+                    self.noMessagesStackView.alpha = 0.0
+                }, completion: { (completed) in
+                    self.messagesTable.isUserInteractionEnabled = true
+                    self.refreshControl.endRefreshing()
+                })
+            }
+        })
     }
     
     func processMessagesData() {
@@ -193,6 +219,37 @@ class MessagesViewController: UIViewController, UITableViewDataSource, UITableVi
         // Do nothing for now
     }
     
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            messages.remove(at: indexPath.row)
+            
+            guard
+                let currentUser = FIRAuth.auth()?.currentUser,
+                let currentUserUsername = currentUser.displayName
+            else {
+                return
+            }
+            
+            // Updates Firebase
+            let messagesDatabase = FIRDatabase.database().reference().child("messages/\(currentUserUsername)")
+            messagesDatabase.setValue(messages, withCompletionBlock: { (error, databaseReference) in
+                // Do nothing
+            })
+            
+            messagesTable.deleteRows(at: [indexPath], with: .automatic)
+            
+            // Deleted the last message, hide the table
+            if messages.count == 0 {
+                UIView.animate(withDuration: 0.25, animations: { 
+                    self.messagesTable.alpha = 0.0
+                    self.noMessagesStackView.alpha = 1.0
+                }, completion: { (completed) in
+                    self.messagesTable.isUserInteractionEnabled = false
+                })
+            }
+        }
+    }
+    
     // MARK: - MessageViewController delegate methods
     
     func canceledNewMessage(messageVC: MessageViewController) {
@@ -287,9 +344,27 @@ class MessagesViewController: UIViewController, UITableViewDataSource, UITableVi
                     
                     guard
                         let messageSender = messageData["sender"] as? String,
+                        let currentUserUsername = messageData["recipient"] as? String,
+                        let messageUnread = messageData["unread"] as? Bool,
                         let messageText = messageData["message"] as? String
                     else {
                         return
+                    }
+                    
+                    // If message unread, update the message to be read
+                    if messageUnread {
+                        messages[senderCellIndex.row]["unread"] = false
+                        
+                        // Updates Firebase
+                        let messagesDatabase = FIRDatabase.database().reference().child("messages/\(currentUserUsername)")
+                        messagesDatabase.setValue(messages, withCompletionBlock: { (error, databaseReference) in
+                            // Do nothing
+                        })
+                        
+                        // Updates selected cell to hide unread indicator
+                        if let unreadIndicator = senderCell.viewWithTag(4) {
+                            unreadIndicator.isHidden = true
+                        }
                     }
                     
                     messageVC.delegate = self

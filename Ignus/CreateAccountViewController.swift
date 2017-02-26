@@ -162,6 +162,7 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func signUp(_ sender: AnyObject) {
         // Sets up loading views
+        creatingAccountView.isHidden = false
         creatingAccountIndicatorView.startAnimating()
         self.scrollView.isUserInteractionEnabled = false
         UIView.animate(withDuration: 0.2, animations: { () -> Void in
@@ -205,7 +206,8 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
             UIView.animate(withDuration: 0.2, animations: { () -> Void in
                 self.creatingAccountView.alpha = 0.0
             }, completion: { (completed) -> Void in
-                self.creatingAccountIndicatorView.startAnimating();
+                self.creatingAccountView.isHidden = true
+                self.creatingAccountIndicatorView.stopAnimating()
                 self.scrollView.isUserInteractionEnabled = true
                 UIView.animate(withDuration: 0.2, animations: { () -> Void in
                     self.scrollView.alpha = 1.0
@@ -224,154 +226,93 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
                 return
             }
             
-            // Attempts to create the user with email and password
-            FIRAuth.auth()?.createUser(withEmail: email, password: password, completion: { (user, error) in
-                if error == nil {
-                    // Gets default profile and cover photos as Data objects
-                    guard
-                        let profileData = UIImageJPEGRepresentation(#imageLiteral(resourceName: "Default Profile Photo"), 0.7),
-                        let coverData = UIImageJPEGRepresentation(#imageLiteral(resourceName: "Default Cover Photo"), 0.7)
-                    else {
-                        return
-                    }
+            // Checks if the username is already in use
+            let usersDatabaseReference = FIRDatabase.database().reference().child("users/\(username)")
+            usersDatabaseReference.observeSingleEvent(of: .value, with: { (snapshot) in
+                
+                if let _ = snapshot.value as? [String: String] {
+                    let errorAlert = UIAlertController(title: "Error", message: "The username is already in use.", preferredStyle: .alert)
+                    errorAlert.addAction(UIAlertAction(title: "Done", style: .default, handler: nil))
+                    self.present(errorAlert, animated: true, completion: nil)
                     
-                    // Sets the new user's profile and cover photo to the defaults
-                    let storageRef = FIRStorage.storage().reference()
-                    let profileRef = storageRef.child("User_Pictures/\(username)/profile.jpg")
-                    let coverRef = storageRef.child("User_Pictures/\(username)/cover.jpg")
-                    profileRef.put(profileData, metadata: nil, completion: { (profileMetadata, profileError) in
-                        if profileError == nil {
-                            coverRef.put(coverData, metadata: nil, completion: { (coverMetadata, coverError) in
-                                if coverError == nil {
-                                    // Creates an additional Firebase object with additional user information
-                                    let newUserInfo = [
-                                            "firstName": firstName,
-                                            "lastName": lastName,
-                                            "username": username,
-                                            "email": email,
-                                    ]
-                                    let ref = FIRDatabase.database().reference()
-                                    ref.child("users").child(username).setValue(newUserInfo)
-                                    
-                                    // Sets user display name to username
-                                    let changeRequest = user!.profileChangeRequest()
-                                    changeRequest.displayName = username
-                                    changeRequest.commitChanges(completion: { (error) in
-                                        if error == nil {
-                                            self.dismiss(animated: true, completion: { () -> Void in
-                                                self.delegate?.createdAccount(withUsername: username, andPassword: password)
+                    // Hides loading views
+                    UIView.animate(withDuration: 0.2, animations: { () -> Void in
+                        self.creatingAccountView.alpha = 0.0
+                    }, completion: { (completed) -> Void in
+                        self.creatingAccountView.isHidden = true
+                        self.creatingAccountIndicatorView.stopAnimating()
+                        self.scrollView.isUserInteractionEnabled = true
+                        UIView.animate(withDuration: 0.2, animations: { () -> Void in
+                            self.scrollView.alpha = 1.0
+                        })
+                    })
+                }
+                else {
+                    // Attempts to create the user with email and password
+                    FIRAuth.auth()?.createUser(withEmail: email, password: password, completion: { (user, error) in
+                        if error == nil {
+                            // Gets default profile and cover photos as Data objects
+                            guard
+                                let profileData = UIImageJPEGRepresentation(#imageLiteral(resourceName: "Default Profile Photo"), 0.7),
+                                let coverData = UIImageJPEGRepresentation(#imageLiteral(resourceName: "Default Cover Photo"), 0.7)
+                                else {
+                                    return
+                            }
+                            
+                            // Sets the new user's profile and cover photo to the defaults
+                            let storageRef = FIRStorage.storage().reference()
+                            let profileRef = storageRef.child("User_Pictures/\(username)/profile.jpg")
+                            let coverRef = storageRef.child("User_Pictures/\(username)/cover.jpg")
+                            profileRef.put(profileData, metadata: nil, completion: { (profileMetadata, profileError) in
+                                if profileError == nil {
+                                    coverRef.put(coverData, metadata: nil, completion: { (coverMetadata, coverError) in
+                                        if coverError == nil {
+                                            // Creates an additional Firebase object with additional user information
+                                            let newUserInfo = [
+                                                "firstName": firstName,
+                                                "lastName": lastName,
+                                                "username": username,
+                                                "email": email,
+                                                ]
+                                            let ref = FIRDatabase.database().reference()
+                                            ref.child("users").child(username).setValue(newUserInfo)
+                                            
+                                            // Sets user display name to username
+                                            let changeRequest = user!.profileChangeRequest()
+                                            changeRequest.displayName = username
+                                            changeRequest.commitChanges(completion: { (error) in
+                                                if error == nil {
+                                                    self.dismiss(animated: true, completion: { () -> Void in
+                                                        self.delegate?.createdAccount(withUsername: username, andPassword: password)
+                                                    })
+                                                }
                                             })
                                         }
                                     })
                                 }
                             })
                         }
+                        else {
+                            let errorAlert = UIAlertController(title: "Error", message: error!.localizedDescription, preferredStyle: .alert)
+                            errorAlert.addAction(UIAlertAction(title: "Done", style: .default, handler: nil))
+                            self.present(errorAlert, animated: true, completion: nil)
+                            
+                            // Hides loading views
+                            UIView.animate(withDuration: 0.2, animations: { () -> Void in
+                                self.creatingAccountView.alpha = 0.0
+                            }, completion: { (completed) -> Void in
+                                self.creatingAccountView.isHidden = true
+                                self.creatingAccountIndicatorView.stopAnimating()
+                                self.scrollView.isUserInteractionEnabled = true
+                                UIView.animate(withDuration: 0.2, animations: { () -> Void in
+                                    self.scrollView.alpha = 1.0
+                                })
+                            })
+                        }
                     })
                 }
-                else {
-                    let errorAlert = UIAlertController(title: "lel rekt", message: "some error occurred", preferredStyle: .alert)
-                    errorAlert.addAction(UIAlertAction(title: "Done", style: .default, handler: nil))
-                    self.present(errorAlert, animated: true, completion: nil)
-                }
+                
             })
-            
-//            let newUser = PFUser()
-//            newUser.username = usernameTextField.text!.replacingOccurrences(of: " ", with: "", options: NSString.CompareOptions.literal, range: nil)
-//            newUser.password = passwordTextField.text!.replacingOccurrences(of: " ", with: "", options: NSString.CompareOptions.literal, range: nil)
-//            newUser.email = emailTextField.text!.replacingOccurrences(of: " ", with: "", options: NSString.CompareOptions.literal, range: nil)
-//            
-//            let firstName = firstNameTextField.text!.replacingOccurrences(of: " ", with: "", options: NSString.CompareOptions.literal, range: nil)
-//            let lastName = lastNameTextField.text!.replacingOccurrences(of: " ", with: "", options: NSString.CompareOptions.literal, range: nil)
-            
-//            newUser["FirstName"] = firstName
-//            newUser["LastName"] = lastName
-//            newUser["FullName"] = firstName + " " + lastName
-            
-//            let profileFile = PFFile(name: "Profile.png", data: UIImagePNGRepresentation(UIImage(named: "DefaultProfile.png")!))
-//            let coverFile = PFFile(name: "Cover.png", data: UIImagePNGRepresentation(UIImage(named: "DefaultCover.png")!))
-            
-//            profileFile.saveInBackground({ (completed: Bool, error: NSError!) -> Void in
-//                if error == nil {
-//                    newUser["Profile"] = profileFile
-//                    
-//                    coverFile.saveInBackground({ (completed: Bool, error: NSError!) -> Void in
-//                        if error == nil {
-//                            newUser["Cover"] = coverFile
-//                            
-//                            newUser.signUpInBackground({ (succeeded: Bool, error: NSError!) -> Void in
-//                                if error == nil {
-//                                    self.dismiss(animated: true, completion: { () -> Void in
-//                                        let friendsObject = PFObject(className: "Friends")
-//                                        friendsObject["User"] = newUser.username
-//                                        friendsObject["Friends"] = [String]()
-//                                        friendsObject["Sent"] = [String]()
-//                                        friendsObject["Received"] = [String]()
-//                                        friendsObject.saveInBackground()
-//                                        
-//                                        self.delegate?.createdAccountWithUsername(self.usernameTextField.text!.replacingOccurrences(of: " ", with: "", options: NSString.CompareOptions.literal, range: nil), password: self.passwordTextField.text!.replacingOccurrences(of: " ", with: "", options: NSString.CompareOptions.literal, range: nil))
-//                                    })
-//                                }
-//                                else {
-//                                    println(error.code)
-//                                    var errorMessage = error.localizedDescription
-//                                    if error.code == 125 {
-//                                        errorMessage = "Invalid email address."
-//                                    }
-//                                    else if error.code == 202 {
-//                                        errorMessage = "The username is already in use. Please choose a different one."
-//                                    }
-//                                    else if error.code == 203 {
-//                                        errorMessage = "The email address is already being used by a different account. Please choose a different one."
-//                                    }
-//                                    let errorAlert = UIAlertController(title: "Error", message: errorMessage, preferredStyle: .alert)
-//                                    errorAlert.addAction(UIAlertAction(title: "Done", style: .default, handler: nil))
-//                                    self.present(errorAlert, animated: true, completion: nil)
-//                                    
-//                                    UIView.animate(withDuration: 0.2, animations: { () -> Void in
-//                                        self.creatingAccountView.alpha = 0.0
-//                                    }, completion: { (completed) -> Void in
-//                                        self.creatingAccountIndicatorView.startAnimating();
-//                                        self.scrollView.isUserInteractionEnabled = true
-//                                        UIView.animate(withDuration: 0.2, animations: { () -> Void in
-//                                            self.scrollView.alpha = 1.0
-//                                        })
-//                                    })
-//                                }
-//                            })
-//                        }
-//                        else {
-//                            let errorAlert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
-//                            errorAlert.addAction(UIAlertAction(title: "Done", style: .default, handler: nil))
-//                            self.present(errorAlert, animated: true, completion: nil)
-//                            
-//                            UIView.animate(withDuration: 0.2, animations: { () -> Void in
-//                                self.creatingAccountView.alpha = 0.0
-//                            }, completion: { (completed) -> Void in
-//                                self.creatingAccountIndicatorView.startAnimating();
-//                                self.scrollView.isUserInteractionEnabled = true
-//                                UIView.animate(withDuration: 0.2, animations: { () -> Void in
-//                                    self.scrollView.alpha = 1.0
-//                                })
-//                            })
-//                        }
-//                    })
-//                }
-//                else {
-//                    let errorAlert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
-//                    errorAlert.addAction(UIAlertAction(title: "Done", style: .default, handler: nil))
-//                    self.present(errorAlert, animated: true, completion: nil)
-//                    
-//                    UIView.animate(withDuration: 0.2, animations: { () -> Void in
-//                        self.creatingAccountView.alpha = 0.0
-//                    }, completion: { (completed) -> Void in
-//                        self.creatingAccountIndicatorView.startAnimating();
-//                        self.scrollView.isUserInteractionEnabled = true
-//                        UIView.animate(withDuration: 0.2, animations: { () -> Void in
-//                            self.scrollView.alpha = 1.0
-//                        })
-//                    })
-//                }
-//            })
         }
     }
     

@@ -10,6 +10,8 @@
 		160C1CD01E0C470300E139C3 /* ProfileOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160C1CCF1E0C470300E139C3 /* ProfileOptionsViewController.swift */; };
 		160C1CD41E0C8AA400E139C3 /* ProfileOptionsPresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160C1CD31E0C8AA400E139C3 /* ProfileOptionsPresentation.swift */; };
 		160C1CD61E0C8ABA00E139C3 /* ProfileOptionsAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160C1CD51E0C8ABA00E139C3 /* ProfileOptionsAnimation.swift */; };
+		160E2F3E1E62962E005E2F39 /* AcknowledgementsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160E2F3D1E62962E005E2F39 /* AcknowledgementsViewController.swift */; };
+		160E2F401E629CDC005E2F39 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 160E2F3F1E629CDC005E2F39 /* README.md */; };
 		161CC6891E28903E004CE497 /* IgnusBackend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161CC6881E28903E004CE497 /* IgnusBackend.swift */; };
 		162213EB1E5A4C1800DE3FB3 /* MessageTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162213EA1E5A4C1800DE3FB3 /* MessageTransition.swift */; };
 		162213ED1E5A4C2700DE3FB3 /* MessagePresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162213EC1E5A4C2700DE3FB3 /* MessagePresentation.swift */; };
@@ -73,6 +75,8 @@
 		160C1CCF1E0C470300E139C3 /* ProfileOptionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileOptionsViewController.swift; sourceTree = "<group>"; };
 		160C1CD31E0C8AA400E139C3 /* ProfileOptionsPresentation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileOptionsPresentation.swift; sourceTree = "<group>"; };
 		160C1CD51E0C8ABA00E139C3 /* ProfileOptionsAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileOptionsAnimation.swift; sourceTree = "<group>"; };
+		160E2F3D1E62962E005E2F39 /* AcknowledgementsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcknowledgementsViewController.swift; sourceTree = "<group>"; };
+		160E2F3F1E629CDC005E2F39 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		161CC6881E28903E004CE497 /* IgnusBackend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IgnusBackend.swift; sourceTree = "<group>"; };
 		162213EA1E5A4C1800DE3FB3 /* MessageTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageTransition.swift; sourceTree = "<group>"; };
 		162213EC1E5A4C2700DE3FB3 /* MessagePresentation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagePresentation.swift; sourceTree = "<group>"; };
@@ -231,6 +235,7 @@
 			isa = PBXGroup;
 			children = (
 				16A0D7A51DFCCD1A00B89807 /* Ignus.entitlements */,
+				160E2F3F1E629CDC005E2F39 /* README.md */,
 				1696D8401DC46A96003BFDA8 /* AppDelegate.swift */,
 				1696D8441DC46A96003BFDA8 /* Main.storyboard */,
 				16D63F861DD7153300287C1F /* Account.storyboard */,
@@ -282,6 +287,7 @@
 			children = (
 				16C717911E09A875002D7270 /* MyAccountViewController.swift */,
 				16AE71FF1E0B851300CEE396 /* LoginOptionsTableViewController.swift */,
+				160E2F3D1E62962E005E2F39 /* AcknowledgementsViewController.swift */,
 			);
 			name = "Settings Tab";
 			sourceTree = "<group>";
@@ -479,10 +485,12 @@
 				161CC6891E28903E004CE497 /* IgnusBackend.swift in Sources */,
 				16B1B4B71E17760800F9830F /* ProfileViewController.swift in Sources */,
 				16A0D7A71DFCCF5000B89807 /* LogInAnimation.swift in Sources */,
+				160E2F3E1E62962E005E2F39 /* AcknowledgementsViewController.swift in Sources */,
 				16C717921E09A875002D7270 /* MyAccountViewController.swift in Sources */,
 				16323ED51E1581FB00D9EA39 /* FriendsViewController.swift in Sources */,
 				16F47E1A1DC7AFCD0005C3DB /* SignUpPresentation.swift in Sources */,
 				16323ED71E15842000D9EA39 /* AddFriendsViewController.swift in Sources */,
+				160E2F401E629CDC005E2F39 /* README.md in Sources */,
 				16C7F4AF1DC584E50001991A /* CreateAccountViewController.swift in Sources */,
 				16391FED1E52940700AAEE88 /* MessageViewController.swift in Sources */,
 				16D967541E10BD670019654A /* ChooseFriendViewController.swift in Sources */,

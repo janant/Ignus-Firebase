@@ -26,7 +26,6 @@ class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate,
     @IBOutlet weak var noFriendsTitle: UILabel!
     @IBOutlet weak var noFriendsDetail: UILabel!
     
-    @IBOutlet var friendsNavItemSegmentedControl: UISegmentedControl!
     @IBOutlet var friendsNavItemAddButton: UIBarButtonItem!
     @IBOutlet weak var addFriendsContainerView: UIView!
     
@@ -531,8 +530,8 @@ class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate,
         guard
             let noFriendsTitleAttributedString = noFriendsTitle.attributedText,
             let noFriendsDetailAttributedString = noFriendsDetail.attributedText
-        else {
-            return
+            else {
+                return
         }
         
         let noFriendsTitleMutableAttributedString = NSMutableAttributedString(attributedString: noFriendsTitleAttributedString)
@@ -544,6 +543,7 @@ class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate,
         noFriendsTitle.attributedText = noFriendsTitleMutableAttributedString
         noFriendsDetail.attributedText = noFriendsDetailMutableAttributedString
     }
+    
     
     // MARK: - AddFriendsViewControllerDelegate methods
     
@@ -590,7 +590,7 @@ class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate,
         self.navigationController?.navigationBar.layer.add(fadeTextTransition, forKey: "fadeText")
         
         self.navigationItem.title = nil
-        self.navigationItem.titleView = friendsNavItemSegmentedControl
+        self.navigationItem.titleView = friendsCategorySegmentedControl
         self.navigationItem.rightBarButtonItem = friendsNavItemAddButton
         
         self.navigationController?.navigationBar.layer.removeAnimation(forKey: "fadeText")

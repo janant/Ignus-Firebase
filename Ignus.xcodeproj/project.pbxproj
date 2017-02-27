@@ -19,6 +19,9 @@
 		16323ED71E15842000D9EA39 /* AddFriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16323ED61E15842000D9EA39 /* AddFriendsViewController.swift */; };
 		16391FEB1E527E8900AAEE88 /* ComposeTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16391FE91E527E8900AAEE88 /* ComposeTransition.swift */; };
 		16391FED1E52940700AAEE88 /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16391FEC1E52940700AAEE88 /* MessageViewController.swift */; };
+		166D26F01E64C49500540C84 /* PaymentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166D26EF1E64C49500540C84 /* PaymentsViewController.swift */; };
+		166D26F21E64C4A100540C84 /* PaymentsSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166D26F11E64C4A100540C84 /* PaymentsSplitViewController.swift */; };
+		166D26F51E64C53700540C84 /* PaymentsNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166D26F41E64C53700540C84 /* PaymentsNavigationViewController.swift */; };
 		167BB0EE1DC46B7A0033FC37 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 167BB0ED1DC46B7A0033FC37 /* GoogleService-Info.plist */; };
 		167BB1301DC473D00033FC37 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167BB12F1DC473D00033FC37 /* LoginViewController.swift */; };
 		1696D8411DC46A96003BFDA8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1696D8401DC46A96003BFDA8 /* AppDelegate.swift */; };
@@ -83,6 +86,9 @@
 		16323ED61E15842000D9EA39 /* AddFriendsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddFriendsViewController.swift; sourceTree = "<group>"; };
 		16391FE91E527E8900AAEE88 /* ComposeTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComposeTransition.swift; sourceTree = "<group>"; };
 		16391FEC1E52940700AAEE88 /* MessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageViewController.swift; sourceTree = "<group>"; };
+		166D26EF1E64C49500540C84 /* PaymentsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentsViewController.swift; sourceTree = "<group>"; };
+		166D26F11E64C4A100540C84 /* PaymentsSplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentsSplitViewController.swift; sourceTree = "<group>"; };
+		166D26F41E64C53700540C84 /* PaymentsNavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentsNavigationViewController.swift; sourceTree = "<group>"; };
 		167BB0ED1DC46B7A0033FC37 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		167BB12F1DC473D00033FC37 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		1696D83D1DC46A96003BFDA8 /* Ignus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ignus.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -150,6 +156,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		166D26F31E64C4A700540C84 /* Payments Tab */ = {
+			isa = PBXGroup;
+			children = (
+				166D26EF1E64C49500540C84 /* PaymentsViewController.swift */,
+				166D26F41E64C53700540C84 /* PaymentsNavigationViewController.swift */,
+				166D26F11E64C4A100540C84 /* PaymentsSplitViewController.swift */,
+			);
+			name = "Payments Tab";
+			sourceTree = "<group>";
+		};
 		167BB0F11DC46E780033FC37 /* Gotham Font */ = {
 			isa = PBXGroup;
 			children = (
@@ -238,6 +254,7 @@
 				16D63F861DD7153300287C1F /* Account.storyboard */,
 				16B1B4B41E17723A00F9830F /* Profile.storyboard */,
 				16D63F851DD7151100287C1F /* Login and Sign Up */,
+				166D26F31E64C4A700540C84 /* Payments Tab */,
 				16800B6B1E15FD8E0075BE07 /* Friends Tab */,
 				16D967551E10BD6D0019654A /* Messages Tab */,
 				16FDEEEC1E0CF59B005F3A04 /* Settings Tab */,
@@ -479,6 +496,7 @@
 			files = (
 				16FDEEEF1E0CF8E2005F3A04 /* MessagesViewController.swift in Sources */,
 				160C1CD41E0C8AA400E139C3 /* ProfileOptionsPresentation.swift in Sources */,
+				166D26F21E64C4A100540C84 /* PaymentsSplitViewController.swift in Sources */,
 				161CC6891E28903E004CE497 /* IgnusBackend.swift in Sources */,
 				16B1B4B71E17760800F9830F /* ProfileViewController.swift in Sources */,
 				16A0D7A71DFCCF5000B89807 /* LogInAnimation.swift in Sources */,
@@ -492,6 +510,7 @@
 				16D967541E10BD670019654A /* ChooseFriendViewController.swift in Sources */,
 				162213EB1E5A4C1800DE3FB3 /* MessageTransition.swift in Sources */,
 				160C1CD01E0C470300E139C3 /* ProfileOptionsViewController.swift in Sources */,
+				166D26F01E64C49500540C84 /* PaymentsViewController.swift in Sources */,
 				16318AC71E18445F0099858C /* FriendsNavigationViewController.swift in Sources */,
 				16B1B4B91E17761B00F9830F /* FriendsSplitViewController.swift in Sources */,
 				167BB1301DC473D00033FC37 /* LoginViewController.swift in Sources */,
@@ -500,6 +519,7 @@
 				162213ED1E5A4C2700DE3FB3 /* MessagePresentation.swift in Sources */,
 				16A0D7A91DFCCF5900B89807 /* LogInPresentation.swift in Sources */,
 				16D63F841DD7124500287C1F /* PrivacyPolicyViewController.swift in Sources */,
+				166D26F51E64C53700540C84 /* PaymentsNavigationViewController.swift in Sources */,
 				16391FEB1E527E8900AAEE88 /* ComposeTransition.swift in Sources */,
 				16F47E181DC7AFC30005C3DB /* SignUpAnimation.swift in Sources */,
 				16AE72001E0B851300CEE396 /* LoginOptionsTableViewController.swift in Sources */,

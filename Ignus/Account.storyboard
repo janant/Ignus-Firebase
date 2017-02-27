@@ -32,16 +32,51 @@
                     <view key="view" contentMode="scaleToFill" id="By2-eu-NCM">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Kyq-bl-vhh">
+                                <rect key="frame" x="169" y="315" width="37" height="37"/>
+                            </activityIndicatorView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Y1D-ue-8ag">
+                                <rect key="frame" x="92" y="306" width="191" height="54"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Payments" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YTz-hP-ue8">
+                                        <rect key="frame" x="13" y="0.0" width="165.5" height="25"/>
+                                        <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="25"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="416-ng-jR4">
+                                        <rect key="frame" x="0.0" y="33" width="191" height="21"/>
+                                        <attributedString key="attributedText">
+                                            <fragment content="Add some by tapping +.">
+                                                <attributes>
+                                                    <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <font key="NSFont" size="16" name="Gotham-Book"/>
+                                                    <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="1.3" tighteningFactorForTruncation="0.0"/>
+                                                </attributes>
+                                            </fragment>
+                                        </attributedString>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                        </subviews>
                         <color key="backgroundColor" red="0.19249251840000001" green="0.19249251840000001" blue="0.19249251840000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="Y1D-ue-8ag" firstAttribute="centerY" secondItem="By2-eu-NCM" secondAttribute="centerY" id="1EV-IF-Vnl"/>
+                            <constraint firstItem="Kyq-bl-vhh" firstAttribute="centerY" secondItem="By2-eu-NCM" secondAttribute="centerY" id="H5b-Rl-TIL"/>
+                            <constraint firstItem="Kyq-bl-vhh" firstAttribute="centerX" secondItem="By2-eu-NCM" secondAttribute="centerX" id="Wvc-1i-64m"/>
+                            <constraint firstItem="Y1D-ue-8ag" firstAttribute="centerX" secondItem="By2-eu-NCM" secondAttribute="centerX" id="qKu-dG-76S"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="MyH-EU-hbw">
                         <nil key="title"/>
-                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="0KV-0n-hT7">
-                            <rect key="frame" x="61" y="7" width="253" height="30"/>
+                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="4DP-Cj-Fb4">
+                            <rect key="frame" x="106" y="7" width="163" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <segments>
-                                <segment title="Pending Payments"/>
-                                <segment title="Incoming"/>
+                                <segment title="Active"/>
+                                <segment title="Completed"/>
                             </segments>
                         </segmentedControl>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="skm-dD-Dnu"/>
@@ -49,7 +84,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LyZ-U3-7sa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1632.8" y="-588.75562218890559"/>
+            <point key="canvasLocation" x="2494" y="-1275"/>
         </scene>
         <!--Friends View Controller-->
         <scene sceneID="BTM-OW-usP">
@@ -245,15 +280,15 @@
                     </view>
                     <navigationItem key="navigationItem" id="aNW-5Q-25L">
                         <nil key="title"/>
-                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="9fn-pQ-yeO">
-                            <rect key="frame" x="74" y="6" width="227" height="32"/>
+                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="MbG-8f-1Kq">
+                            <rect key="frame" x="73" y="7" width="230" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <segments>
                                 <segment title="My Friends"/>
                                 <segment title="Friend Requests"/>
                             </segments>
                             <connections>
-                                <action selector="friendsCategoryChanged:" destination="AXb-p3-f4O" eventType="valueChanged" id="CrE-kp-Lwh"/>
+                                <action selector="friendsCategoryChanged:" destination="AXb-p3-f4O" eventType="valueChanged" id="CVA-ca-kIh"/>
                             </connections>
                         </segmentedControl>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="RNL-Z5-BB8">
@@ -264,9 +299,8 @@
                     </navigationItem>
                     <connections>
                         <outlet property="addFriendsContainerView" destination="oYZ-X8-EVb" id="5eL-51-qLO"/>
-                        <outlet property="friendsCategorySegmentedControl" destination="9fn-pQ-yeO" id="AvJ-6f-V1b"/>
+                        <outlet property="friendsCategorySegmentedControl" destination="MbG-8f-1Kq" id="kJn-i5-Y00"/>
                         <outlet property="friendsNavItemAddButton" destination="RNL-Z5-BB8" id="YA4-a7-LHo"/>
-                        <outlet property="friendsNavItemSegmentedControl" destination="9fn-pQ-yeO" id="Vbv-p7-uDK"/>
                         <outlet property="friendsTable" destination="pqj-Db-jyA" id="onc-Fx-NaF"/>
                         <outlet property="loadingFriendsActivityIndicator" destination="QES-kF-Wog" id="UKp-zT-KEY"/>
                         <outlet property="noFriendsDetail" destination="5jj-1p-5Vo" id="eDp-n3-nrY"/>
@@ -454,7 +488,7 @@
                         <color key="selectedImageTintColor" red="0.91764705879999997" green="0.20000000000000001" blue="0.21960784310000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </tabBar>
                     <connections>
-                        <segue destination="1gL-sa-368" kind="relationship" relationship="viewControllers" id="d5V-x6-Jny"/>
+                        <segue destination="WAc-DR-IRn" kind="relationship" relationship="viewControllers" id="Tsj-tv-7VV"/>
                         <segue destination="vLV-XF-fa8" kind="relationship" relationship="viewControllers" id="43h-5a-qhQ"/>
                         <segue destination="Ges-1Y-ZKk" kind="relationship" relationship="viewControllers" id="HJA-FJ-L5E"/>
                         <segue destination="2G4-qa-4yW" kind="relationship" relationship="viewControllers" id="O8T-uL-mjZ"/>
@@ -1264,7 +1298,40 @@ Cg
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SX2-QT-Wvk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="693.60000000000002" y="-588.75562218890559"/>
+            <point key="canvasLocation" x="1553" y="-1275"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="b88-Rn-bZc">
+            <objects>
+                <viewController id="85L-29-kuz" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="CqC-IY-zAy"/>
+                        <viewControllerLayoutGuide type="bottom" id="RVk-ay-qXX"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="yra-Xu-DaF">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="0.19249251840000001" green="0.19249251840000001" blue="0.19249251840000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="BJQ-oy-j82"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uXZ-Lo-0cd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2492" y="-544.67766116941539"/>
+        </scene>
+        <!--Payments-->
+        <scene sceneID="tzH-sP-qtt">
+            <objects>
+                <splitViewController id="WAc-DR-IRn" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Payments" image="Payments Icon" id="Ff5-Sk-NRs"/>
+                    <connections>
+                        <segue destination="t5j-ff-ldy" kind="relationship" relationship="detailViewController" id="WoV-qx-ctl"/>
+                        <segue destination="1gL-sa-368" kind="relationship" relationship="masterViewController" id="d6F-GE-t0Z"/>
+                    </connections>
+                </splitViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8Vs-r7-hf5" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="601" y="-871"/>
         </scene>
         <!--Friends Navigation View Controller-->
         <scene sceneID="P9W-gx-j1h">
@@ -1481,22 +1548,23 @@ Cg
             </objects>
             <point key="canvasLocation" x="2301" y="939"/>
         </scene>
-        <!--View Controller-->
-        <scene sceneID="Cqi-4C-dpP">
+        <!--Navigation Controller-->
+        <scene sceneID="b2P-4s-Y6L">
             <objects>
-                <viewController id="llm-w6-Ysf" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="N6x-Cu-3Nh"/>
-                        <viewControllerLayoutGuide type="bottom" id="ROM-nr-VxC"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="7SK-H2-633">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="MFT-Eh-XJw" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="t5j-ff-ldy" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" barStyle="black" id="rIo-OI-ZaT">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="85L-29-kuz" kind="relationship" relationship="rootViewController" id="rBb-es-7sd"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4i1-iM-E8J" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="1552.8" y="-544.67766116941539"/>
         </scene>
     </scenes>
     <resources>

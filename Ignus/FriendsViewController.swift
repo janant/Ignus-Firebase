@@ -82,79 +82,80 @@ class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate,
             if self.friends != friendsData {
                 self.friends = friendsData
             }
-        })
-        IgnusBackend.getFriendRequests(with: { (friendRequestsData) in
-            // Saves friend request data
-            let newSentData = friendRequestsData["sent"] ?? [String]()
-            let newReceivedData = friendRequestsData["received"] ?? [String]()
             
-            // Only saves data and refreshes if there is actually new data
-            if !(self.friendRequestsSent == newSentData && self.friendRequestsReceived == newReceivedData) {
-                self.friendRequestsSent = newSentData
-                self.friendRequestsReceived = newReceivedData
+            IgnusBackend.getFriendRequests(with: { (friendRequestsData) in
+                // Saves friend request data
+                let newSentData = friendRequestsData["sent"] ?? [String]()
+                let newReceivedData = friendRequestsData["received"] ?? [String]()
                 
-                if self.friendsCategorySegmentedControl.selectedSegmentIndex == Constants.FriendsScope.MyFriends {
-                    // If there are no friends, display this to the user
-                    if self.friends.count == 0 {
-                        self.friendsTable.reloadData()
-                        
-                        UIView.animate(withDuration: 0.25, animations: {
-                            self.loadingFriendsActivityIndicator.alpha = 0.0
-                            self.noFriendsStackView.alpha = 1.0
-                            self.friendsTable.alpha = 0.0
-                        }, completion: { (completed) in
-                            self.loadingFriendsActivityIndicator.stopAnimating()
-                            self.friendsTable.isUserInteractionEnabled = false
-                        })
+                // If the refresh was caused by pulling the refresh control, end refresh animation
+                if self.refreshControl.isRefreshing {
+                    self.refreshControl.endRefreshing()
+                }
+                
+                // Only saves data and refreshes if there is actually new data
+                if !(self.friendRequestsSent == newSentData && self.friendRequestsReceived == newReceivedData) {
+                    self.friendRequestsSent = newSentData
+                    self.friendRequestsReceived = newReceivedData
+                    
+                    if self.friendsCategorySegmentedControl.selectedSegmentIndex == Constants.FriendsScope.MyFriends {
+                        // If there are no friends, display this to the user
+                        if self.friends.count == 0 {
+                            self.friendsTable.reloadData()
+                            
+                            UIView.animate(withDuration: 0.25, animations: {
+                                self.loadingFriendsActivityIndicator.alpha = 0.0
+                                self.noFriendsStackView.alpha = 1.0
+                                self.friendsTable.alpha = 0.0
+                            }, completion: { (completed) in
+                                self.loadingFriendsActivityIndicator.stopAnimating()
+                                self.friendsTable.isUserInteractionEnabled = false
+                            })
+                        }
+                        else { // There are friends, displays friends in the table
+                            self.friendsTable.reloadData()
+                            
+                            UIView.animate(withDuration: 0.25, animations: {
+                                self.loadingFriendsActivityIndicator.alpha = 0.0
+                                self.noFriendsStackView.alpha = 0.0
+                                self.friendsTable.alpha = 1.0
+                            }, completion: { (completed) in
+                                self.loadingFriendsActivityIndicator.stopAnimating()
+                                self.friendsTable.isUserInteractionEnabled = true
+                            })
+                        }
                     }
-                    else { // There are friends, displays friends in the table
-                        self.friendsTable.reloadData()
-                        
-                        UIView.animate(withDuration: 0.25, animations: {
-                            self.loadingFriendsActivityIndicator.alpha = 0.0
-                            self.noFriendsStackView.alpha = 0.0
-                            self.friendsTable.alpha = 1.0
-                        }, completion: { (completed) in
-                            self.loadingFriendsActivityIndicator.stopAnimating()
-                            self.friendsTable.isUserInteractionEnabled = true
-                        })
+                    else if self.friendsCategorySegmentedControl.selectedSegmentIndex == Constants.FriendsScope.FriendRequests {
+                        // If no friend requests, display this to the user
+                        if self.friendRequestsSent.count == 0 && self.friendRequestsReceived.count == 0 {
+                            self.friendsTable.reloadData()
+                            
+                            // Displays to the user that there are no requests, with animation
+                            UIView.animate(withDuration: 0.25, animations: {
+                                self.loadingFriendsActivityIndicator.alpha = 0.0
+                                self.noFriendsStackView.alpha = 1.0
+                                self.friendsTable.alpha = 0.0
+                            }, completion: { (completed) in
+                                self.loadingFriendsActivityIndicator.stopAnimating()
+                                self.friendsTable.isUserInteractionEnabled = false
+                            })
+                        }
+                        else { // There are requests, displays requests in the table
+                            self.friendsTable.reloadData()
+                            
+                            UIView.animate(withDuration: 0.25, animations: {
+                                self.loadingFriendsActivityIndicator.alpha = 0.0
+                                self.noFriendsStackView.alpha = 0.0
+                                self.friendsTable.alpha = 1.0
+                            }, completion: { (completed) in
+                                self.loadingFriendsActivityIndicator.stopAnimating()
+                                self.friendsTable.isUserInteractionEnabled = true
+                            })
+                        }
                     }
                 }
-                else if self.friendsCategorySegmentedControl.selectedSegmentIndex == Constants.FriendsScope.FriendRequests {
-                    // If no friend requests, display this to the user
-                    if self.friendRequestsSent.count == 0 && self.friendRequestsReceived.count == 0 {
-                        self.friendsTable.reloadData()
-                        
-                        // Displays to the user that there are no requests, with animation
-                        UIView.animate(withDuration: 0.25, animations: {
-                            self.loadingFriendsActivityIndicator.alpha = 0.0
-                            self.noFriendsStackView.alpha = 1.0
-                            self.friendsTable.alpha = 0.0
-                        }, completion: { (completed) in
-                            self.loadingFriendsActivityIndicator.stopAnimating()
-                            self.friendsTable.isUserInteractionEnabled = false
-                        })
-                    }
-                    else { // There are requests, displays requests in the table
-                        self.friendsTable.reloadData()
-                        
-                        UIView.animate(withDuration: 0.25, animations: {
-                            self.loadingFriendsActivityIndicator.alpha = 0.0
-                            self.noFriendsStackView.alpha = 0.0
-                            self.friendsTable.alpha = 1.0
-                        }, completion: { (completed) in
-                            self.loadingFriendsActivityIndicator.stopAnimating()
-                            self.friendsTable.isUserInteractionEnabled = true
-                        })
-                    }
-                }
-            }
+            })
         })
-        
-        // If the refresh was caused by pulling the refresh control, end refresh animation
-        if refreshControl.isRefreshing {
-            refreshControl.endRefreshing()
-        }
     }
     
     // MARK: - Table view data source methods

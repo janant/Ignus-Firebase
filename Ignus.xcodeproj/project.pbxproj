@@ -156,6 +156,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1610A1941E6606A100429F10 /* ProfileOptionsViewController */ = {
+			isa = PBXGroup;
+			children = (
+				160C1CCF1E0C470300E139C3 /* ProfileOptionsViewController.swift */,
+				160C1CD51E0C8ABA00E139C3 /* ProfileOptionsAnimation.swift */,
+				160C1CD31E0C8AA400E139C3 /* ProfileOptionsPresentation.swift */,
+			);
+			name = ProfileOptionsViewController;
+			sourceTree = "<group>";
+		};
 		166D26F31E64C4A700540C84 /* Payments Tab */ = {
 			isa = PBXGroup;
 			children = (
@@ -310,10 +320,8 @@
 			isa = PBXGroup;
 			children = (
 				16B1B4B61E17760800F9830F /* ProfileViewController.swift */,
-				160C1CCF1E0C470300E139C3 /* ProfileOptionsViewController.swift */,
-				160C1CD51E0C8ABA00E139C3 /* ProfileOptionsAnimation.swift */,
-				160C1CD31E0C8AA400E139C3 /* ProfileOptionsPresentation.swift */,
 				16D967531E10BD670019654A /* ChooseFriendViewController.swift */,
+				1610A1941E6606A100429F10 /* ProfileOptionsViewController */,
 			);
 			name = "Universal View Controllers";
 			sourceTree = "<group>";

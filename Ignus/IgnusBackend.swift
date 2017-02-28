@@ -19,6 +19,7 @@ struct IgnusBackend {
     
     // User info, such as name, username, email, and profile/cover photos
     private static var currentUserInfo: [String: String]?
+    static var currentUserUsername: String?
     
     // The user's current payments.
     // TODO
@@ -31,7 +32,8 @@ struct IgnusBackend {
     private static var messages: [[String: Any]]?
     
     // Variables for accessing Firebase
-    private static var databaseRef = FIRDatabase.database().reference()
+    private static let databaseRef = FIRDatabase.database().reference()
+    private static let storageRef = FIRStorage.storage().reference()
     
     // MARK: - State configuration methods
     
@@ -40,6 +42,9 @@ struct IgnusBackend {
         guard let username = user.displayName else {
             fatalError("Configured state for user without display name")
         }
+        
+        // Sets current username
+        currentUserUsername = username
         
         // Set up observer for current user info
         let currentUserInfoDatabaseRef = databaseRef.child("users/\(username)")
@@ -101,6 +106,9 @@ struct IgnusBackend {
         friendRequests          = nil
         messages                = nil
         
+        // Rests current user
+        currentUserUsername = nil
+        
         // TODO: nullify payment data
     }
     
@@ -152,6 +160,80 @@ struct IgnusBackend {
             }
             DispatchQueue.main.async {
                 completionHandler(self.messages!)
+            }
+        }
+    }
+    
+    // MARK: - Data accessor methods
+    
+    // Gets user information for the given username
+    static func getUserInfo(forUser username: String, with completionHandler: @escaping (Error?, [String: String]?) -> Void) {
+        databaseRef.child("users/\(username)").observeSingleEvent(of: .value, with: { (snapshot) in
+            if let userInfo = snapshot.value as? [String: String] {
+                completionHandler(nil, userInfo)
+            }
+            else {
+                completionHandler(Errors.UserDoesNotExist, nil)
+            }
+        })
+    }
+    
+    // Gets the current user's profile image
+    static func getCurrentUserProfileImage(with completionHandler: @escaping (Error?, UIImage?) -> Void) {
+        if let currentUsername = currentUserUsername {
+            getProfileImage(forUser: currentUsername, with: { (error, image) in
+                completionHandler(error, image)
+            })
+        }
+        else {
+            completionHandler(Errors.CurrentUserNotLoggedIn, nil)
+        }
+    }
+    
+    // Gets the current user's cover photo
+    static func getCurrentUserCoverPhoto(with completionHandler: @escaping (Error?, UIImage?) -> Void) {
+        if let currentUsername = currentUserUsername {
+            getCoverPhoto(forUser: currentUsername, with: { (error, image) in
+                completionHandler(error, image)
+            })
+        }
+        else {
+            completionHandler(Errors.CurrentUserNotLoggedIn, nil)
+        }
+    }
+    
+    // Gets the profile image for the given username
+    static func getProfileImage(forUser username: String, with completionHandler: @escaping (Error?, UIImage?) -> Void) {
+        storageRef.child("User_Pictures/\(username)/profile.jpg").data(withMaxSize: INT64_MAX) { (data, error) in
+            if error == nil {
+                if let imageData = data {
+                    let profileImage = UIImage(data: imageData)
+                    completionHandler(nil, profileImage)
+                }
+                else {
+                    completionHandler(Errors.ImageLoadFailed, nil)
+                }
+            }
+            else {
+                completionHandler(Errors.UserDoesNotExist, nil)
+            }
+        }
+    }
+    
+    // Gets the cover photo for the given username
+    static func getCoverPhoto(forUser username: String, with completionHandler: @escaping (Error?, UIImage?) -> Void) {
+        storageRef.child("User_Pictures/\(username)/cover.jpg").data(withMaxSize: INT64_MAX) { (data, error) in
+            if error == nil {
+                if let imageData = data {
+                    let profileImage = UIImage(data: imageData)
+                    completionHandler(nil, profileImage)
+                }
+                else {
+                    completionHandler(Errors.ImageLoadFailed, nil)
+                }
+            }
+            else {
+                completionHandler(Errors.UserDoesNotExist, nil)
             }
         }
     }

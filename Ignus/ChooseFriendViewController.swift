@@ -29,15 +29,14 @@ class ChooseFriendViewController: UIViewController, UICollectionViewDataSource, 
         // Do any additional setup after loading the view.
         
         // Gets all friend data from the database
-        let usersDatabaseReference = FIRDatabase.database().reference().child("users")
         IgnusBackend.getFriends { (friends) in
             DispatchQueue.global(qos: .background).sync {
-                self.getFriendsData(friends: friends, startIndex: 0, usersDatabaseReference: usersDatabaseReference)
+                self.getFriendsData(friends: friends, startIndex: 0)
             }
         }
     }
     
-    func getFriendsData(friends: [String], startIndex: Int, usersDatabaseReference: FIRDatabaseReference) {
+    func getFriendsData(friends: [String], startIndex: Int) {
         if startIndex >= friends.count {
             DispatchQueue.main.async {
                 // Sorts friends by first name
@@ -75,12 +74,14 @@ class ChooseFriendViewController: UIViewController, UICollectionViewDataSource, 
         }
         else {
             let friend = friends[startIndex]
-            usersDatabaseReference.child(friend).observeSingleEvent(of: .value, with: { (snapshot) in
-                guard let friendData = snapshot.value as? [String: String] else {
-                    return
+            IgnusBackend.getUserInfo(forUser: friend, with: { (error, userInfo) in
+                if error == nil {
+                    guard let friendData = userInfo else {
+                        return
+                    }
+                    self.friendsData.append(friendData)
+                    self.getFriendsData(friends: friends, startIndex: startIndex + 1)
                 }
-                self.friendsData.append(friendData)
-                self.getFriendsData(friends: friends, startIndex: startIndex + 1, usersDatabaseReference: usersDatabaseReference)
             })
         }
     }
@@ -113,14 +114,14 @@ class ChooseFriendViewController: UIViewController, UICollectionViewDataSource, 
             return cell
         }
         
-        let profileRef = FIRStorage.storage().reference().child("User_Pictures/\(friendUsername)/profile.jpg")
-        profileRef.data(withMaxSize: INT64_MAX, completion: { (data, error) in
-            if error == nil && data != nil {
+        // Loads profile image
+        IgnusBackend.getProfileImage(forUser: friendUsername) { (error, image) in
+            if error == nil {
                 UIView.transition(with: profileImage, duration: 0.2, options: .transitionCrossDissolve, animations: {
-                    profileImage.image = UIImage(data: data!)
+                    profileImage.image = image
                 }, completion: nil)
             }
-        })
+        }
         
         nameLabel.text = friendData["firstName"]
         usernameLabel.text = friendData["lastName"]

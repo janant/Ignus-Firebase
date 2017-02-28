@@ -20,7 +20,7 @@ class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate,
     @IBOutlet weak var friendsTable: UITableView!
     @IBOutlet weak var noFriendsStackView: UIStackView!
     @IBOutlet weak var loadingFriendsActivityIndicator: UIActivityIndicatorView!
-    @IBOutlet weak var friendsCategorySegmentedControl: UISegmentedControl!
+    @IBOutlet var friendsCategorySegmentedControl: UISegmentedControl!
     
     // No friends labels, text changes when segmented control value changes.
     @IBOutlet weak var noFriendsTitle: UILabel!
@@ -254,36 +254,34 @@ class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate,
             
             // Gets database info for this friend
             let username = friends[indexPath.row]
-            let usersDatabaseReference = FIRDatabase.database().reference().child("users/\(username)")
-            usersDatabaseReference.observeSingleEvent(of: .value, with: { (snapshot) in
-                guard
-                    let friendData = snapshot.value as? [String: String],
-                
-                    let firstName = friendData["firstName"],
-                    let lastName = friendData["lastName"]
-                else {
-                    return
-                }
-                
-                UIView.transition(with: personNameView, duration: 0.2, options: .transitionCrossDissolve, animations: {
-                    personNameView.text = "\(firstName) \(lastName)"
-                }, completion: nil)
-                UIView.transition(with: personUsernameView, duration: 0.2, options: .transitionCrossDissolve, animations: {
-                    personUsernameView.text = username
-                }, completion: nil)
-            })
-            
-            personImageView.image = #imageLiteral(resourceName: "Not Loaded Profile")
-            // Gets profile image data
-            let profileRef = FIRStorage.storage().reference().child("User_Pictures/\(username)/profile.jpg")
-            profileRef.data(withMaxSize: INT64_MAX, completion: { (data, error) in
-                if error == nil && data != nil {
-                    UIView.transition(with: personImageView, duration: 0.2, options: .transitionCrossDissolve, animations: {
-                        personImageView.image = UIImage(data: data!)
+            IgnusBackend.getUserInfo(forUser: username, with: { (error, userInfo) in
+                if error == nil {
+                    guard
+                        let friendData = userInfo,
+                        let firstName = friendData["firstName"],
+                        let lastName = friendData["lastName"]
+                    else {
+                        return
+                    }
+                    
+                    UIView.transition(with: personNameView, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                        personNameView.text = "\(firstName) \(lastName)"
+                    }, completion: nil)
+                    UIView.transition(with: personUsernameView, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                        personUsernameView.text = username
                     }, completion: nil)
                 }
             })
             
+            personImageView.image = #imageLiteral(resourceName: "Not Loaded Profile")
+            // Gets profile image data
+            IgnusBackend.getProfileImage(forUser: username, with: { (error, image) in
+                if error == nil {
+                    UIView.transition(with: personImageView, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                        personImageView.image = image
+                    }, completion: nil)
+                }
+            })
             
             cell.backgroundColor = UIColor.clear
             
@@ -313,15 +311,13 @@ class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate,
                 
                 // Gets database info for this friend
                 let username = friendRequestsReceived[indexPath.row]
-                let usersDatabaseReference = FIRDatabase.database().reference().child("users/\(username)")
-                usersDatabaseReference.observeSingleEvent(of: .value, with: { (snapshot) in
+                IgnusBackend.getUserInfo(forUser: username, with: { (error, userInfo) in
                     guard
-                        let friendData = snapshot.value as? [String: String],
-                        
+                        let friendData = userInfo,
                         let firstName = friendData["firstName"],
                         let lastName = friendData["lastName"]
-                        else {
-                            return
+                    else {
+                        return
                     }
                     
                     UIView.transition(with: personNameView, duration: 0.2, options: .transitionCrossDissolve, animations: {
@@ -334,15 +330,13 @@ class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate,
                 
                 personImageView.image = #imageLiteral(resourceName: "Not Loaded Profile")
                 // Gets profile image data
-                let profileRef = FIRStorage.storage().reference().child("User_Pictures/\(username)/profile.jpg")
-                profileRef.data(withMaxSize: INT64_MAX, completion: { (data, error) in
-                    if error == nil && data != nil {
+                IgnusBackend.getProfileImage(forUser: username, with: { (error, image) in
+                    if error == nil {
                         UIView.transition(with: personImageView, duration: 0.2, options: .transitionCrossDissolve, animations: {
-                            personImageView.image = UIImage(data: data!)
+                            personImageView.image = image
                         }, completion: nil)
                     }
                 })
-                
                 
                 cell.backgroundColor = UIColor.clear
                 
@@ -370,36 +364,34 @@ class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate,
                 
                 // Gets database info for this friend
                 let username = friendRequestsSent[indexPath.row]
-                let usersDatabaseReference = FIRDatabase.database().reference().child("users/\(username)")
-                usersDatabaseReference.observeSingleEvent(of: .value, with: { (snapshot) in
-                    guard
-                        let friendData = snapshot.value as? [String: String],
-                        
-                        let firstName = friendData["firstName"],
-                        let lastName = friendData["lastName"]
+                IgnusBackend.getUserInfo(forUser: username, with: { (error, userInfo) in
+                    if error == nil {
+                        guard
+                            let friendData = userInfo,
+                            let firstName = friendData["firstName"],
+                            let lastName = friendData["lastName"]
                         else {
                             return
-                    }
-                    
-                    UIView.transition(with: personNameView, duration: 0.2, options: .transitionCrossDissolve, animations: {
-                        personNameView.text = "\(firstName) \(lastName)"
-                    }, completion: nil)
-                    UIView.transition(with: personUsernameView, duration: 0.2, options: .transitionCrossDissolve, animations: {
-                        personUsernameView.text = username
-                    }, completion: nil)
-                })
-                
-                personImageView.image = #imageLiteral(resourceName: "Not Loaded Profile")
-                // Gets profile image data
-                let profileRef = FIRStorage.storage().reference().child("User_Pictures/\(username)/profile.jpg")
-                profileRef.data(withMaxSize: INT64_MAX, completion: { (data, error) in
-                    if error == nil && data != nil {
-                        UIView.transition(with: personImageView, duration: 0.2, options: .transitionCrossDissolve, animations: {
-                            personImageView.image = UIImage(data: data!)
+                        }
+                        
+                        UIView.transition(with: personNameView, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                            personNameView.text = "\(firstName) \(lastName)"
+                        }, completion: nil)
+                        UIView.transition(with: personUsernameView, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                            personUsernameView.text = username
                         }, completion: nil)
                     }
                 })
                 
+                personImageView.image = #imageLiteral(resourceName: "Not Loaded Profile")
+                // Gets profile image data
+                IgnusBackend.getProfileImage(forUser: username, with: { (error, image) in
+                    if error == nil {
+                        UIView.transition(with: personImageView, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                            personImageView.image = image
+                        }, completion: nil)
+                    }
+                })
                 
                 cell.backgroundColor = UIColor.clear
                 

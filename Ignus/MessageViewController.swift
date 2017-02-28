@@ -85,8 +85,7 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
         self.navigationItem.rightBarButtonItem?.isEnabled = false
         
         guard
-            let currentUser = FIRAuth.auth()?.currentUser,
-            let currentUserUsername = currentUser.displayName,
+            let currentUserUsername = IgnusBackend.currentUserUsername,
             let recipientUsername = selectedRecipient
         else {
             return

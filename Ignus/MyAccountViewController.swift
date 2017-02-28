@@ -48,8 +48,7 @@ class MyAccountViewController: UIViewController, UITableViewDataSource, UITableV
         
         // Makes sure username is gathered
         guard
-            let currentUser = FIRAuth.auth()?.currentUser,
-            let username = currentUser.displayName
+            let username = IgnusBackend.currentUserUsername
         else {
             return
         }
@@ -63,24 +62,19 @@ class MyAccountViewController: UIViewController, UITableViewDataSource, UITableV
                     return
             }
             
-            // Gets profile and cover photo references from Firebase
-            let storageRef = FIRStorage.storage().reference()
-            let profileRef = storageRef.child("User_Pictures/\(username)/profile.jpg")
-            let coverRef = storageRef.child("User_Pictures/\(username)/cover.jpg")
-            
             // Loads profile picture
-            profileRef.data(withMaxSize: INT64_MAX, completion: { (data, error) in
-                if error == nil && data != nil {
+            IgnusBackend.getCurrentUserProfileImage(with: { (error, image) in
+                if error == nil {
                     UIView.transition(with: self.profileView, duration: 0.2, options: .transitionCrossDissolve, animations: {
-                        self.profileView.image = UIImage(data: data!)
+                        self.profileView.image = image
                     }, completion: nil)
                 }
             })
             // Loads cover picture
-            coverRef.data(withMaxSize: INT64_MAX, completion: { (data, error) in
-                if error == nil && data != nil {
+            IgnusBackend.getCurrentUserCoverPhoto(with: { (error, image) in
+                if error == nil {
                     UIView.transition(with: self.coverView, duration: 0.2, options: .transitionCrossDissolve, animations: {
-                        self.coverView.image = UIImage(data: data!)
+                        self.coverView.image = image
                     }, completion: nil)
                 }
             })
@@ -347,8 +341,7 @@ class MyAccountViewController: UIViewController, UITableViewDataSource, UITableV
         picker.dismiss(animated: true, completion: nil)
         
         guard
-            let currentUser = FIRAuth.auth()?.currentUser,
-            let username = currentUser.displayName,
+            let username = IgnusBackend.currentUserUsername,
             let editedImage = (editingInfo[UIImagePickerControllerEditedImage] as? UIImage ?? editingInfo[UIImagePickerControllerOriginalImage] as? UIImage),
             let imageData = UIImageJPEGRepresentation(editedImage, 0.7)
         else {

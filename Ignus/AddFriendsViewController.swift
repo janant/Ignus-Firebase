@@ -104,9 +104,6 @@ class AddFriendsViewController: UIViewController, UISearchBarDelegate, UITableVi
         if addFriendsTable.contentOffset.y > addFriendsTable.contentSize.height {
             addFriendsTable.contentOffset.y = addFriendsTable.contentSize.height
         }
-//        print("Content offset: \(addFriendsTable.contentOffset)")
-//        print("Content size: \(addFriendsTable.contentSize)")
-//        addFriendsTable.contentOffset = CGPoint(x: 0, y: 0)
     }
     
     // MARK: - Table view data source
@@ -140,15 +137,13 @@ class AddFriendsViewController: UIViewController, UISearchBarDelegate, UITableVi
         userImageView.image = #imageLiteral(resourceName: "Not Loaded Profile")
         
         // Loads image and sets image view image to it
-        let storageRef = FIRStorage.storage().reference()
-        let profileRef = storageRef.child("User_Pictures/\(username)/profile.jpg")
-        profileRef.data(withMaxSize: INT64_MAX, completion: { (data, error) in
-            if error == nil && data != nil {
+        IgnusBackend.getProfileImage(forUser: username) { (error, image) in
+            if error == nil {
                 UIView.transition(with: userImageView, duration: 0.2, options: .transitionCrossDissolve, animations: {
-                    userImageView.image = UIImage(data: data!)
+                    userImageView.image = image
                 }, completion: nil)
             }
-        })
+        }
         
         // Sets name and username labels
         userNameLabel.text = firstName + " " + lastName
@@ -227,9 +222,7 @@ class AddFriendsViewController: UIViewController, UISearchBarDelegate, UITableVi
             
             // Gets user data if not already loaded
             if allUserData == nil {
-                var handle: UInt = 0
-                handle = usersDatabaseRef.observe(.value, with: { (snapshot) in
-                    self.usersDatabaseRef.removeObserver(withHandle: handle)
+                usersDatabaseRef.observeSingleEvent(of: .value, with: { (snapshot) in
                     guard let searchData = snapshot.value as? [String: [String: String]] else {
                         // If search data failed, display no results
                         UIView.animate(withDuration: 0.25, animations: {

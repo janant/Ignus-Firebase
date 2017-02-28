@@ -51,8 +51,7 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
         
         // Gets user information
         guard
-            let currentUser = FIRAuth.auth()?.currentUser,
-            let currentUserUsername = currentUser.displayName,
+            let currentUserUsername = IgnusBackend.currentUserUsername,
             
             let firstName = profileInfo["firstName"],
             let lastName = profileInfo["lastName"],
@@ -64,27 +63,22 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
         let myFriendRequestsSent = myFriendRequests["sent"] ?? [String]()
         let myFriendRequestsReceived = myFriendRequests["received"] ?? [String]()
         
-        // Gets profile and cover photo references from Firebase
-        let storageRef = FIRStorage.storage().reference()
-        let profileRef = storageRef.child("User_Pictures/\(username)/profile.jpg")
-        let coverRef = storageRef.child("User_Pictures/\(username)/cover.jpg")
-        
         // Loads profile picture
-        profileRef.data(withMaxSize: INT64_MAX, completion: { (data, error) in
-            if error == nil && data != nil {
+        IgnusBackend.getProfileImage(forUser: username) { (error, image) in
+            if error == nil {
                 UIView.transition(with: self.profileImageView, duration: 0.2, options: .transitionCrossDissolve, animations: {
-                    self.profileImageView.image = UIImage(data: data!)
+                    self.profileImageView.image = image
                 }, completion: nil)
             }
-        })
+        }
         // Loads cover picture
-        coverRef.data(withMaxSize: INT64_MAX, completion: { (data, error) in
-            if error == nil && data != nil {
+        IgnusBackend.getCoverPhoto(forUser: username) { (error, image) in
+            if error == nil {
                 UIView.transition(with: self.coverImageView, duration: 0.2, options: .transitionCrossDissolve, animations: {
-                    self.coverImageView.image = UIImage(data: data!)
+                    self.coverImageView.image = image
                 }, completion: nil)
             }
-        })
+        }
         
         // Fades in new data
         UIView.transition(with: self.nameLabel, duration: 0.2, options: .transitionCrossDissolve, animations: {
@@ -129,8 +123,7 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
     
     func sendFriendRequest() {
         guard
-            let currentUser = FIRAuth.auth()?.currentUser,
-            let myUsername = currentUser.displayName,
+            let myUsername = IgnusBackend.currentUserUsername,
             let profileUsername = self.profileInfo?["username"]
         else {
             return
@@ -162,8 +155,7 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
     
     func cancelFriendRequest() {
         guard
-            let currentUser = FIRAuth.auth()?.currentUser,
-            let myUsername = currentUser.displayName,
+            let myUsername = IgnusBackend.currentUserUsername,
             let profileUsername = self.profileInfo?["username"]
             else {
                 return
@@ -196,8 +188,7 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
     
     func respondToFriendRequest(_ response: String) {
         guard
-            let currentUser = FIRAuth.auth()?.currentUser,
-            let myUsername = currentUser.displayName,
+            let myUsername = IgnusBackend.currentUserUsername,
             let profileUsername = self.profileInfo?["username"]
             else {
                 return
@@ -254,8 +245,7 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
     
     func unfriend() {
         guard
-            let currentUser = FIRAuth.auth()?.currentUser,
-            let myUsername = currentUser.displayName,
+            let myUsername = IgnusBackend.currentUserUsername,
             let profileUsername = self.profileInfo?["username"]
         else {
             return

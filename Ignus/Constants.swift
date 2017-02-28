@@ -67,3 +67,9 @@ struct Constants {
     }
     
 }
+
+enum Errors: Error {
+    case UserDoesNotExist
+    case ImageLoadFailed
+    case CurrentUserNotLoggedIn
+}

@@ -150,7 +150,7 @@ class MessagesViewController: UIViewController, UITableViewDataSource, UITableVi
             let unreadIndicator = cell.viewWithTag(4),
             let dateLabel = cell.viewWithTag(5) as? UILabel,
         
-            let senderUsername = messageData["sender"]
+            let senderUsername = messageData["sender"] as? String
         else {
             return cell
         }
@@ -163,30 +163,30 @@ class MessagesViewController: UIViewController, UITableViewDataSource, UITableVi
         profileImageView.image = #imageLiteral(resourceName: "Not Loaded Profile")
         
         // Gets name info for this sender
-        let usersDatabaseReference = FIRDatabase.database().reference().child("users/\(senderUsername)")
-        usersDatabaseReference.observeSingleEvent(of: .value, with: { (snapshot) in
-            guard
-                let senderData = snapshot.value as? [String: String],
-                let firstName = senderData["firstName"],
-                let lastName = senderData["lastName"]
-            else {
-                return
-            }
-            
-            UIView.transition(with: nameLabel, duration: 0.2, options: .transitionCrossDissolve, animations: {
-                nameLabel.text = "\(firstName) \(lastName)"
-            }, completion: nil)
-        })
-        
-        // Gets profile image data
-        let profileRef = FIRStorage.storage().reference().child("User_Pictures/\(senderUsername)/profile.jpg")
-        profileRef.data(withMaxSize: INT64_MAX, completion: { (data, error) in
-            if error == nil && data != nil {
-                UIView.transition(with: profileImageView, duration: 0.2, options: .transitionCrossDissolve, animations: {
-                    profileImageView.image = UIImage(data: data!)
+        IgnusBackend.getUserInfo(forUser: senderUsername) { (error, userInfo) in
+            if error == nil {
+                guard
+                    let senderData = userInfo,
+                    let firstName = senderData["firstName"],
+                    let lastName = senderData["lastName"]
+                else {
+                    return
+                }
+                
+                UIView.transition(with: nameLabel, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                    nameLabel.text = "\(firstName) \(lastName)"
                 }, completion: nil)
             }
-        })
+        }
+        
+        // Gets profile image data
+        IgnusBackend.getProfileImage(forUser: senderUsername) { (error, image) in
+            if error == nil {
+                UIView.transition(with: profileImageView, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                    profileImageView.image = image
+                }, completion: nil)
+            }
+        }
         
         // Sets message text
         messageLabel.text = messageData["message"] as? String
@@ -224,8 +224,7 @@ class MessagesViewController: UIViewController, UITableViewDataSource, UITableVi
             messages.remove(at: indexPath.row)
             
             guard
-                let currentUser = FIRAuth.auth()?.currentUser,
-                let currentUserUsername = currentUser.displayName
+                let currentUserUsername = IgnusBackend.currentUserUsername
             else {
                 return
             }

@@ -22,7 +22,7 @@ struct IgnusBackend {
     static var currentUserUsername: String?
     
     // The user's current payments.
-    // TODO
+    private static var payments: [[String: Any]]?
     
     // The usernames of the current user's friends and friend requests
     private static var friends: [String]?
@@ -58,7 +58,15 @@ struct IgnusBackend {
         })
         
         // Set up observer for payments
-        // TODO
+        let paymentsDatabaseRef = databaseRef.child("payments/\(username)")
+        paymentsDatabaseRef.observe(.value, with: { (snapshot) in
+            if let paymentsData = snapshot.value as? [[String: Any]] {
+                self.payments = paymentsData
+            }
+            else {
+                self.payments = [[String: Any]]()
+            }
+        })
         
         // Set up observer for friends
         let friendsDatabaseRef = databaseRef.child("friends/\(username)")
@@ -102,14 +110,13 @@ struct IgnusBackend {
         
         // Nullifies all data
         currentUserInfo         = nil
+        payments                = nil
         friends                 = nil
         friendRequests          = nil
         messages                = nil
         
         // Rests current user
         currentUserUsername = nil
-        
-        // TODO: nullify payment data
     }
     
     // MARK: - User state data accessor methods
@@ -128,10 +135,23 @@ struct IgnusBackend {
         }
     }
     
+    static func getPayments(with completionHandler: @escaping ([[String: Any]]) -> Void) {
+        DispatchQueue.global(qos: .background).async {
+            while self.payments == nil {
+                usleep(100000)
+            }
+            
+            DispatchQueue.main.async {
+                completionHandler(self.payments!)
+            }
+            
+        }
+    }
+    
     static func getFriends(with completionHandler: @escaping ([String]) -> Void) {
         DispatchQueue.global(qos: .background).async {
             while self.friends == nil {
-                usleep(1000000)
+                usleep(100000)
             }
             
             DispatchQueue.main.async {

@@ -82,8 +82,17 @@ struct IgnusBackend {
         // Set up observers for friend requests (both sent and received)
         let friendRequestsDatabaseRef = databaseRef.child("friendRequests/\(username)")
         friendRequestsDatabaseRef.observe(.value, with: { (snapshot) in
-            if let friendRequestsData = snapshot.value as? [String: [String]] {
+            if var friendRequestsData = snapshot.value as? [String: [String]] {
+                
+                if friendRequestsData["sent"] == nil {
+                    friendRequestsData["sent"] = [String]()
+                }
+                if friendRequestsData["received"] == nil {
+                    friendRequestsData["received"] = [String]()
+                }
+                
                 self.friendRequests = friendRequestsData
+                
             }
             else {
                 self.friendRequests = ["sent":      [String](),
@@ -135,7 +144,7 @@ struct IgnusBackend {
         }
     }
     
-    static func getPayments(with completionHandler: @escaping ([[String: Any]]) -> Void) {
+    static func getCurrentUserPayments(with completionHandler: @escaping ([[String: Any]]) -> Void) {
         DispatchQueue.global(qos: .background).async {
             while self.payments == nil {
                 usleep(100000)
@@ -148,7 +157,7 @@ struct IgnusBackend {
         }
     }
     
-    static func getFriends(with completionHandler: @escaping ([String]) -> Void) {
+    static func getCurrentUserFriends(with completionHandler: @escaping ([String]) -> Void) {
         DispatchQueue.global(qos: .background).async {
             while self.friends == nil {
                 usleep(100000)
@@ -161,7 +170,7 @@ struct IgnusBackend {
         }
     }
     
-    static func getFriendRequests(with completionHandler: @escaping ([String: [String]]) -> Void) {
+    static func getCurrentUserFriendRequests(with completionHandler: @escaping ([String: [String]]) -> Void) {
         DispatchQueue.global(qos: .background).async {
             while self.friendRequests == nil {
                 usleep(100000)
@@ -173,7 +182,7 @@ struct IgnusBackend {
         }
     }
     
-    static func getMessages(with completionHandler: @escaping ([[String: Any]]) -> Void) {
+    static func getCurrentUserMessages(with completionHandler: @escaping ([[String: Any]]) -> Void) {
         DispatchQueue.global(qos: .background).async {
             while self.messages == nil {
                 usleep(100000)
@@ -184,7 +193,65 @@ struct IgnusBackend {
         }
     }
     
-    // MARK: - Data accessor methods
+    // MARK: - Other user data accessor methods
+    
+    static func getPayments(forUser username: String, with completionHandler: @escaping ([[String: Any]]) -> Void) {
+        databaseRef.child("payments/\(username)").observeSingleEvent(of: .value, with: { (snapshot) in
+            if let paymentsData = snapshot.value as? [[String: Any]] {
+                completionHandler(paymentsData)
+            }
+            else {
+                let blankPaymentsData = [[String: Any]]()
+                completionHandler(blankPaymentsData)
+            }
+        })
+    }
+    
+    static func getFriends(forUser username: String, with completionHandler: @escaping ([String]) -> Void) {
+        databaseRef.child("friends/\(username)").observeSingleEvent(of: .value, with: { (snapshot) in
+            if let friendsData = snapshot.value as? [String] {
+                completionHandler(friendsData)
+            }
+            else {
+                let blankFriendsData = [String]()
+                completionHandler(blankFriendsData)
+            }
+        })
+    }
+    
+    static func getFriendRequests(forUser username: String, with completionHandler: @escaping ([String: [String]]) -> Void) {
+        databaseRef.child("friendsRequests/\(username)").observeSingleEvent(of: .value, with: { (snapshot) in
+            if var friendRequestsData = snapshot.value as? [String: [String]] {
+                if friendRequestsData["sent"] == nil {
+                    friendRequestsData["sent"] = [String]()
+                }
+                if friendRequestsData["received"] == nil {
+                    friendRequestsData["received"] = [String]()
+                }
+                
+                completionHandler(friendRequestsData)
+            }
+            else {
+                let blankFriendRequestsData = ["sent":      [String](),
+                                        "received":  [String]()]
+                completionHandler(blankFriendRequestsData)
+            }
+        })
+    }
+    
+    static func getMessages(forUser username: String, with completionHandler: @escaping ([[String: Any]]) -> Void) {
+        databaseRef.child("messages/\(username)").observeSingleEvent(of: .value, with: { (snapshot) in
+            if let messagesData = snapshot.value as? [[String: Any]] {
+                completionHandler(messagesData)
+            }
+            else {
+                let blankMessagesData = [[String: Any]]()
+                completionHandler(blankMessagesData)
+            }
+        })
+    }
+    
+    // MARK: - Profile data accessor methods
     
     // Gets user information for the given username
     static func getUserInfo(forUser username: String, with completionHandler: @escaping (Error?, [String: String]?) -> Void) {

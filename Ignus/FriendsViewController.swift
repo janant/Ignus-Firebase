@@ -76,13 +76,13 @@ class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate,
         IgnusBackend.configureState(forUser: currentUser)
         
         // Get friends from IgnusBackend
-        IgnusBackend.getFriends(with: { (friendsData) in
+        IgnusBackend.getCurrentUserFriends(with: { (friendsData) in
             // Only saves data and refreshes if there is actually new data
             if self.friends != friendsData {
                 self.friends = friendsData
             }
             
-            IgnusBackend.getFriendRequests(with: { (friendRequestsData) in
+            IgnusBackend.getCurrentUserFriendRequests(with: { (friendRequestsData) in
                 // Saves friend request data
                 let newSentData = friendRequestsData["sent"] ?? [String]()
                 let newReceivedData = friendRequestsData["received"] ?? [String]()
@@ -423,7 +423,7 @@ class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate,
                 self.friendsTable.alpha = 0.0
                 
                 // Get friends from IgnusBackend
-                IgnusBackend.getFriends(with: { (friendsData) in
+                IgnusBackend.getCurrentUserFriends(with: { (friendsData) in
                     self.friends = friendsData
                     
                     // If there are no friends, display this to the user
@@ -472,7 +472,7 @@ class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate,
                 self.friendsTable.alpha = 0.0
                 
                 // Gets requests from IgnusBackend
-                IgnusBackend.getFriendRequests(with: { (friendRequestsData) in
+                IgnusBackend.getCurrentUserFriendRequests(with: { (friendRequestsData) in
                     // Saves friend request data, if available
                     if let friendRequestsSentData = friendRequestsData["sent"] {
                         self.friendRequestsSent = friendRequestsSentData
@@ -541,7 +541,7 @@ class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate,
     
     func didSelectUser(withProfileData profileData: [String : String]) {
         
-        IgnusBackend.getFriendRequests(with: { (friendRequests) in
+        IgnusBackend.getCurrentUserFriendRequests(with: { (friendRequests) in
             
             let senderData: [String : Any] =
                 [Constants.ProfileSegueSenderKeys.ProfileData:          profileData,

@@ -29,7 +29,7 @@ class ChooseFriendViewController: UIViewController, UICollectionViewDataSource, 
         // Do any additional setup after loading the view.
         
         // Gets all friend data from the database
-        IgnusBackend.getFriends { (friends) in
+        IgnusBackend.getCurrentUserFriends { (friends) in
             DispatchQueue.global(qos: .background).sync {
                 self.getFriendsData(friends: friends, startIndex: 0)
             }

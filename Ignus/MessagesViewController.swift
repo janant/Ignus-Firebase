@@ -35,7 +35,7 @@ class MessagesViewController: UIViewController, UITableViewDataSource, UITableVi
             self.messagesTable.alpha = 0.0
             
             // Gets messages from IgnusBackend
-            IgnusBackend.getMessages(with: { (messagesData) in
+            IgnusBackend.getCurrentUserMessages(with: { (messagesData) in
                 self.messages = messagesData
                 
                 // If there are no messages, display this to the user
@@ -94,7 +94,7 @@ class MessagesViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     func reloadData() {
-        IgnusBackend.getMessages(with: { (messagesData) in
+        IgnusBackend.getCurrentUserMessages(with: { (messagesData) in
             self.messages = messagesData
             
             // If there are no messages, display this to the user

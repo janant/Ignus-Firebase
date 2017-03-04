@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class ProfileViewController: UIViewController, UIViewControllerTransitioningDelegate, ProfileOptionsViewControllerDelegate {
+class ProfileViewController: UIViewController, UIViewControllerTransitioningDelegate, ProfileOptionsViewControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     @IBOutlet weak var selectUserLabel: UILabel!
     @IBOutlet weak var profileView: UIView!
@@ -23,6 +23,10 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
     // Needed for profile options view controller animation
     @IBOutlet weak var profileOptionsButton: UIButton!
     @IBOutlet weak var profileInfoView: UIView!
+    
+    // Used for changing profile/cover images
+    var profilePickerVC: UIImagePickerController?
+    var coverPickerVC: UIImagePickerController?
     
     var profileInfo: [String: String]?
     var profileType: String!
@@ -104,6 +108,8 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
                 self.profileOptionsButton.isEnabled = true
             })
         }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(MyAccountViewController.refreshProfile(_:)), name: NSNotification.Name(rawValue: Constants.NotificationNames.ReloadProfileImages), object: nil)
     }
 
     override func didReceiveMemoryWarning() {
@@ -111,14 +117,128 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
         // Dispose of any resources that can be recreated.
     }
     
+    func refreshProfile(_ notification: Notification) {
+        guard
+            let userInfo = notification.userInfo as? [String: UIImage],
+            let profileImage = userInfo[Constants.UserInfoKeys.Profile],
+            let coverImage = userInfo[Constants.UserInfoKeys.Cover]
+            else {
+                return
+        }
+        
+        DispatchQueue.main.async(execute: { () -> Void in
+            self.profileImageView.image = profileImage
+            self.coverImageView.image = coverImage
+        })
+    }
+    
     // MARK: - ProfileOptionsViewControllerDelegate methods
     
     func changeProfilePicture() {
-        print("should change profile picture")
+        // Create an image picker to change profile picture
+        let imagePickerVC = UIImagePickerController()
+        imagePickerVC.allowsEditing = true
+        imagePickerVC.delegate = self
+        imagePickerVC.sourceType = .photoLibrary // Default
+        
+        // Creates an action sheet to choose from either photo library or camera
+        let imagePickerSourceSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        imagePickerSourceSheet.addAction(UIAlertAction(title: "Camera", style: .default, handler: { (action) in
+            if UIImagePickerController.isSourceTypeAvailable(.camera) {
+                imagePickerVC.sourceType = .camera
+                
+                UINavigationBar.appearance().titleTextAttributes = nil
+                UISegmentedControl.appearance().setTitleTextAttributes(nil, for: UIControlState())
+                UIBarButtonItem.appearance().setTitleTextAttributes(nil, for: UIControlState())
+                
+                self.profilePickerVC = imagePickerVC
+                
+                self.present(imagePickerVC, animated: true, completion: nil)
+            }
+            else {
+                let errorAlert = UIAlertController(title: "Error", message: "Ignus does not have access to the camera. You may need to enable access in Settings.", preferredStyle: .alert)
+                errorAlert.addAction(UIAlertAction(title: "Done", style: .default, handler: nil))
+                self.present(errorAlert, animated: true, completion: nil)
+            }
+        }))
+        imagePickerSourceSheet.addAction(UIAlertAction(title: "Photo Library", style: .default, handler: { (action) in
+            if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+                imagePickerVC.sourceType = .photoLibrary
+                
+                UINavigationBar.appearance().titleTextAttributes = nil
+                UISegmentedControl.appearance().setTitleTextAttributes(nil, for: UIControlState())
+                UIBarButtonItem.appearance().setTitleTextAttributes(nil, for: UIControlState())
+                
+                self.profilePickerVC = imagePickerVC
+                
+                self.present(imagePickerVC, animated: true, completion: nil)
+            }
+            else {
+                let errorAlert = UIAlertController(title: "Error", message: "Ignus does not have access to your photos library. You may need to enable access in Settings.", preferredStyle: .alert)
+                errorAlert.addAction(UIAlertAction(title: "Done", style: .default, handler: nil))
+                self.present(errorAlert, animated: true, completion: nil)
+            }
+        }))
+        imagePickerSourceSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        imagePickerSourceSheet.popoverPresentationController?.sourceView = profileOptionsButton
+        
+        present(imagePickerSourceSheet, animated: true, completion: nil)
     }
     
     func changeCoverPicture() {
-        print("should change cover picture")
+        // Create an image picker to change cover picture
+        let imagePickerVC = UIImagePickerController()
+        imagePickerVC.allowsEditing = true
+        imagePickerVC.delegate = self
+        imagePickerVC.sourceType = .photoLibrary // Default
+        
+        // Creates an action sheet to choose from either photo library or camera
+        let imagePickerSourceSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        imagePickerSourceSheet.addAction(UIAlertAction(title: "Camera", style: .default, handler: { (action) in
+            if UIImagePickerController.isSourceTypeAvailable(.camera) {
+                imagePickerVC.sourceType = .camera
+                
+                UINavigationBar.appearance().titleTextAttributes = nil
+                UISegmentedControl.appearance().setTitleTextAttributes(nil, for: UIControlState())
+                UIBarButtonItem.appearance().setTitleTextAttributes(nil, for: UIControlState())
+                
+                self.coverPickerVC = imagePickerVC
+                
+                self.present(imagePickerVC, animated: true, completion: nil)
+            }
+            else {
+                let errorAlert = UIAlertController(title: "Error", message: "Ignus does not have access to the camera. You may need to enable access in Settings.", preferredStyle: .alert)
+                errorAlert.addAction(UIAlertAction(title: "Done", style: .default, handler: nil))
+                self.present(errorAlert, animated: true, completion: nil)
+            }
+        }))
+        imagePickerSourceSheet.addAction(UIAlertAction(title: "Photo Library", style: .default, handler: { (action) in
+            if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+                imagePickerVC.sourceType = .photoLibrary
+                
+                UINavigationBar.appearance().titleTextAttributes = nil
+                UISegmentedControl.appearance().setTitleTextAttributes(nil, for: UIControlState())
+                UIBarButtonItem.appearance().setTitleTextAttributes(nil, for: UIControlState())
+                
+                UIBarButtonItem.appearance().setTitleTextAttributes(nil, for: UIControlState())
+                UINavigationBar.appearance().titleTextAttributes = nil
+                
+                self.coverPickerVC = imagePickerVC
+                
+                self.present(imagePickerVC, animated: true, completion: nil)
+            }
+            else {
+                let errorAlert = UIAlertController(title: "Error", message: "Ignus does not have access to your photos library. You may need to enable access in Settings.", preferredStyle: .alert)
+                errorAlert.addAction(UIAlertAction(title: "Done", style: .default, handler: nil))
+                self.present(errorAlert, animated: true, completion: nil)
+            }
+        }))
+        imagePickerSourceSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        imagePickerSourceSheet.popoverPresentationController?.sourceView = profileOptionsButton
+        
+        present(imagePickerSourceSheet, animated: true, completion: nil)
     }
     
     func sendFriendRequest() {
@@ -314,6 +434,86 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
             return ProfileOptionsPresentation(presentedViewController: presented, presenting: presenting)
         }
         return nil
+    }
+    
+    // MARK: - Image picker controller delegate methods
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [AnyHashable: Any]!) {
+        
+        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont(name: "Gotham-Medium", size: 18)!]
+        UISegmentedControl.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor(red: 234/255, green: 51/255, blue: 56/255, alpha: 1.0), NSFontAttributeName: UIFont(name: "Gotham-Book", size: 14)!], for: UIControlState())
+        UIBarButtonItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor(red: 234/255, green: 51/255, blue: 56/255, alpha: 1.0), NSFontAttributeName: UIFont(name: "Gotham-Medium", size: 17)!], for: UIControlState())
+        
+        picker.dismiss(animated: true, completion: nil)
+        
+        guard
+            let editedImage = (editingInfo[UIImagePickerControllerEditedImage] as? UIImage ?? editingInfo[UIImagePickerControllerOriginalImage] as? UIImage),
+            let imageData = UIImageJPEGRepresentation(editedImage, 0.7)
+            else {
+                return
+        }
+        
+        if picker === profilePickerVC {
+            // Creates a loading indicator
+            let loadingAlert = UIAlertController(title: "Changing profile picture...", message: "\n\n", preferredStyle: .alert)
+            let loadingIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+            loadingIndicatorView.color = UIColor.gray
+            loadingIndicatorView.startAnimating()
+            loadingIndicatorView.center = CGPoint(x: 135, y: 65.5)
+            loadingAlert.view.addSubview(loadingIndicatorView)
+            present(loadingAlert, animated: true, completion: nil)
+            
+            // Uploads new profile photo to Firebase
+            IgnusBackend.setCurrentUserProfileImage(withImageData: imageData, with: { (error, metadata) in
+                if error == nil {
+                    loadingAlert.dismiss(animated: true, completion: nil)
+                    
+                    // Sets up user info for notification, which updates profile/cover images
+                    var userInfo = [String: UIImage]()
+                    userInfo[Constants.UserInfoKeys.Profile] = image
+                    userInfo[Constants.UserInfoKeys.Cover] = self.coverImageView.image
+                    
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NotificationNames.ReloadProfileImages), object: nil, userInfo: userInfo)
+                }
+            })
+        }
+        else if picker === coverPickerVC {
+            let loadingAlert = UIAlertController(title: "Changing cover photo...", message: "\n\n", preferredStyle: .alert)
+            let loadingIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+            loadingIndicatorView.color = UIColor.gray
+            loadingIndicatorView.startAnimating()
+            loadingIndicatorView.center = CGPoint(x: 135, y: 65.5)
+            loadingAlert.view.addSubview(loadingIndicatorView)
+            present(loadingAlert, animated: true, completion: nil)
+            
+            // Uploads new cover photo to Firebase
+            IgnusBackend.setCurrentUserCoverPhoto(withImageData: imageData, with: { (error, metadata) in
+                if error == nil {
+                    loadingAlert.dismiss(animated: true, completion: nil)
+                    
+                    // Sets up user info for notification, which updates profile/cover images
+                    var userInfo = [String: UIImage]()
+                    userInfo[Constants.UserInfoKeys.Profile] = self.profileImageView.image
+                    userInfo[Constants.UserInfoKeys.Cover] = image
+                    
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NotificationNames.ReloadProfileImages), object: nil, userInfo: userInfo)
+                }
+            })
+        }
+        
+        profilePickerVC = nil
+        coverPickerVC = nil
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont(name: "Gotham-Medium", size: 18)!]
+        UISegmentedControl.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor(red: 234/255, green: 51/255, blue: 56/255, alpha: 1.0), NSFontAttributeName: UIFont(name: "Gotham-Book", size: 14)!], for: UIControlState())
+        UIBarButtonItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor(red: 234/255, green: 51/255, blue: 56/255, alpha: 1.0), NSFontAttributeName: UIFont(name: "Gotham-Medium", size: 17)!], for: UIControlState())
+        
+        picker.dismiss(animated: true, completion: nil)
+        
+        profilePickerVC = nil
+        coverPickerVC = nil
     }
     
     // MARK: - Navigation

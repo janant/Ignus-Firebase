@@ -402,4 +402,28 @@ struct IgnusBackend {
         }
     }
     
+    static func setCurrentUserProfileImage(withImageData data: Data, with completionHandler: @escaping (Error?, FIRStorageMetadata?) -> Void) {
+        if let currentUsername = currentUserUsername {
+            let profileStorageRef = storageRef.child("User_Pictures/\(currentUsername)/profile.jpg")
+            profileStorageRef.put(data, metadata: nil, completion: { (metadata, error) in
+                completionHandler(error, metadata)
+            })
+        }
+        else {
+            completionHandler(Errors.CurrentUserNotLoggedIn, nil)
+        }
+    }
+    
+    static func setCurrentUserCoverPhoto(withImageData data: Data, with completionHandler: @escaping (Error?, FIRStorageMetadata?) -> Void) {
+        if let currentUsername = currentUserUsername {
+            let profileStorageRef = storageRef.child("User_Pictures/\(currentUsername)/cover.jpg")
+            profileStorageRef.put(data, metadata: nil, completion: { (metadata, error) in
+                completionHandler(error, metadata)
+            })
+        }
+        else {
+            completionHandler(Errors.CurrentUserNotLoggedIn, nil)
+        }
+    }
+    
 }

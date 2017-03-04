@@ -91,6 +91,11 @@ class MyAccountViewController: UIViewController, UITableViewDataSource, UITableV
         NotificationCenter.default.addObserver(self, selector: #selector(MyAccountViewController.refreshProfile(_:)), name: NSNotification.Name(rawValue: Constants.NotificationNames.ReloadProfileImages), object: nil)
     }
     
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
     func refreshProfile(_ notification: Notification) {
         guard
             let userInfo = notification.userInfo as? [String: UIImage],
@@ -104,11 +109,6 @@ class MyAccountViewController: UIViewController, UITableViewDataSource, UITableV
             self.profileView.image = profileImage
             self.coverView.image = coverImage
         })
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     // MARK: - Table view data source
@@ -341,7 +341,6 @@ class MyAccountViewController: UIViewController, UITableViewDataSource, UITableV
         picker.dismiss(animated: true, completion: nil)
         
         guard
-            let username = IgnusBackend.currentUserUsername,
             let editedImage = (editingInfo[UIImagePickerControllerEditedImage] as? UIImage ?? editingInfo[UIImagePickerControllerOriginalImage] as? UIImage),
             let imageData = UIImageJPEGRepresentation(editedImage, 0.7)
         else {
@@ -359,9 +358,7 @@ class MyAccountViewController: UIViewController, UITableViewDataSource, UITableV
             present(loadingAlert, animated: true, completion: nil)
             
             // Uploads new profile photo to Firebase
-            let storageRef = FIRStorage.storage().reference()
-            let profileRef = storageRef.child("User_Pictures/\(username)/profile.jpg")
-            profileRef.put(imageData, metadata: nil, completion: { (metadata, error) in
+            IgnusBackend.setCurrentUserProfileImage(withImageData: imageData, with: { (error, metadata) in
                 if error == nil {
                     loadingAlert.dismiss(animated: true, completion: nil)
                     
@@ -374,7 +371,7 @@ class MyAccountViewController: UIViewController, UITableViewDataSource, UITableV
                 }
             })
         }
-        else if picker == coverPickerVC {
+        else if picker === coverPickerVC {
             let loadingAlert = UIAlertController(title: "Changing cover photo...", message: "\n\n", preferredStyle: .alert)
             let loadingIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
             loadingIndicatorView.color = UIColor.gray
@@ -384,9 +381,7 @@ class MyAccountViewController: UIViewController, UITableViewDataSource, UITableV
             present(loadingAlert, animated: true, completion: nil)
             
             // Uploads new cover photo to Firebase
-            let storageRef = FIRStorage.storage().reference()
-            let profileRef = storageRef.child("User_Pictures/\(username)/cover.jpg")
-            profileRef.put(imageData, metadata: nil, completion: { (metadata, error) in
+            IgnusBackend.setCurrentUserCoverPhoto(withImageData: imageData, with: { (error, metadata) in
                 if error == nil {
                     loadingAlert.dismiss(animated: true, completion: nil)
                     

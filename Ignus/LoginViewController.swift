@@ -335,20 +335,16 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIViewControll
         beginLoginAnimation()
         
         // Gets the user's email for Firebase authentication
-        let ref = FIRDatabase.database().reference().child("users").child(username)
-        var handle: UInt = 0
-        handle = ref.observe(.value, with: { (snapshot) in
-            ref.removeObserver(withHandle: handle)
+        IgnusBackend.getUserInfo(forUser: username) { (error, userInfo) in
             guard
-                let userInfo = snapshot.value as? [String: String],
-                let email = userInfo["email"]
-                else {
-                    let errorAlert = UIAlertController(title: "Error", message: "The username specified does not exist.", preferredStyle: .alert)
-                    errorAlert.addAction(UIAlertAction(title: "Done", style: .default, handler: nil))
-                    self.present(errorAlert, animated: true, completion: nil)
-                    self.endLoginAnimation()
-                    
-                    return
+                let email = userInfo?["email"]
+            else {
+                let errorAlert = UIAlertController(title: "Error", message: "The username specified does not exist.", preferredStyle: .alert)
+                errorAlert.addAction(UIAlertAction(title: "Done", style: .default, handler: nil))
+                self.present(errorAlert, animated: true, completion: nil)
+                self.endLoginAnimation()
+                
+                return
             }
             
             // Attempt to log in
@@ -385,7 +381,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIViewControll
                     self.endLoginAnimation()
                 }
             })
-        })
+        }
     }
     
     func beginLoginAnimation() {

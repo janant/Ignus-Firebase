@@ -90,7 +90,6 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
         else {
             return
         }
-        let recipientMessagesDatabase = FIRDatabase.database().reference().child("messages/\(recipientUsername)")
         
         var newMessageData = [String: Any]()
         newMessageData["sender"] = currentUserUsername
@@ -99,17 +98,17 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
         newMessageData["unread"] = true
         newMessageData["timestamp"] = FIRServerValue.timestamp()
         
-        recipientMessagesDatabase.observeSingleEvent(of: .value, with: { (snapshot) in
-            var recipientMessages = (snapshot.value as? [[String: Any]]) ?? [[String: Any]]()
+        IgnusBackend.getMessages(forUser: recipientUsername) { (messages) in
+            var recipientMessages = messages
             recipientMessages.insert(newMessageData, at: 0)
             
-            recipientMessagesDatabase.setValue(recipientMessages, withCompletionBlock: { (error, databaseReference) in
+            IgnusBackend.setMessages(recipientMessages, forUser: recipientUsername, with: { (error) in
                 if error == nil {
                     self.messageTextView.resignFirstResponder()
                     self.delegate?.sentNewMessage(messageVC: self)
                 }
             })
-        })
+        }
         
     }
     

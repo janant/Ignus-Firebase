@@ -325,4 +325,81 @@ struct IgnusBackend {
         }
     }
     
+    // MARK: - Data mutator methods
+    
+    // Used to create a new user info entry when signing up
+    static func createUserInfo(_ userInfo: [String: String], forUser user: String, with completionHandler: @escaping (Error?) -> Void) {
+        databaseRef.child("users/\(user)").setValue(messages) { (error, databaseReference) in
+            completionHandler(error)
+        }
+    }
+    
+    // Sets the current user's friends
+    static func setCurrentUserFriends(_ friends: [String], with completionHandler: @escaping (Error?) -> Void) {
+        if let currentUsername = currentUserUsername {
+            setFriends(friends, forUser: currentUsername, with: completionHandler)
+        }
+        else {
+            completionHandler(Errors.CurrentUserNotLoggedIn)
+        }
+    }
+    
+    // Sets the specified user's friends
+    static func setFriends(_ friends: [String], forUser user: String, with completionHandler: @escaping (Error?) -> Void) {
+        databaseRef.child("friends/\(user)").setValue(friends) { (error, databaseReference) in
+            completionHandler(error)
+        }
+    }
+    
+    // Sets the current user's sent friend requests
+    static func setCurrentUserSentFriendRequests(_ friendRequests: [String], with completionHandler: @escaping (Error?) -> Void) {
+        if let currentUsername = currentUserUsername {
+            setSentFriendRequests(friendRequests, forUser: currentUsername, with: completionHandler)
+        }
+        else {
+            completionHandler(Errors.CurrentUserNotLoggedIn)
+        }
+    }
+    
+    // Sets the specified user's sent friend requests
+    static func setSentFriendRequests(_ friendRequests: [String], forUser user: String, with completionHandler: @escaping (Error?) -> Void) {
+        databaseRef.child("friendRequests/\(user)/sent").setValue(friendRequests) { (error, databaseReference) in
+            completionHandler(error)
+        }
+    }
+    
+    // Sets the current user's received friend requests
+    static func setCurrentUserReceivedFriendRequests(_ friendRequests: [String], with completionHandler: @escaping (Error?) -> Void) {
+        if let currentUsername = currentUserUsername {
+            setReceivedFriendRequests(friendRequests, forUser: currentUsername, with: completionHandler)
+        }
+        else {
+            completionHandler(Errors.CurrentUserNotLoggedIn)
+        }
+    }
+    
+    // Sets the specified user's received friend requests
+    static func setReceivedFriendRequests(_ friendRequests: [String], forUser user: String, with completionHandler: @escaping (Error?) -> Void) {
+        databaseRef.child("friendRequests/\(user)/received").setValue(friendRequests) { (error, databaseReference) in
+            completionHandler(error)
+        }
+    }
+    
+    // Sets the current user's messages
+    static func setCurrentUserMessages(_ messages: [[String: Any]], with completionHandler: @escaping (Error?) -> Void) {
+        if let currentUsername = currentUserUsername {
+            setMessages(messages, forUser: currentUsername, with: completionHandler)
+        }
+        else {
+            completionHandler(Errors.CurrentUserNotLoggedIn)
+        }
+    }
+    
+    // Sets the specified user's messages
+    static func setMessages(_ messages: [[String: Any]], forUser user: String, with completionHandler: @escaping (Error?) -> Void) {
+        databaseRef.child("messages/\(user)").setValue(messages) { (error, databaseReference) in
+            completionHandler(error)
+        }
+    }
+    
 }

@@ -223,15 +223,8 @@ class MessagesViewController: UIViewController, UITableViewDataSource, UITableVi
         if editingStyle == .delete {
             messages.remove(at: indexPath.row)
             
-            guard
-                let currentUserUsername = IgnusBackend.currentUserUsername
-            else {
-                return
-            }
-            
             // Updates Firebase
-            let messagesDatabase = FIRDatabase.database().reference().child("messages/\(currentUserUsername)")
-            messagesDatabase.setValue(messages, withCompletionBlock: { (error, databaseReference) in
+            IgnusBackend.setCurrentUserMessages(messages, with: { (error) in
                 // Do nothing
             })
             
@@ -343,7 +336,6 @@ class MessagesViewController: UIViewController, UITableViewDataSource, UITableVi
                     
                     guard
                         let messageSender = messageData["sender"] as? String,
-                        let currentUserUsername = messageData["recipient"] as? String,
                         let messageUnread = messageData["unread"] as? Bool,
                         let messageText = messageData["message"] as? String
                     else {
@@ -355,8 +347,7 @@ class MessagesViewController: UIViewController, UITableViewDataSource, UITableVi
                         messages[senderCellIndex.row]["unread"] = false
                         
                         // Updates Firebase
-                        let messagesDatabase = FIRDatabase.database().reference().child("messages/\(currentUserUsername)")
-                        messagesDatabase.setValue(messages, withCompletionBlock: { (error, databaseReference) in
+                        IgnusBackend.setCurrentUserMessages(messages, with: { (error) in
                             // Do nothing
                         })
                         

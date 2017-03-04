@@ -540,17 +540,7 @@ class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate,
     // MARK: - AddFriendsViewControllerDelegate methods
     
     func didSelectUser(withProfileData profileData: [String : String]) {
-        
-        IgnusBackend.getCurrentUserFriendRequests(with: { (friendRequests) in
-            
-            let senderData: [String : Any] =
-                [Constants.ProfileSegueSenderKeys.ProfileData:          profileData,
-                 Constants.ProfileSegueSenderKeys.FriendRequestsData:   friendRequests]
-            
-            self.performSegue(withIdentifier: "Show Profile Detail", sender: senderData)
-            
-        })
-        
+        self.performSegue(withIdentifier: "Show Profile Detail", sender: profileData)
     }
 
     @IBAction func tappedAddFriends(_ sender: Any) {
@@ -599,16 +589,12 @@ class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate,
                 let profileNavVC = segue.destination as? UINavigationController,
                 let profileVC = profileNavVC.topViewController as? ProfileViewController,
             
-                let senderData = sender as? [String : Any],
-                let profileData = senderData[Constants.ProfileSegueSenderKeys.ProfileData] as? [String : String],
-                let friendRequestsData = senderData[Constants.ProfileSegueSenderKeys.FriendRequestsData] as? [String : [String]]
+                let profileData = sender as? [String : String]
             else {
                 return
             }
             
             profileVC.profileInfo = profileData
-            profileVC.currentUserFriendRequests = friendRequestsData
-            profileVC.currentUserFriends = friends
         }
         else if segue.identifier == "Add Friends" {
             guard

@@ -227,10 +227,8 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
             }
             
             // Checks if the username is already in use
-            let usersDatabaseReference = FIRDatabase.database().reference().child("users/\(username)")
-            usersDatabaseReference.observeSingleEvent(of: .value, with: { (snapshot) in
-                
-                if let _ = snapshot.value as? [String: String] {
+            IgnusBackend.getUserInfo(forUser: username, with: { (error, userInfo) in
+                if error == nil {
                     let errorAlert = UIAlertController(title: "Error", message: "The username is already in use.", preferredStyle: .alert)
                     errorAlert.addAction(UIAlertAction(title: "Done", style: .default, handler: nil))
                     self.present(errorAlert, animated: true, completion: nil)
@@ -274,16 +272,17 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
                                                 "username": username,
                                                 "email": email,
                                                 ]
-                                            let ref = FIRDatabase.database().reference()
-                                            ref.child("users").child(username).setValue(newUserInfo)
-                                            
-                                            // Sets user display name to username
-                                            let changeRequest = user!.profileChangeRequest()
-                                            changeRequest.displayName = username
-                                            changeRequest.commitChanges(completion: { (error) in
+                                            IgnusBackend.createUserInfo(newUserInfo, forUser: username, with: { (error) in
                                                 if error == nil {
-                                                    self.dismiss(animated: true, completion: { () -> Void in
-                                                        self.delegate?.createdAccount(withUsername: username, andPassword: password)
+                                                    // Sets user display name to username
+                                                    let changeRequest = user!.profileChangeRequest()
+                                                    changeRequest.displayName = username
+                                                    changeRequest.commitChanges(completion: { (error) in
+                                                        if error == nil {
+                                                            self.dismiss(animated: true, completion: { () -> Void in
+                                                                self.delegate?.createdAccount(withUsername: username, andPassword: password)
+                                                            })
+                                                        }
                                                     })
                                                 }
                                             })
@@ -311,7 +310,6 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
                         }
                     })
                 }
-                
             })
         }
     }

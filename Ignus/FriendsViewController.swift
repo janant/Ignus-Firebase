@@ -405,6 +405,26 @@ class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate,
         return UITableViewCell()
     }
     
+    // MARK: - Table view delegate methods
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard
+            let selectedCell = tableView.cellForRow(at: indexPath),
+            let usernameLabel = selectedCell.viewWithTag(3) as? UILabel,
+            let username = usernameLabel.text
+        else {
+            return
+        }
+        
+        tableView.isUserInteractionEnabled = false
+        IgnusBackend.getUserInfo(forUser: username) { (error, userInfo) in
+            tableView.isUserInteractionEnabled = true
+            if error == nil {
+                self.performSegue(withIdentifier: "Show Profile Detail", sender: userInfo)
+            }
+        }
+    }
+    
     @IBAction func friendsCategoryChanged(_ sender: Any) {
         guard let selectedIndex = (sender as? UISegmentedControl)?.selectedSegmentIndex else {
             return

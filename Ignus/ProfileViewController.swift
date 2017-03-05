@@ -19,6 +19,8 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var coverImageView: UIImageView!
+    @IBOutlet weak var friendsLabel: UILabel!
+    @IBOutlet weak var ratingLabel: UILabel!
     
     // Needed for profile options view controller animation
     @IBOutlet weak var profileOptionsButton: UIButton!
@@ -107,6 +109,13 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
                 
                 self.profileOptionsButton.isEnabled = true
             })
+        }
+        
+        // Gets this user's friends and displays how many friends they have
+        IgnusBackend.getFriends(forUser: username) { (friends) in
+            UIView.transition(with: self.friendsLabel, duration: 0.25, options: .transitionCrossDissolve, animations: { 
+                self.friendsLabel.text = "\(friends.count)"
+            }, completion: nil)
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(MyAccountViewController.refreshProfile(_:)), name: NSNotification.Name(rawValue: Constants.NotificationNames.ReloadProfileImages), object: nil)

@@ -14,7 +14,7 @@ protocol FriendsViewControllerAddFriendsDelegate: class {
     func dismissAddFriends()
 }
 
-class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate, UITableViewDataSource, UITableViewDelegate {
+class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate, UITableViewDataSource, UITableViewDelegate, ProfileOptionsViewControllerDelegate, UIViewControllerTransitioningDelegate {
     
     // Main views
     @IBOutlet weak var friendsTable: UITableView!
@@ -36,6 +36,8 @@ class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate,
     let refreshControl = UIRefreshControl()
     
     weak var addFriendsDelegate: FriendsViewControllerAddFriendsDelegate?
+    
+    weak var currentResponseButton: UIButton?
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -338,9 +340,6 @@ class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate,
                     }
                 })
                 
-                // Sets up callback for pressing respond button
-                responseButton.addTarget(self, action: #selector(FriendsViewController.pressedRespondToFriendRequestButton(_:)), for: .touchUpInside)
-                
                 cell.backgroundColor = UIColor.clear
                 
                 let backgroundView = UIView()
@@ -426,18 +425,6 @@ class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate,
                 self.performSegue(withIdentifier: "Show Profile Detail", sender: userInfo)
             }
         }
-    }
-    
-    func pressedRespondToFriendRequestButton(_ sender: Any) {
-        guard
-            let respondButton = sender as? UIButton,
-            let friendRequestCell = respondButton.superview?.superview as? UITableViewCell,
-            let friendRequestIndex = friendsTable.indexPath(for: friendRequestCell)
-        else {
-            return
-        }
-        
-        print(friendRequestsReceived[friendRequestIndex.row])
     }
     
     @IBAction func friendsCategoryChanged(_ sender: Any) {
@@ -614,6 +601,61 @@ class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate,
         
         addFriendsContainerView.isUserInteractionEnabled = false
     }
+    
+    // MARK: - Proflie options view controller delegate methods
+    
+    func respondToFriendRequest(_ response: String) {
+        guard
+            let responseButton = currentResponseButton,
+            let responseButtonCell = responseButton.superview?.superview as? UITableViewCell,
+            let responseButtonIndex = friendsTable.indexPath(for: responseButtonCell)
+        else {
+            return
+        }
+        
+        // Gets friend request associated with this data
+        let friendRequest = friendRequestsReceived[responseButtonIndex.row]
+        
+        currentResponseButton = nil
+    }
+    
+    // MARK: - Transitioning delegate methods
+    
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        if presented is ProfileOptionsViewController {
+            if let responseButton = currentResponseButton {
+                let startPoint = self.view.convert(responseButton.center, from: responseButton.superview)
+                return ProfileOptionsAnimation(presenting: true, initialPoint: startPoint)
+            }
+            else {
+                return ProfileOptionsAnimation(presenting: true, initialPoint: self.view.center)
+            }
+        }
+        
+        return nil
+    }
+    
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        if dismissed is ProfileOptionsViewController {
+            if let responseButton = currentResponseButton {
+                let startPoint = self.view.convert(responseButton.center, from: responseButton.superview)
+                return ProfileOptionsAnimation(presenting: false, initialPoint: startPoint)
+            }
+            else {
+                return ProfileOptionsAnimation(presenting: false, initialPoint: self.view.center)
+            }
+        }
+        
+        return nil
+    }
+    
+    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
+        if presented is ProfileOptionsViewController {
+            return ProfileOptionsPresentation(presentedViewController: presented, presenting: presenting)
+        }
+        
+        return nil
+    }
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -641,6 +683,21 @@ class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate,
             
             addFriendsVC.delegate = self
             self.addFriendsDelegate = addFriendsVC
+        }
+        else if segue.identifier == "Show Friend Request Response Options" {
+            guard
+                let respondButton = sender as? UIButton,
+                let profileOptionsVC = segue.destination as? ProfileOptionsViewController
+            else {
+                return
+            }
+            
+            profileOptionsVC.transitioningDelegate = self
+            profileOptionsVC.delegate = self
+            profileOptionsVC.modalPresentationStyle = .custom
+            profileOptionsVC.profileType = Constants.ProfileTypes.RequestedFriend
+            
+            currentResponseButton = respondButton
         }
     }
 }

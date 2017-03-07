@@ -338,6 +338,9 @@ class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate,
                     }
                 })
                 
+                // Sets up callback for pressing respond button
+                responseButton.addTarget(self, action: #selector(FriendsViewController.pressedRespondToFriendRequestButton(_:)), for: .touchUpInside)
+                
                 cell.backgroundColor = UIColor.clear
                 
                 let backgroundView = UIView()
@@ -423,6 +426,18 @@ class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate,
                 self.performSegue(withIdentifier: "Show Profile Detail", sender: userInfo)
             }
         }
+    }
+    
+    func pressedRespondToFriendRequestButton(_ sender: Any) {
+        guard
+            let respondButton = sender as? UIButton,
+            let friendRequestCell = respondButton.superview?.superview as? UITableViewCell,
+            let friendRequestIndex = friendsTable.indexPath(for: friendRequestCell)
+        else {
+            return
+        }
+        
+        print(friendRequestsReceived[friendRequestIndex.row])
     }
     
     @IBAction func friendsCategoryChanged(_ sender: Any) {

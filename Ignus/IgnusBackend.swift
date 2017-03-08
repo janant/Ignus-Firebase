@@ -426,4 +426,151 @@ struct IgnusBackend {
         }
     }
     
+    // Friend operations
+    
+    static func sendFriendRequest(toUser user: String, with completionHandler: @escaping (Error?) -> Void) {
+        
+        guard let currentUser = currentUserUsername else {
+            completionHandler(Errors.CurrentUserNotLoggedIn)
+            return
+        }
+        
+        // Gets friend requests data for user
+        IgnusBackend.getFriendRequests(forUser: user) { (userFriendRequests) in
+            IgnusBackend.getCurrentUserFriendRequests(with: { (currentUserFriendRequests) in
+                guard
+                    var userReceivedRequests = userFriendRequests["received"],
+                    var mySentRequests = currentUserFriendRequests["sent"]
+                else {
+                    return
+                }
+                
+                // Deletes user first, in case of backend errors
+                mySentRequests = mySentRequests.filter { $0 != user }
+                userReceivedRequests = userReceivedRequests.filter { $0 != currentUser }
+                
+                // Now adds the users to friend requests
+                mySentRequests.insert(user, at: 0)
+                userReceivedRequests.insert(currentUser, at: 0)
+                
+                IgnusBackend.setCurrentUserSentFriendRequests(mySentRequests, with: { (error) in
+                    IgnusBackend.setReceivedFriendRequests(userReceivedRequests, forUser: user, with: { (error) in
+                        completionHandler(nil)
+                    })
+                })
+            })
+        }
+    }
+    
+    static func cancelFriendRequest(toUser user: String, with completionHandler: @escaping (Error?) -> Void) {
+        
+        guard let currentUser = currentUserUsername else {
+            completionHandler(Errors.CurrentUserNotLoggedIn)
+            return
+        }
+        
+        // Gets friend requests data for user
+        IgnusBackend.getFriendRequests(forUser: user) { (userFriendRequests) in
+            IgnusBackend.getCurrentUserFriendRequests(with: { (currentUserFriendRequests) in
+                guard
+                    var userReceivedRequests = userFriendRequests["received"],
+                    var mySentRequests = currentUserFriendRequests["sent"]
+                else {
+                    return
+                }
+                
+                // Removes usernames from friend requests
+                mySentRequests = mySentRequests.filter { $0 != user }
+                userReceivedRequests = userReceivedRequests.filter { $0 != currentUser }
+                
+                IgnusBackend.setCurrentUserSentFriendRequests(mySentRequests, with: { (error) in
+                    IgnusBackend.setReceivedFriendRequests(userReceivedRequests, forUser: user, with: { (error) in
+                        completionHandler(nil)
+                    })
+                })
+            })
+        }
+    }
+    
+    static func handleFriendRequest(fromUser user: String, response: String, with completionHandler: @escaping (Error?) -> Void) {
+        
+        guard let currentUser = currentUserUsername else {
+            completionHandler(Errors.CurrentUserNotLoggedIn)
+            return
+        }
+        
+        // Gets friend requests data for sender user
+        IgnusBackend.getFriendRequests(forUser: user) { (userFriendRequest) in
+            IgnusBackend.getCurrentUserFriendRequests(with: { (currentUserFriendRequests) in
+                guard
+                    var userSentRequests = userFriendRequest["sent"],
+                    var myReceivedRequests = currentUserFriendRequests["received"]
+                else {
+                    return
+                }
+                
+                myReceivedRequests = myReceivedRequests.filter { $0 != user }
+                userSentRequests = userSentRequests.filter { $0 != currentUser }
+                
+                IgnusBackend.setCurrentUserReceivedFriendRequests(myReceivedRequests, with: { (error) in
+                    IgnusBackend.setSentFriendRequests(userSentRequests, forUser: user, with: { (error) in
+                        // Now adds as a friend, if friend request was accepted
+                        if response == Constants.FriendRequestResponses.Accepted {
+                            IgnusBackend.getFriends(forUser: user, with: { (userFriendsData) in
+                                IgnusBackend.getCurrentUserFriends(with: { (currentUserFriendsData) in
+                                    var userFriends = userFriendsData
+                                    var myFriends = currentUserFriendsData
+                                    
+                                    // Deletes users first, in case of backend errors
+                                    myFriends = myFriends.filter { $0 != user }
+                                    userFriends = userFriends.filter { $0 != currentUser }
+                                    
+                                    // Now adds the user
+                                    userFriends.insert(currentUser, at: 0)
+                                    myFriends.insert(user, at: 0)
+                                    
+                                    IgnusBackend.setCurrentUserFriends(myFriends, with: { (error) in
+                                        IgnusBackend.setFriends(userFriends, forUser: user, with: { (error) in
+                                            completionHandler(nil)
+                                        })
+                                    })
+                                })
+                            })
+                        }
+                        else {
+                            completionHandler(nil)
+                        }
+                    })
+                })
+            })
+        }
+    }
+    
+    static func unfriendUser(withUsername user: String, with completionHandler: @escaping (Error?) -> Void) {
+        
+        guard let currentUser = currentUserUsername else {
+            completionHandler(Errors.CurrentUserNotLoggedIn)
+            return
+        }
+        
+        // Deletes friends
+        IgnusBackend.getFriends(forUser: user) { (userFriendsData) in
+            IgnusBackend.getCurrentUserFriends(with: { (currentUserFriendsData) in
+                var userFriends = userFriendsData
+                var myFriends = currentUserFriendsData
+                
+                // Removes usernames from friends
+                userFriends = userFriends.filter { $0 != currentUser }
+                myFriends = myFriends.filter { $0 != user }
+                
+                // Stores new friends data in Firebase
+                IgnusBackend.setCurrentUserFriends(myFriends, with: { (error) in
+                    IgnusBackend.setFriends(userFriends, forUser: user, with: { (error) in
+                        completionHandler(nil)
+                    })
+                })
+            })
+        }
+    }
+    
 }

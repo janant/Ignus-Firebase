@@ -251,162 +251,72 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
     }
     
     func sendFriendRequest() {
-        guard
-            let myUsername = IgnusBackend.currentUserUsername,
-            let profileUsername = self.profileInfo?["username"]
-        else {
+        guard let profileUsername = self.profileInfo?["username"] else {
             return
         }
         
         profileOptionsButton.isEnabled = false
         
-        // Gets friend requests data for profile user
-        IgnusBackend.getFriendRequests(forUser: profileUsername) { (profileFriendRequests) in
-            IgnusBackend.getCurrentUserFriendRequests(with: { (currentUserFriendRequests) in
-                guard
-                    var profileReceivedRequests = profileFriendRequests["received"],
-                    var mySentRequests = currentUserFriendRequests["sent"]
-                else {
-                    return
-                }
-                
-                mySentRequests.insert(profileUsername, at: 0)
-                profileReceivedRequests.insert(myUsername, at: 0)
-                
-                IgnusBackend.setCurrentUserSentFriendRequests(mySentRequests, with: { (error) in
-                    IgnusBackend.setReceivedFriendRequests(profileReceivedRequests, forUser: profileUsername, with: { (error) in
-                        self.profileOptionsButton.isEnabled = true
-                        self.profileType = Constants.ProfileTypes.PendingFriend
-                                                
-                        NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NotificationNames.ReloadFriends), object: nil)
-                    })
-                })
-            })
+        // Handles send friend request
+        IgnusBackend.sendFriendRequest(toUser: profileUsername) { (error) in
+            self.profileOptionsButton.isEnabled = true
+            self.profileType = Constants.ProfileTypes.PendingFriend
+            
+            NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NotificationNames.ReloadFriends), object: nil)
         }
     }
     
     func cancelFriendRequest() {
-        guard
-            let myUsername = IgnusBackend.currentUserUsername,
-            let profileUsername = self.profileInfo?["username"]
-            else {
-                return
+        
+        guard let profileUsername = self.profileInfo?["username"] else {
+            return
         }
         
         profileOptionsButton.isEnabled = false
         
-        // Gets friend requests data for profile user
-        IgnusBackend.getFriendRequests(forUser: profileUsername) { (profileFriendRequests) in
-            IgnusBackend.getCurrentUserFriendRequests(with: { (currentUserFriendRequests) in
-                guard
-                    var profileReceivedRequests = profileFriendRequests["received"],
-                    var mySentRequests = currentUserFriendRequests["sent"]
-                else {
-                    return
-                }
-                
-                mySentRequests = mySentRequests.filter { $0 != profileUsername }
-                profileReceivedRequests = profileReceivedRequests.filter { $0 != myUsername }
-                
-                IgnusBackend.setCurrentUserSentFriendRequests(mySentRequests, with: { (error) in
-                    IgnusBackend.setReceivedFriendRequests(profileReceivedRequests, forUser: profileUsername, with: { (error) in
-                        self.profileOptionsButton.isEnabled = true
-                        self.profileType = Constants.ProfileTypes.User
-                        
-                        NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NotificationNames.ReloadFriends), object: nil)
-                    })
-                })
-            })
+        // Handle cancel friend request
+        IgnusBackend.cancelFriendRequest(toUser: profileUsername) { (error) in
+            self.profileOptionsButton.isEnabled = true
+            self.profileType = Constants.ProfileTypes.User
+            
+            NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NotificationNames.ReloadFriends), object: nil)
         }
     }
     
     func respondToFriendRequest(_ response: String) {
-        guard
-            let myUsername = IgnusBackend.currentUserUsername,
-            let profileUsername = self.profileInfo?["username"]
-            else {
-                return
+        guard let profileUsername = self.profileInfo?["username"] else {
+            return
         }
         
         profileOptionsButton.isEnabled = false
         
-        // Gets friend requests data for profile user
-        IgnusBackend.getFriendRequests(forUser: profileUsername) { (profileFriendRequests) in
-            IgnusBackend.getCurrentUserFriendRequests(with: { (currentUserFriendRequests) in
-                guard
-                    var profileSentRequests = profileFriendRequests["sent"],
-                    var myReceivedRequests = currentUserFriendRequests["received"]
-                else {
-                    return
-                }
-                
-                myReceivedRequests = myReceivedRequests.filter { $0 != profileUsername }
-                profileSentRequests = profileSentRequests.filter { $0 != myUsername }
-                
-                IgnusBackend.setCurrentUserReceivedFriendRequests(myReceivedRequests, with: { (error) in
-                    IgnusBackend.setSentFriendRequests(profileSentRequests, forUser: profileUsername, with: { (error) in
-                        // Now adds as a friend, if friend request was accepted
-                        if response == Constants.FriendRequestResponses.Accepted {
-                            IgnusBackend.getFriends(forUser: profileUsername, with: { (profileFriendsData) in
-                                IgnusBackend.getCurrentUserFriends(with: { (currentUserFriendsData) in
-                                    var profileFriends = profileFriendsData
-                                    var myFriends = currentUserFriendsData
-                                    
-                                    profileFriends.insert(myUsername, at: 0)
-                                    myFriends.insert(profileUsername, at: 0)
-                                    
-                                    IgnusBackend.setCurrentUserFriends(myFriends, with: { (error) in
-                                        IgnusBackend.setFriends(profileFriends, forUser: profileUsername, with: { (error) in
-                                            self.profileOptionsButton.isEnabled = true
-                                            self.profileType = Constants.ProfileTypes.Friend
-                                            
-                                            NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NotificationNames.ReloadFriends), object: nil)
-                                        })
-                                    })
-                                })
-                            })
-                        }
-                        else {
-                            self.profileOptionsButton.isEnabled = true
-                            self.profileType = Constants.ProfileTypes.User
-                            
-                            NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NotificationNames.ReloadFriends), object: nil)
-                        }
-                    })
-                })
-            })
+        // Handles the friend request
+        IgnusBackend.handleFriendRequest(fromUser: profileUsername, response: response) { (error) in
+            self.profileOptionsButton.isEnabled = true
+            NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NotificationNames.ReloadFriends), object: nil)
+            
+            if response == Constants.FriendRequestResponses.Accepted {
+                self.profileType = Constants.ProfileTypes.Friend
+            }
+            else if response == Constants.FriendRequestResponses.Declined {
+                self.profileType = Constants.ProfileTypes.User
+            }
         }
     }
     
     func unfriend() {
-        guard
-            let myUsername = IgnusBackend.currentUserUsername,
-            let profileUsername = self.profileInfo?["username"]
-        else {
+        guard let profileUsername = self.profileInfo?["username"] else {
             return
         }
         
         self.profileOptionsButton.isEnabled = false
         
-        // Deletes friends
-        IgnusBackend.getFriends(forUser: profileUsername) { (profileFriendsData) in
-            IgnusBackend.getCurrentUserFriends(with: { (currentUserFriendsData) in
-                var profileFriends = profileFriendsData
-                var myFriends = currentUserFriendsData
-                
-                profileFriends = profileFriends.filter { $0 != myUsername }
-                myFriends = myFriends.filter { $0 != profileUsername }
-                
-                // Stores new friends data in Firebase
-                IgnusBackend.setCurrentUserFriends(myFriends, with: { (error) in
-                    IgnusBackend.setFriends(profileFriends, forUser: profileUsername, with: { (error) in
-                        self.profileOptionsButton.isEnabled = true
-                        self.profileType = Constants.ProfileTypes.User
-                        
-                        NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NotificationNames.ReloadFriends), object: nil)
-                    })
-                })
-            })
+        // Handles the unfriend
+        IgnusBackend.unfriendUser(withUsername: profileUsername) { (error) in
+            self.profileOptionsButton.isEnabled = true
+            self.profileType = Constants.ProfileTypes.User
+            
+            NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NotificationNames.ReloadFriends), object: nil)
         }
     }
     

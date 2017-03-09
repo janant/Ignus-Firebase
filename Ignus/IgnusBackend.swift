@@ -426,7 +426,7 @@ struct IgnusBackend {
         }
     }
     
-    // Friend operations
+    // MARK: - Friend operations
     
     static func sendFriendRequest(toUser user: String, with completionHandler: @escaping (Error?) -> Void) {
         
@@ -569,6 +569,34 @@ struct IgnusBackend {
                         completionHandler(nil)
                     })
                 })
+            })
+        }
+    }
+    
+    // MARK: - Other data operations
+    
+    static func sendMessage(message: String, toUser user: String, with completionHandler: @escaping (Error?) -> Void) {
+        
+        guard let currentUser = currentUserUsername else {
+            completionHandler(Errors.CurrentUserNotLoggedIn)
+            return
+        }
+        
+        // Creates new message data
+        var newMessageData = [String: Any]()
+        newMessageData["sender"] = currentUser
+        newMessageData["recipient"] = user
+        newMessageData["message"] = message
+        newMessageData["unread"] = true
+        newMessageData["timestamp"] = FIRServerValue.timestamp()
+        
+        // Gets current messages, add new message, saves messages
+        getMessages(forUser: user) { (messages) in
+            var recipientMessages = messages
+            recipientMessages.insert(newMessageData, at: 0)
+            
+            setMessages(recipientMessages, forUser: user, with: { (error) in
+                completionHandler(error)
             })
         }
     }

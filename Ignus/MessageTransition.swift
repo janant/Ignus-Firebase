@@ -155,8 +155,7 @@ class MessageTransition: NSObject, UIViewControllerAnimatedTransitioning {
     
     func viewMessageDismissAnimation(using transitionContext: UIViewControllerContextTransitioning) {
         guard
-            let fromVC = transitionContext.viewController(forKey: .from),
-            let toVC = transitionContext.viewController(forKey: .to)
+            let fromVC = transitionContext.viewController(forKey: .from)
         else {
             transitionContext.completeTransition(false)
             return
@@ -174,13 +173,6 @@ class MessageTransition: NSObject, UIViewControllerAnimatedTransitioning {
             fromVC.view.transform = CGAffineTransform(translationX: transX, y: transY).scaledBy(x: scaleX, y: scaleY)
             fromVC.view.alpha = 0.0
         }) { (completed) in
-            if let tabBarVC = toVC as? UITabBarController {
-                if let messagesNavVC = tabBarVC.viewControllers?[2] as? UINavigationController {
-                    if let messagesVC = messagesNavVC.topViewController {
-                        messagesVC.viewDidAppear(true)
-                    }
-                }
-            }
             transitionContext.completeTransition(true)
         }
     }

@@ -37,6 +37,9 @@
 		16B1B4B91E17761B00F9830F /* FriendsSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B1B4B81E17761B00F9830F /* FriendsSplitViewController.swift */; };
 		16C717921E09A875002D7270 /* MyAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C717911E09A875002D7270 /* MyAccountViewController.swift */; };
 		16C7F4AF1DC584E50001991A /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C7F4AE1DC584E50001991A /* CreateAccountViewController.swift */; };
+		16C8FEB41E7363F00067965B /* Message.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16C8FEB31E7363F00067965B /* Message.storyboard */; };
+		16C8FEB61E7365260067965B /* ChooseFriend.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16C8FEB51E7365260067965B /* ChooseFriend.storyboard */; };
+		16C8FEB91E7366470067965B /* ProfileOptions.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16C8FEB81E7366470067965B /* ProfileOptions.storyboard */; };
 		16D63F841DD7124500287C1F /* PrivacyPolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D63F831DD7124500287C1F /* PrivacyPolicyViewController.swift */; };
 		16D63F871DD7153400287C1F /* Account.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16D63F861DD7153300287C1F /* Account.storyboard */; };
 		16D967541E10BD670019654A /* ChooseFriendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D967531E10BD670019654A /* ChooseFriendViewController.swift */; };
@@ -107,6 +110,9 @@
 		16B1B4B81E17761B00F9830F /* FriendsSplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsSplitViewController.swift; sourceTree = "<group>"; };
 		16C717911E09A875002D7270 /* MyAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyAccountViewController.swift; sourceTree = "<group>"; };
 		16C7F4AE1DC584E50001991A /* CreateAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountViewController.swift; sourceTree = "<group>"; };
+		16C8FEB31E7363F00067965B /* Message.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Message.storyboard; sourceTree = "<group>"; };
+		16C8FEB51E7365260067965B /* ChooseFriend.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ChooseFriend.storyboard; sourceTree = "<group>"; };
+		16C8FEB81E7366470067965B /* ProfileOptions.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ProfileOptions.storyboard; sourceTree = "<group>"; };
 		16D63F831DD7124500287C1F /* PrivacyPolicyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyViewController.swift; sourceTree = "<group>"; };
 		16D63F861DD7153300287C1F /* Account.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Account.storyboard; sourceTree = "<group>"; };
 		16D95E581E1CCC840066A32D /* Ignus-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Ignus-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -260,9 +266,7 @@
 			children = (
 				16A0D7A51DFCCD1A00B89807 /* Ignus.entitlements */,
 				1696D8401DC46A96003BFDA8 /* AppDelegate.swift */,
-				1696D8441DC46A96003BFDA8 /* Main.storyboard */,
-				16D63F861DD7153300287C1F /* Account.storyboard */,
-				16B1B4B41E17723A00F9830F /* Profile.storyboard */,
+				16C8FEB71E7365CC0067965B /* Storyboards */,
 				16D63F851DD7151100287C1F /* Login and Sign Up */,
 				166D26F31E64C4A700540C84 /* Payments Tab */,
 				16800B6B1E15FD8E0075BE07 /* Friends Tab */,
@@ -278,6 +282,19 @@
 				16D95E581E1CCC840066A32D /* Ignus-Bridging-Header.h */,
 			);
 			path = Ignus;
+			sourceTree = "<group>";
+		};
+		16C8FEB71E7365CC0067965B /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				1696D8441DC46A96003BFDA8 /* Main.storyboard */,
+				16D63F861DD7153300287C1F /* Account.storyboard */,
+				16B1B4B41E17723A00F9830F /* Profile.storyboard */,
+				16C8FEB31E7363F00067965B /* Message.storyboard */,
+				16C8FEB51E7365260067965B /* ChooseFriend.storyboard */,
+				16C8FEB81E7366470067965B /* ProfileOptions.storyboard */,
+			);
+			name = Storyboards;
 			sourceTree = "<group>";
 		};
 		16D63F851DD7151100287C1F /* Login and Sign Up */ = {
@@ -429,6 +446,7 @@
 				16DEC2DD1DC51366003AF4AA /* 8.png in Resources */,
 				16DEC2D81DC51366003AF4AA /* 2.png in Resources */,
 				16DEC2D61DC51366003AF4AA /* 22.png in Resources */,
+				16C8FEB61E7365260067965B /* ChooseFriend.storyboard in Resources */,
 				16DEC2D91DC51366003AF4AA /* 3.png in Resources */,
 				16DEC2E11DC51366003AF4AA /* 18.png in Resources */,
 				16DEC2DE1DC51366003AF4AA /* 6.png in Resources */,
@@ -438,8 +456,10 @@
 				16DEC2E31DC51366003AF4AA /* 16.png in Resources */,
 				16DEC2EE1DC51373003AF4AA /* Gotham-Light.ttf in Resources */,
 				16DEC2E91DC51366003AF4AA /* 14.png in Resources */,
+				16C8FEB91E7366470067965B /* ProfileOptions.storyboard in Resources */,
 				16B1B4B51E17723A00F9830F /* Profile.storyboard in Resources */,
 				16DEC2D41DC51366003AF4AA /* 23.png in Resources */,
+				16C8FEB41E7363F00067965B /* Message.storyboard in Resources */,
 				16DEC2E41DC51366003AF4AA /* 11.png in Resources */,
 				16DEC2D51DC51366003AF4AA /* 21.png in Resources */,
 				16DEC2DA1DC51366003AF4AA /* 1.png in Resources */,

@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class ProfileViewController: UIViewController, UIViewControllerTransitioningDelegate, ProfileOptionsViewControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class ProfileViewController: UIViewController, UIViewControllerTransitioningDelegate, ProfileOptionsViewControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, MessageViewControllerDelegate {
     
     @IBOutlet weak var selectUserLabel: UILabel!
     @IBOutlet weak var profileView: UIView!
@@ -32,6 +32,8 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
     
     var profileInfo: [String: String]?
     var profileType: String!
+    
+    var messageDismissalTransition: UIViewControllerAnimatedTransitioning!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -326,8 +328,7 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
     }
     
     func message() {
-        // TODO
-        print("should message")
+        performSegue(withIdentifier: "Compose Message", sender: nil)
     }
 
     // MARK: - Transitioning delegate methods
@@ -337,6 +338,11 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
             let buttonCenter = self.view.convert(profileOptionsButton.center, from: profileInfoView)
             return ProfileOptionsAnimation(presenting: true, initialPoint: buttonCenter)
         }
+        else if let navVC = presented as? UINavigationController {
+            if navVC.topViewController is MessageViewController {
+                return MessageTransition(presenting: true)
+            }
+        }
         return nil
     }
     
@@ -345,12 +351,22 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
             let buttonCenter = self.view.convert(profileOptionsButton.center, from: profileInfoView)
             return ProfileOptionsAnimation(presenting: false, initialPoint: buttonCenter)
         }
+        else if let navVC = dismissed as? UINavigationController {
+            if navVC.topViewController is MessageViewController {
+                return messageDismissalTransition
+            }
+        }
         return nil
     }
     
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
         if presented is ProfileOptionsViewController {
             return ProfileOptionsPresentation(presentedViewController: presented, presenting: presenting)
+        }
+        else if let navVC = presented as? UINavigationController {
+            if navVC.topViewController is MessageViewController {
+                return MessagePresentation(presentedViewController: presented, presenting: presenting)
+            }
         }
         return nil
     }
@@ -435,6 +451,22 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
         coverPickerVC = nil
     }
     
+    // MARK: - Message view controller delegate methods
+    
+    func canceledNewMessage(messageVC: MessageViewController) {
+        messageDismissalTransition = MessageTransition(presenting: false)
+        messageVC.dismiss(animated: true, completion: nil)
+    }
+    
+    func canceledViewMessage(messageVC: MessageViewController) {
+        messageVC.dismiss(animated: true, completion: nil)
+    }
+    
+    func sentNewMessage(messageVC: MessageViewController) {
+        messageDismissalTransition = MessageTransition(presenting: false, isViewingMessage: false, sentMessage: true)
+        messageVC.dismiss(animated: true, completion: nil)
+    }
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -447,6 +479,20 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
             profileOptionsVC.delegate = self
             profileOptionsVC.modalPresentationStyle = .custom
             profileOptionsVC.transitioningDelegate = self
+        }
+        else if segue.identifier == "Compose Message" {
+            if let navVC = segue.destination as? UINavigationController {
+                navVC.transitioningDelegate = self
+                navVC.modalPresentationStyle = .custom
+                
+                if let messageVC = navVC.topViewController as? MessageViewController {
+                    messageVC.delegate = self
+                    
+                    if let profileUsername = self.profileInfo?["username"] {
+                        messageVC.defaultRecipient = profileUsername
+                    }
+                }
+            }
         }
     }
 }

@@ -69,6 +69,8 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
             // Sets right bar button item to send button
             sendButton.isEnabled = false
             self.navigationItem.rightBarButtonItem = sendButton
+            
+            self.selectedRecipient = defaultRecipient
         }
         
         // Adds blur separator effect

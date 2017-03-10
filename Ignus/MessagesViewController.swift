@@ -282,6 +282,7 @@ class MessagesViewController: UIViewController, UITableViewDataSource, UITableVi
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         if let navVC = dismissed as? UINavigationController {
             if navVC.topViewController is MessageViewController {
+                self.viewDidAppear(true)
                 return messageTransition
             }
         }

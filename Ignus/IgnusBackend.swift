@@ -83,7 +83,6 @@ struct IgnusBackend {
         let friendRequestsDatabaseRef = databaseRef.child("friendRequests/\(username)")
         friendRequestsDatabaseRef.observe(.value, with: { (snapshot) in
             if var friendRequestsData = snapshot.value as? [String: [String]] {
-                
                 if friendRequestsData["sent"] == nil {
                     friendRequestsData["sent"] = [String]()
                 }
@@ -220,7 +219,7 @@ struct IgnusBackend {
     }
     
     static func getFriendRequests(forUser username: String, with completionHandler: @escaping ([String: [String]]) -> Void) {
-        databaseRef.child("friendsRequests/\(username)").observeSingleEvent(of: .value, with: { (snapshot) in
+        databaseRef.child("friendRequests/\(username)").observeSingleEvent(of: .value, with: { (snapshot) in
             if var friendRequestsData = snapshot.value as? [String: [String]] {
                 if friendRequestsData["sent"] == nil {
                     friendRequestsData["sent"] = [String]()

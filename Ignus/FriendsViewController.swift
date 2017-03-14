@@ -449,7 +449,7 @@ class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate,
                     self.friends = friendsData
                     
                     // If there are no friends, display this to the user
-                    if self.friends.count == 0 {
+                    if self.friends.isEmpty {
                         UIView.animate(withDuration: 0.25, animations: {
                             self.loadingFriendsActivityIndicator.alpha = 0.0
                             self.noFriendsStackView.alpha = 1.0
@@ -504,7 +504,7 @@ class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate,
                     }
                     
                     // If no friend requests, display this to the user
-                    if self.friendRequestsSent.count == 0 && self.friendRequestsReceived.count == 0 {
+                    if self.friendRequestsSent.isEmpty && self.friendRequestsReceived.isEmpty {
                         // Displays to the user that there are no requests, with animation
                         UIView.animate(withDuration: 0.25, animations: {
                             self.loadingFriendsActivityIndicator.alpha = 0.0
@@ -613,10 +613,33 @@ class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate,
             return
         }
         
-        // Gets friend request associated with this data
-        let friendRequest = friendRequestsReceived[responseButtonIndex.row]
+        // Handles friend request
+        let friendRequest = friendRequestsReceived.remove(at: responseButtonIndex.row)
+        IgnusBackend.handleFriendRequest(fromUser: friendRequest, response: response, with: { (error) in
+            // Do nothing for now
+        })
         
-        currentResponseButton = nil
+        // Updates data and table view
+        if response == Constants.FriendRequestResponses.Accepted {
+            friends.insert(friendRequest, at: 0)
+        }
+        
+        if friendRequestsReceived.isEmpty {
+            let sectionIndex = IndexSet(integer: 0)
+            friendsTable.deleteSections(sectionIndex, with: .automatic)
+        }
+        else {
+            friendsTable.deleteRows(at: [responseButtonIndex], with: .automatic)
+        }
+        
+        if friendRequestsReceived.isEmpty && friendRequestsSent.isEmpty {
+            UIView.animate(withDuration: 0.25, animations: {
+                self.friendsTable.alpha = 0.0
+                self.noFriendsStackView.alpha = 1.0
+            }, completion: { (completed) in
+                self.friendsTable.isUserInteractionEnabled = false
+            })
+        }
     }
     
     // MARK: - Transitioning delegate methods
@@ -639,6 +662,7 @@ class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate,
         if dismissed is ProfileOptionsViewController {
             if let responseButton = currentResponseButton {
                 let startPoint = self.view.convert(responseButton.center, from: responseButton.superview)
+                currentResponseButton = nil
                 return ProfileOptionsAnimation(presenting: false, initialPoint: startPoint)
             }
             else {

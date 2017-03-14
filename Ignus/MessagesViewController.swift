@@ -231,7 +231,7 @@ class MessagesViewController: UIViewController, UITableViewDataSource, UITableVi
             messagesTable.deleteRows(at: [indexPath], with: .automatic)
             
             // Deleted the last message, hide the table
-            if messages.count == 0 {
+            if messages.isEmpty {
                 UIView.animate(withDuration: 0.25, animations: { 
                     self.messagesTable.alpha = 0.0
                     self.noMessagesStackView.alpha = 1.0

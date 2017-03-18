@@ -9,6 +9,16 @@
 import UIKit
 
 class PaymentsViewController: UIViewController {
+    
+    // Navigation item
+    @IBOutlet weak var paymentsScopeSegmentedControl: UISegmentedControl!
+    
+    // Main views
+    @IBOutlet weak var paymentsLoadingIndicatorView: UIActivityIndicatorView!
+    @IBOutlet weak var noPaymentsStackView: UIStackView!
+    @IBOutlet weak var noPaymentsTitle: UILabel!
+    @IBOutlet weak var noPaymentsDetail: UILabel!
+    @IBOutlet weak var paymentsTable: UITableView!
 
     override func viewDidLoad() {
         super.viewDidLoad()

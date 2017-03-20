@@ -8,10 +8,10 @@
 
 import UIKit
 
-class PaymentsViewController: UIViewController {
+class PaymentsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIViewControllerTransitioningDelegate {
     
     // Navigation item
-    @IBOutlet weak var paymentsScopeSegmentedControl: UISegmentedControl!
+    @IBOutlet weak var paymentsCategorySegmentedControl: UISegmentedControl!
     
     // Main views
     @IBOutlet weak var paymentsLoadingIndicatorView: UIActivityIndicatorView!
@@ -19,11 +19,37 @@ class PaymentsViewController: UIViewController {
     @IBOutlet weak var noPaymentsTitle: UILabel!
     @IBOutlet weak var noPaymentsDetail: UILabel!
     @IBOutlet weak var paymentsTable: UITableView!
+    
+    var activePaymentsSent        = [[String: Any]]()
+    var activePaymentsReceived    = [[String: Any]]()
+    var completedPaymentsSent     = [[String: Any]]()
+    var completedPaymentsReceived = [[String: Any]]()
+    
+    let refreshControl = UIRefreshControl()
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        paymentsCategoryChanged(paymentsCategorySegmentedControl)
+        if let selectedIndex = paymentsTable.indexPathForSelectedRow {
+            paymentsTable.deselectRow(at: selectedIndex, animated: true)
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
+        // Sets up the table
+        paymentsTable.separatorEffect = UIVibrancyEffect(blurEffect: UIBlurEffect(style: .dark))
+        paymentsTable.backgroundView = nil
+        paymentsTable.backgroundColor = UIColor.clear
+        refreshControl.addTarget(self, action: #selector(PaymentsViewController.reloadData), for: .valueChanged)
+        refreshControl.tintColor = UIColor.white
+        paymentsTable.addSubview(refreshControl)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(MessagesViewController.reloadData), name: NSNotification.Name(Constants.NotificationNames.ReloadPayments), object: nil)
     }
 
     override func didReceiveMemoryWarning() {
@@ -31,6 +57,65 @@ class PaymentsViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    func reloadData() {
+        
+    }
+    
+    @IBAction func paymentsCategoryChanged(_ sender: Any) {
+        
+    }
+    
+    // MARK: - Table view data source methods
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 0
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 0
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        if friendsCategorySegmentedControl.selectedSegmentIndex == Constants.FriendsScope.FriendRequests {
+//            switch section {
+//            case 0:
+//                if friendRequestsReceived.count > 0 {
+//                    return "Friend Requests"
+//                }
+//                else {
+//                    return "Pending Requests"
+//                }
+//            case 1:
+//                return "Pending Requests"
+//            default:
+//                return nil
+//            }
+//        }
+//        return nil
+        return nil
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+//        if friendsCategorySegmentedControl.selectedSegmentIndex == Constants.FriendsScope.FriendRequests {
+//            return 25
+//        }
+//        return 0
+        return 0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        return UITableViewCell()
+    }
+    
+    // MARK: - Table view delegate methods
+    
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        guard let headerView = view as? UITableViewHeaderFooterView else {
+            return
+        }
+        view.tintColor = #colorLiteral(red: 0.1215686275, green: 0.1215686275, blue: 0.1215686275, alpha: 1)
+        headerView.textLabel?.textColor = UIColor.white
+    }
 
     /*
     // MARK: - Navigation

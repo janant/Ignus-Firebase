@@ -229,14 +229,6 @@ class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate,
         return 0
     }
     
-    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        guard let headerView = view as? UITableViewHeaderFooterView else {
-            return
-        }
-        view.tintColor = #colorLiteral(red: 0.1215686275, green: 0.1215686275, blue: 0.1215686275, alpha: 1)
-        headerView.textLabel?.textColor = UIColor.white
-    }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if friendsCategorySegmentedControl.selectedSegmentIndex == Constants.FriendsScope.MyFriends {
             let cell = tableView.dequeueReusableCell(withIdentifier: "Friend Cell", for: indexPath)
@@ -301,8 +293,7 @@ class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate,
                 guard
                     let personImageView = cell.viewWithTag(1) as? UIImageView,
                     let personNameView = cell.viewWithTag(2) as? UILabel,
-                    let personUsernameView = cell.viewWithTag(3) as? UILabel,
-                    let responseButton = cell.viewWithTag(4) as? UIButton
+                    let personUsernameView = cell.viewWithTag(3) as? UILabel
                 else {
                     return cell
                 }
@@ -408,6 +399,14 @@ class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate,
     }
     
     // MARK: - Table view delegate methods
+    
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        guard let headerView = view as? UITableViewHeaderFooterView else {
+            return
+        }
+        view.tintColor = #colorLiteral(red: 0.1215686275, green: 0.1215686275, blue: 0.1215686275, alpha: 1)
+        headerView.textLabel?.textColor = UIColor.white
+    }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard

@@ -30,6 +30,7 @@ struct Constants {
     struct NotificationNames {
         static let ReloadProfileImages = "ReloadProfileImages"
         static let ReloadFriends = "ReloadFriends"
+        static let ReloadPayments = "ReloadPayments"
     }
     
     struct UserInfoKeys {
@@ -42,6 +43,11 @@ struct Constants {
         static let FriendsDetail = "Add some by tapping +."
         static let RequestsTitle = "No Friend Requests"
         static let RequestsDetail = "Incoming friend requests will appear here."
+    }
+    
+    struct PaymentsScope {
+        static let Active = 0
+        static let Completed = 1
     }
     
     struct FriendsScope {

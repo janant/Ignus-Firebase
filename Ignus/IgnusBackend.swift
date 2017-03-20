@@ -21,8 +21,8 @@ struct IgnusBackend {
     private static var currentUserInfo: [String: String]?
     static var currentUserUsername: String?
     
-    // The user's current payments.
-    private static var payments: [[String: Any]]?
+    // The user's payment requests, included completed ones.
+    private static var paymentRequests: [String: [[String: Any]]]?
     
     // The usernames of the current user's friends and friend requests
     private static var friends: [String]?
@@ -58,13 +58,21 @@ struct IgnusBackend {
         })
         
         // Set up observer for payments
-        let paymentsDatabaseRef = databaseRef.child("payments/\(username)")
+        let paymentsDatabaseRef = databaseRef.child("paymentRequests/\(username)")
         paymentsDatabaseRef.observe(.value, with: { (snapshot) in
-            if let paymentsData = snapshot.value as? [[String: Any]] {
-                self.payments = paymentsData
+            if var paymentRequestsData = snapshot.value as? [String: [[String: Any]]] {
+                if paymentRequestsData["sent"] == nil {
+                    paymentRequestsData["sent"] = [[String: Any]]()
+                }
+                if paymentRequestsData["received"] == nil {
+                    paymentRequestsData["received"] = [[String: Any]]()
+                }
+                
+                self.paymentRequests = paymentRequestsData
             }
             else {
-                self.payments = [[String: Any]]()
+                self.paymentRequests = ["sent":      [[String: Any]](),
+                                       "received":  [[String: Any]]()]
             }
         })
         
@@ -91,7 +99,6 @@ struct IgnusBackend {
                 }
                 
                 self.friendRequests = friendRequestsData
-                
             }
             else {
                 self.friendRequests = ["sent":      [String](),
@@ -118,7 +125,7 @@ struct IgnusBackend {
         
         // Nullifies all data
         currentUserInfo         = nil
-        payments                = nil
+        paymentRequests         = nil
         friends                 = nil
         friendRequests          = nil
         messages                = nil
@@ -143,16 +150,15 @@ struct IgnusBackend {
         }
     }
     
-    static func getCurrentUserPayments(with completionHandler: @escaping ([[String: Any]]) -> Void) {
+    static func getCurrentUserPaymentRequests(with completionHandler: @escaping ([String: [[String: Any]]]) -> Void) {
         DispatchQueue.global(qos: .background).async {
-            while self.payments == nil {
+            while self.paymentRequests == nil {
                 usleep(100000)
             }
             
             DispatchQueue.main.async {
-                completionHandler(self.payments!)
+                completionHandler(self.paymentRequests!)
             }
-            
         }
     }
     
@@ -165,7 +171,6 @@ struct IgnusBackend {
             DispatchQueue.main.async {
                 completionHandler(self.friends!)
             }
-            
         }
     }
     
@@ -194,14 +199,22 @@ struct IgnusBackend {
     
     // MARK: - Other user data accessor methods
     
-    static func getPayments(forUser username: String, with completionHandler: @escaping ([[String: Any]]) -> Void) {
-        databaseRef.child("payments/\(username)").observeSingleEvent(of: .value, with: { (snapshot) in
-            if let paymentsData = snapshot.value as? [[String: Any]] {
-                completionHandler(paymentsData)
+    static func getPaymentsRequests(forUser username: String, with completionHandler: @escaping ([String: [[String: Any]]]) -> Void) {
+        databaseRef.child("paymentRequests/\(username)").observeSingleEvent(of: .value, with: { (snapshot) in
+            if var paymentRequestsData = snapshot.value as? [String: [[String: Any]]] {
+                if paymentRequestsData["sent"] == nil {
+                    paymentRequestsData["sent"] = [[String: Any]]()
+                }
+                if paymentRequestsData["received"] == nil {
+                    paymentRequestsData["received"] = [[String: Any]]()
+                }
+                
+                completionHandler(paymentRequestsData)
             }
             else {
-                let blankPaymentsData = [[String: Any]]()
-                completionHandler(blankPaymentsData)
+                let blankPaymentRequestsData = ["sent":      [[String: Any]](),
+                                                "received":  [[String: Any]]()]
+                completionHandler(blankPaymentRequestsData)
             }
         })
     }
@@ -329,6 +342,40 @@ struct IgnusBackend {
     // Used to create a new user info entry when signing up
     static func createUserInfo(_ userInfo: [String: String], forUser user: String, with completionHandler: @escaping (Error?) -> Void) {
         databaseRef.child("users/\(user)").setValue(messages) { (error, databaseReference) in
+            completionHandler(error)
+        }
+    }
+    
+    // Sets the current user's sent payment requests
+    static func setCurrentUserSentPaymentRequests(_ paymentRequests: [[String: Any]], with completionHandler: @escaping (Error?) -> Void) {
+        if let currentUsername = currentUserUsername {
+            setSentPaymentRequests(paymentRequests, forUser: currentUsername, with: completionHandler)
+        }
+        else {
+            completionHandler(Errors.CurrentUserNotLoggedIn)
+        }
+    }
+    
+    // Sets the specified user's sent payment requests
+    static func setSentPaymentRequests(_ paymentRequests: [[String: Any]], forUser user: String, with completionHandler: @escaping (Error?) -> Void) {
+        databaseRef.child("paymentRequests/\(user)/sent").setValue(paymentRequests) { (error, databaseReference) in
+            completionHandler(error)
+        }
+    }
+    
+    // Sets the current user's received payment requests
+    static func setCurrentUserReceivedPaymentRequests(_ paymentRequests: [[String: Any]], with completionHandler: @escaping (Error?) -> Void) {
+        if let currentUsername = currentUserUsername {
+            setReceivedPaymentRequests(paymentRequests, forUser: currentUsername, with: completionHandler)
+        }
+        else {
+            completionHandler(Errors.CurrentUserNotLoggedIn)
+        }
+    }
+    
+    // Sets the specified user's received payment requests
+    static func setReceivedPaymentRequests(_ paymentRequests: [[String: Any]], forUser user: String, with completionHandler: @escaping (Error?) -> Void) {
+        databaseRef.child("paymentRequests/\(user)/received").setValue(paymentRequests) { (error, databaseReference) in
             completionHandler(error)
         }
     }
@@ -599,5 +646,4 @@ struct IgnusBackend {
             })
         }
     }
-    
 }

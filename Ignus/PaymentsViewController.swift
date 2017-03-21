@@ -62,19 +62,159 @@ class PaymentsViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     @IBAction func paymentsCategoryChanged(_ sender: Any) {
+        guard let selectedIndex = (sender as? UISegmentedControl)?.selectedSegmentIndex else {
+            return
+        }
         
+        // Gets data if there are either no sent or received requests, and not already loading them
+        if activePaymentsSent.isEmpty && activePaymentsReceived.isEmpty
+            && completedPaymentsSent.isEmpty && completedPaymentsReceived.isEmpty
+            && !paymentsLoadingIndicatorView.isAnimating {
+            
+            // Shows the user that requests are loading
+            paymentsLoadingIndicatorView.startAnimating()
+            paymentsLoadingIndicatorView.alpha = 1.0
+            noPaymentsStackView.alpha = 0.0
+            paymentsTable.alpha = 0.0
+            
+            // Gets payments data from Ignus backend
+            IgnusBackend.getCurrentUserPaymentRequests(with: { (paymentsData) in
+                guard
+                    let sentPaymentRequests = paymentsData["sent"],
+                    let receivedPaymentRequests = paymentsData["received"]
+                    else {
+                        return
+                }
+                
+                // Resets current payments data
+                self.activePaymentsSent        = [[String: Any]]()
+                self.activePaymentsReceived    = [[String: Any]]()
+                self.completedPaymentsSent     = [[String: Any]]()
+                self.completedPaymentsReceived = [[String: Any]]()
+                
+                // Sets current payments data
+                self.activePaymentsSent = sentPaymentRequests.filter {
+                    guard let paymentStatus = $0["status"] as? String else {
+                        return false
+                    }
+                    return paymentStatus == Constants.PaymentRequestStatus.Active
+                }
+                self.activePaymentsReceived = receivedPaymentRequests.filter {
+                    guard let paymentStatus = $0["status"] as? String else {
+                        return false
+                    }
+                    return paymentStatus == Constants.PaymentRequestStatus.Active
+                }
+                self.completedPaymentsSent = sentPaymentRequests.filter {
+                    guard let paymentStatus = $0["status"] as? String else {
+                        return false
+                    }
+                    return paymentStatus == Constants.PaymentRequestStatus.Completed
+                }
+                self.completedPaymentsReceived = receivedPaymentRequests.filter {
+                    guard let paymentStatus = $0["status"] as? String else {
+                        return false
+                    }
+                    return paymentStatus == Constants.PaymentRequestStatus.Completed
+                }
+                
+                // Displays appropriate information depending on currently selected scope
+                if selectedIndex == Constants.PaymentsScope.Active {
+                    if self.activePaymentsSent.isEmpty && self.activePaymentsReceived.isEmpty {
+                        // Displays to the user that there are no payment requests, with animation
+                        UIView.animate(withDuration: 0.25, animations: {
+                            self.paymentsLoadingIndicatorView.alpha = 0.0
+                            self.noPaymentsStackView.alpha = 1.0
+                        }, completion: { (completed) in
+                            self.paymentsTable.isUserInteractionEnabled = false
+                            self.paymentsLoadingIndicatorView.stopAnimating()
+                        })
+                    }
+                    else {
+                        // There are payment requests, display them in the table
+                        self.paymentsTable.reloadData()
+                        
+                        UIView.animate(withDuration: 0.25, animations: {
+                            self.paymentsLoadingIndicatorView.alpha = 0.0
+                            self.paymentsTable.alpha = 1.0
+                        }, completion: { (completed) in
+                            self.paymentsLoadingIndicatorView.stopAnimating()
+                            self.paymentsTable.isUserInteractionEnabled = true
+                        })
+                    }
+                }
+                else if selectedIndex == Constants.PaymentsScope.Completed {
+                    if self.completedPaymentsSent.isEmpty && self.completedPaymentsReceived.isEmpty {
+                        // Displays to the user that there are no payment requests, with animation
+                        UIView.animate(withDuration: 0.25, animations: {
+                            self.paymentsLoadingIndicatorView.alpha = 0.0
+                            self.noPaymentsStackView.alpha = 1.0
+                        }, completion: { (completed) in
+                            self.paymentsTable.isUserInteractionEnabled = false
+                            self.paymentsLoadingIndicatorView.stopAnimating()
+                        })
+                    }
+                    else {
+                        // There are payment requests, display them in the table
+                        self.paymentsTable.reloadData()
+                        
+                        UIView.animate(withDuration: 0.25, animations: {
+                            self.paymentsLoadingIndicatorView.alpha = 0.0
+                            self.paymentsTable.alpha = 1.0
+                        }, completion: { (completed) in
+                            self.paymentsLoadingIndicatorView.stopAnimating()
+                            self.paymentsTable.isUserInteractionEnabled = true
+                        })
+                    }
+                }
+            })
+        }
+        else {
+            paymentsTable.reloadData()
+            paymentsLoadingIndicatorView.alpha = 0.0
+            
+            // Displays appropriate information depending on currently selected scope
+            if selectedIndex == Constants.PaymentsScope.Active {
+                if self.activePaymentsSent.isEmpty && self.activePaymentsReceived.isEmpty {
+                    // Displays to the user that there are no payment requests
+                    paymentsTable.alpha = 0.0
+                    paymentsTable.isUserInteractionEnabled = false
+                    noPaymentsStackView.alpha = 1.0
+                }
+                else {
+                    // There are payment requests, display them in the table
+                    paymentsTable.alpha = 1.0
+                    paymentsTable.isUserInteractionEnabled = true
+                    noPaymentsStackView.alpha = 0.0
+                }
+            }
+            else if selectedIndex == Constants.PaymentsScope.Completed {
+                if self.completedPaymentsSent.isEmpty && self.completedPaymentsReceived.isEmpty {
+                    // Displays to the user that there are no payment requests
+                    paymentsTable.alpha = 0.0
+                    paymentsTable.isUserInteractionEnabled = false
+                    noPaymentsStackView.alpha = 1.0
+                }
+                else {
+                    // There are payment requests, display them in the table
+                    paymentsTable.alpha = 1.0
+                    paymentsTable.isUserInteractionEnabled = true
+                    noPaymentsStackView.alpha = 0.0
+                }
+            }
+        }
     }
-    
+
     // MARK: - Table view data source methods
-    
+
     func numberOfSections(in tableView: UITableView) -> Int {
         return 0
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 0
     }
-    
+
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 //        if friendsCategorySegmentedControl.selectedSegmentIndex == Constants.FriendsScope.FriendRequests {
 //            switch section {

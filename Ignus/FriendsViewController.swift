@@ -483,7 +483,7 @@ class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate,
         }
         else if selectedIndex == Constants.FriendsScope.FriendRequests {
             // Gets data if there are no requests
-            if (friendRequestsSent.count == 0 || friendRequestsReceived.count == 0)
+            if (friendRequestsSent.isEmpty || friendRequestsReceived.isEmpty)
                 && !self.loadingFriendsActivityIndicator.isAnimating {
                 
                 // Shows the user that requests are loading
@@ -509,6 +509,7 @@ class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate,
                             self.loadingFriendsActivityIndicator.alpha = 0.0
                             self.noFriendsStackView.alpha = 1.0
                         }, completion: { (completed) in
+                            self.friendsTable.isUserInteractionEnabled = false
                             self.loadingFriendsActivityIndicator.stopAnimating()
                         })
                     }

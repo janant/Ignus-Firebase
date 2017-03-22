@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class PaymentsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIViewControllerTransitioningDelegate {
     
@@ -58,7 +59,105 @@ class PaymentsViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     func reloadData() {
+        guard let currentUser = FIRAuth.auth()?.currentUser else {
+            return
+        }
         
+        IgnusBackend.resetState()
+        IgnusBackend.configureState(forUser: currentUser)
+        
+        // Gets payments data from Ignus backend
+        IgnusBackend.getCurrentUserPaymentRequests(with: { (paymentsData) in
+            guard
+                let sentPaymentRequests = paymentsData["sent"],
+                let receivedPaymentRequests = paymentsData["received"]
+            else {
+                return
+            }
+            
+            // Sets current payments data
+            self.activePaymentsSent = sentPaymentRequests.filter {
+                guard let paymentStatus = $0["status"] as? String else {
+                    return false
+                }
+                return paymentStatus == Constants.PaymentRequestStatus.Active
+            }
+            self.activePaymentsReceived = receivedPaymentRequests.filter {
+                guard let paymentStatus = $0["status"] as? String else {
+                    return false
+                }
+                return paymentStatus == Constants.PaymentRequestStatus.Active
+            }
+            self.completedPaymentsSent = sentPaymentRequests.filter {
+                guard let paymentStatus = $0["status"] as? String else {
+                    return false
+                }
+                return paymentStatus == Constants.PaymentRequestStatus.Completed
+            }
+            self.completedPaymentsReceived = receivedPaymentRequests.filter {
+                guard let paymentStatus = $0["status"] as? String else {
+                    return false
+                }
+                return paymentStatus == Constants.PaymentRequestStatus.Completed
+            }
+            
+            // If the refresh was caused by pulling the refresh control, end refresh animation
+            if self.refreshControl.isRefreshing {
+                self.refreshControl.endRefreshing()
+            }
+            
+            // Displays appropriate information depending on currently selected scope
+            if self.paymentsCategorySegmentedControl.selectedSegmentIndex == Constants.PaymentsScope.Active {
+                self.paymentsTable.reloadData()
+                
+                if self.activePaymentsSent.isEmpty && self.activePaymentsReceived.isEmpty {
+                    // Displays to the user that there are no requests, with animation
+                    UIView.animate(withDuration: 0.25, animations: {
+                        self.paymentsLoadingIndicatorView.alpha = 0.0
+                        self.noPaymentsStackView.alpha = 1.0
+                        self.paymentsTable.alpha = 0.0
+                    }, completion: { (completed) in
+                        self.paymentsLoadingIndicatorView.stopAnimating()
+                        self.paymentsTable.isUserInteractionEnabled = false
+                    })
+                }
+                else { // There are requests, displays requests in the table
+                    UIView.animate(withDuration: 0.25, animations: {
+                        self.paymentsLoadingIndicatorView.alpha = 0.0
+                        self.noPaymentsStackView.alpha = 0.0
+                        self.paymentsTable.alpha = 1.0
+                    }, completion: { (completed) in
+                        self.paymentsLoadingIndicatorView.stopAnimating()
+                        self.paymentsTable.isUserInteractionEnabled = true
+                    })
+                }
+            }
+            else if self.paymentsCategorySegmentedControl.selectedSegmentIndex == Constants.PaymentsScope.Completed {
+                self.paymentsTable.reloadData()
+                
+                if self.completedPaymentsSent.isEmpty && self.completedPaymentsReceived.isEmpty {
+                    // Displays to the user that there are no requests, with animation
+                    UIView.animate(withDuration: 0.25, animations: {
+                        self.paymentsLoadingIndicatorView.alpha = 0.0
+                        self.noPaymentsStackView.alpha = 1.0
+                        self.paymentsTable.alpha = 0.0
+                    }, completion: { (completed) in
+                        self.paymentsLoadingIndicatorView.stopAnimating()
+                        self.paymentsTable.isUserInteractionEnabled = false
+                    })
+                }
+                else { // There are requests, displays requests in the table
+                    UIView.animate(withDuration: 0.25, animations: {
+                        self.paymentsLoadingIndicatorView.alpha = 0.0
+                        self.noPaymentsStackView.alpha = 0.0
+                        self.paymentsTable.alpha = 1.0
+                    }, completion: { (completed) in
+                        self.paymentsLoadingIndicatorView.stopAnimating()
+                        self.paymentsTable.isUserInteractionEnabled = true
+                    })
+                }
+            }
+        })
     }
     
     @IBAction func paymentsCategoryChanged(_ sender: Any) {
@@ -82,15 +181,9 @@ class PaymentsViewController: UIViewController, UITableViewDataSource, UITableVi
                 guard
                     let sentPaymentRequests = paymentsData["sent"],
                     let receivedPaymentRequests = paymentsData["received"]
-                    else {
-                        return
+                else {
+                    return
                 }
-                
-                // Resets current payments data
-                self.activePaymentsSent        = [[String: Any]]()
-                self.activePaymentsReceived    = [[String: Any]]()
-                self.completedPaymentsSent     = [[String: Any]]()
-                self.completedPaymentsReceived = [[String: Any]]()
                 
                 // Sets current payments data
                 self.activePaymentsSent = sentPaymentRequests.filter {
@@ -208,39 +301,111 @@ class PaymentsViewController: UIViewController, UITableViewDataSource, UITableVi
     // MARK: - Table view data source methods
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 0
+        if paymentsCategorySegmentedControl.selectedSegmentIndex == Constants.PaymentsScope.Active {
+            if !activePaymentsSent.isEmpty && !activePaymentsReceived.isEmpty {
+                return 2
+            }
+            else if !activePaymentsSent.isEmpty || !activePaymentsReceived.isEmpty {
+                return 1
+            }
+            else {
+                return 0
+            }
+        }
+        else if paymentsCategorySegmentedControl.selectedSegmentIndex == Constants.PaymentsScope.Completed {
+            if !completedPaymentsSent.isEmpty && !completedPaymentsReceived.isEmpty {
+                return 2
+            }
+            else if !completedPaymentsSent.isEmpty || !completedPaymentsReceived.isEmpty {
+                return 1
+            }
+            else {
+                return 0
+            }
+        }
+        else {
+            return 0
+        }
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        if paymentsCategorySegmentedControl.selectedSegmentIndex == Constants.PaymentsScope.Active {
+            if section == 0 {
+                if !activePaymentsReceived.isEmpty {
+                    return activePaymentsReceived.count
+                }
+                else {
+                    return activePaymentsSent.count
+                }
+            }
+            else if section == 1 {
+                return activePaymentsSent.count
+            }
+            else {
+                return 0
+            }
+        }
+        else if paymentsCategorySegmentedControl.selectedSegmentIndex == Constants.PaymentsScope.Completed {
+            if section == 0 {
+                if !completedPaymentsReceived.isEmpty {
+                    return completedPaymentsReceived.count
+                }
+                else {
+                    return completedPaymentsSent.count
+                }
+            }
+            else if section == 1 {
+                return completedPaymentsSent.count
+            }
+            else {
+                return 0
+            }
+        }
+        else {
+            return 0
+        }
     }
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//        if friendsCategorySegmentedControl.selectedSegmentIndex == Constants.FriendsScope.FriendRequests {
-//            switch section {
-//            case 0:
-//                if friendRequestsReceived.count > 0 {
-//                    return "Friend Requests"
-//                }
-//                else {
-//                    return "Pending Requests"
-//                }
-//            case 1:
-//                return "Pending Requests"
-//            default:
-//                return nil
-//            }
-//        }
-//        return nil
-        return nil
+        if paymentsCategorySegmentedControl.selectedSegmentIndex == Constants.PaymentsScope.Active {
+            if section == 0 {
+                if !activePaymentsReceived.isEmpty {
+                    return "Requests to Me"
+                }
+                else {
+                    return "My Requests"
+                }
+            }
+            else if section == 1 {
+                return "My Requests"
+            }
+            else {
+                return nil
+            }
+        }
+        else if paymentsCategorySegmentedControl.selectedSegmentIndex == Constants.PaymentsScope.Completed {
+            if section == 0 {
+                if !completedPaymentsReceived.isEmpty {
+                    return "Requests to Me"
+                }
+                else {
+                    return "My Requests"
+                }
+            }
+            else if section == 1 {
+                return "My Requests"
+            }
+            else {
+                return nil
+            }
+        }
+        else {
+            return nil
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-//        if friendsCategorySegmentedControl.selectedSegmentIndex == Constants.FriendsScope.FriendRequests {
-//            return 25
-//        }
-//        return 0
-        return 0
+        return 25
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

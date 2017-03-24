@@ -19,7 +19,7 @@ class RequestPaymentTransition: NSObject, UIViewControllerAnimatedTransitioning 
     }
     
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
-        return 0.25
+        return 0.18
     }
     
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {

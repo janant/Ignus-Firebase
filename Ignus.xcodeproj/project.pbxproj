@@ -46,6 +46,7 @@
 		16C8FEB91E7366470067965B /* ProfileOptions.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16C8FEB81E7366470067965B /* ProfileOptions.storyboard */; };
 		16D63F841DD7124500287C1F /* PrivacyPolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D63F831DD7124500287C1F /* PrivacyPolicyViewController.swift */; };
 		16D63F871DD7153400287C1F /* Account.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16D63F861DD7153300287C1F /* Account.storyboard */; };
+		16D6D4E31E84D465003EE9B5 /* RequestPayment.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16D6D4E21E84D465003EE9B5 /* RequestPayment.storyboard */; };
 		16D967541E10BD670019654A /* ChooseFriendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D967531E10BD670019654A /* ChooseFriendViewController.swift */; };
 		16DEC2D41DC51366003AF4AA /* 23.png in Resources */ = {isa = PBXBuildFile; fileRef = 16DEC2BD1DC51366003AF4AA /* 23.png */; };
 		16DEC2D51DC51366003AF4AA /* 21.png in Resources */ = {isa = PBXBuildFile; fileRef = 16DEC2BE1DC51366003AF4AA /* 21.png */; };
@@ -123,6 +124,7 @@
 		16C8FEB81E7366470067965B /* ProfileOptions.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ProfileOptions.storyboard; sourceTree = "<group>"; };
 		16D63F831DD7124500287C1F /* PrivacyPolicyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyViewController.swift; sourceTree = "<group>"; };
 		16D63F861DD7153300287C1F /* Account.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Account.storyboard; sourceTree = "<group>"; };
+		16D6D4E21E84D465003EE9B5 /* RequestPayment.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = RequestPayment.storyboard; sourceTree = "<group>"; };
 		16D95E581E1CCC840066A32D /* Ignus-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Ignus-Bridging-Header.h"; sourceTree = "<group>"; };
 		16D967531E10BD670019654A /* ChooseFriendViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChooseFriendViewController.swift; sourceTree = "<group>"; };
 		16DEC2BD1DC51366003AF4AA /* 23.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = 23.png; path = "Resouces/Login Background Frames/23.png"; sourceTree = "<group>"; };
@@ -305,6 +307,7 @@
 				16C8FEB31E7363F00067965B /* Message.storyboard */,
 				16C8FEB51E7365260067965B /* ChooseFriend.storyboard */,
 				16C8FEB81E7366470067965B /* ProfileOptions.storyboard */,
+				16D6D4E21E84D465003EE9B5 /* RequestPayment.storyboard */,
 			);
 			name = Storyboards;
 			sourceTree = "<group>";
@@ -452,6 +455,7 @@
 				16DEC2D71DC51366003AF4AA /* 20.png in Resources */,
 				1696D8481DC46A96003BFDA8 /* Assets.xcassets in Resources */,
 				16DEC2F01DC51373003AF4AA /* Gotham-Medium.ttf in Resources */,
+				16D6D4E31E84D465003EE9B5 /* RequestPayment.storyboard in Resources */,
 				16DEC2E51DC51366003AF4AA /* 12.png in Resources */,
 				1696D8461DC46A96003BFDA8 /* Main.storyboard in Resources */,
 				16DEC2DB1DC51366003AF4AA /* 5.png in Resources */,

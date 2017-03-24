@@ -15,15 +15,15 @@ class RequestPaymentPresentation: UIPresentationController {
     override var frameOfPresentedViewInContainerView: CGRect {
         let presentingFrame = presentingViewController.view.frame
         let intendedWidth: CGFloat = 500 // Want to make the view at most 500 pixels wide
-        let intendedHeight: CGFloat = 500 // Want to make the view at most 500 pixels tall
+        let intendedHeight: CGFloat = 600 // Want to make the view at most 500 pixels tall
         
         let maxPossibleWidth: CGFloat = presentingFrame.width - 40 // View width, 20px side margins
-        let maxPossibleHeight: CGFloat = presentingFrame.height - 40 // View height, 20px top/bottom
+        let maxPossibleHeight: CGFloat = presentingFrame.height - 50 // View height w/ margins
         
         let actualWidth = min(intendedWidth, maxPossibleWidth)
         let actualHeight = min(intendedHeight, maxPossibleHeight)
         
-        return CGRect(x: presentingFrame.midX - (actualWidth / 2), y: presentingFrame.midY - (actualHeight / 2), width: actualWidth, height: actualHeight)
+        return CGRect(x: presentingFrame.midX - (actualWidth / 2), y: 30, width: actualWidth, height: actualHeight)
     }
     
     override func presentationTransitionWillBegin() {

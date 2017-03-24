@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class PaymentsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIViewControllerTransitioningDelegate {
+class PaymentsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIViewControllerTransitioningDelegate, RequestPaymentTableViewControllerDelegate {
     
     // Navigation item
     @IBOutlet weak var paymentsCategorySegmentedControl: UISegmentedControl!
@@ -27,6 +27,8 @@ class PaymentsViewController: UIViewController, UITableViewDataSource, UITableVi
     var completedPaymentsReceived = [[String: Any]]()
     
     let refreshControl = UIRefreshControl()
+    
+    var requestPaymentDismissalTransition: RequestPaymentTransition?
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -421,15 +423,68 @@ class PaymentsViewController: UIViewController, UITableViewDataSource, UITableVi
         view.tintColor = #colorLiteral(red: 0.1215686275, green: 0.1215686275, blue: 0.1215686275, alpha: 1)
         headerView.textLabel?.textColor = UIColor.white
     }
-
-    /*
+    
+    // MARK: - RequestPaymentTableViewControllerDelegate methods
+    
+    func sentNewPaymentRequest(requestPaymentTVC: RequestPaymentTableViewController, requestData: [String : Any]) {
+        requestPaymentDismissalTransition = RequestPaymentTransition(presenting: false, sentMessage: true)
+        requestPaymentTVC.dismiss(animated: true, completion: nil)
+    }
+    
+    func canceledNewPaymentRequest(requestPaymentTVC: RequestPaymentTableViewController) {
+        requestPaymentDismissalTransition = RequestPaymentTransition(presenting: false, sentMessage: false)
+        requestPaymentTVC.dismiss(animated: true, completion: nil)
+    }
+    
+    // MARK: - Transitioning delegate methods
+    
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        if let navVC = presented as? UINavigationController {
+            if navVC.topViewController is RequestPaymentTableViewController {
+                return RequestPaymentTransition(presenting: true)
+            }
+        }
+        
+        return nil
+    }
+    
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        if let navVC = dismissed as? UINavigationController {
+            if navVC.topViewController is RequestPaymentTableViewController {
+                return requestPaymentDismissalTransition
+            }
+        }
+        
+        return nil
+    }
+    
+    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
+        if let navVC = presented as? UINavigationController {
+            if navVC.topViewController is RequestPaymentTableViewController {
+                return RequestPaymentPresentation(presentedViewController: presented, presenting: presenting)
+            }
+        }
+        
+        return nil
+    }
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        if segue.identifier == "Request Payment" {
+            if let navVC = segue.destination as? UINavigationController {
+                navVC.transitioningDelegate = self
+                navVC.modalPresentationStyle = .custom
+                
+                if let requestPaymentTVC = navVC.topViewController as? RequestPaymentTableViewController {
+                    requestPaymentTVC.delegate = self
+                }
+            }
+        }
     }
-    */
+    
 
 }

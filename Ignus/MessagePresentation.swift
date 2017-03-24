@@ -19,7 +19,14 @@ class MessagePresentation: UIPresentationController {
         
         let actualWidth = min(intendedWidth, maxPossibleWidth)
         
-        return CGRect(x: presentingFrame.midX - (actualWidth / 2), y: 30, width: actualWidth, height: 244)
+        let navigationBarHeight: CGFloat = {
+            guard let navVC = presentedViewController as? UINavigationController else {
+                return 44.0
+            }
+            return navVC.navigationBar.frame.size.height
+        }()
+        
+        return CGRect(x: presentingFrame.midX - (actualWidth / 2), y: 30, width: actualWidth, height: 200 + navigationBarHeight)
     }
     
     override func presentationTransitionWillBegin() {

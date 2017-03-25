@@ -206,10 +206,11 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
     
     // MARK: - ChooseFriendViewController delegate methods
     
-    func choseFriend(_ friend: String) {
+    func chooseFriendViewController(vc: ChooseFriendViewController, choseFriend friend: String) {
         self.selectedRecipient = friend
         recipientLabel.text = friend
         self.textViewDidChange(messageTextView)
+        _ = self.navigationController?.popViewController(animated: true)
     }
 
     // MARK: - Navigation
@@ -223,10 +224,6 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
                 chooseFriendVC.delegate = self
             }
         }
-    }
-    
-    @IBAction func returnToMessage(_ segue: UIStoryboardSegue) {
-        
     }
     
     @IBAction func dismissMessage(_ sender: Any) {

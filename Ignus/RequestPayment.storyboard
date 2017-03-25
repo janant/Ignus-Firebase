@@ -29,7 +29,7 @@
                                         <rect key="frame" x="0.0" y="35" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="v2O-yo-Z7V" id="GTa-b2-nui">
-                                            <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="287" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="To:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ScC-QN-uic">
@@ -49,16 +49,19 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.249575564" green="0.249575564" blue="0.249575564" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <connections>
+                                            <segue destination="BC8-8s-IKY" kind="show" identifier="Choose Friend" id="mt6-5v-50e"/>
+                                        </connections>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
                             <tableViewSection headerTitle="Amount" id="txE-e5-XXh">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="162" id="zSj-94-HvH">
-                                        <rect key="frame" x="0.0" y="128" width="320" height="162"/>
+                                        <rect key="frame" x="0.0" y="127" width="320" height="162"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="zSj-94-HvH" id="fsH-dS-aVb">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="161"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="161.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <pickerView contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rPj-MN-f0C">
@@ -77,10 +80,10 @@
                             <tableViewSection headerTitle="Memo (optional)" id="IpS-co-MMF">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="76" id="7rM-Q1-fat">
-                                        <rect key="frame" x="0.0" y="339" width="320" height="76"/>
+                                        <rect key="frame" x="0.0" y="337" width="320" height="76"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="7rM-Q1-fat" id="ldD-9b-IOS">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="75"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="75.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I3t-Eu-r3h">
@@ -118,10 +121,23 @@
                     </navigationItem>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="320" height="568"/>
+                    <connections>
+                        <outlet property="recipientCell" destination="v2O-yo-Z7V" id="Rf9-Gs-HRy"/>
+                        <outlet property="recipientLabel" destination="FHU-BX-R2g" id="Ib7-ac-KxN"/>
+                        <outlet property="requestPaymentTable" destination="GG7-Xq-SPr" id="V70-bv-k2f"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Tbs-FC-30b" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3869" y="-1198"/>
+        </scene>
+        <!--ChooseFriend-->
+        <scene sceneID="oID-lX-WZT">
+            <objects>
+                <viewControllerPlaceholder storyboardName="ChooseFriend" id="BC8-8s-IKY" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9eM-0V-HpP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4452" y="-1395"/>
         </scene>
     </scenes>
 </document>

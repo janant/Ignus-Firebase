@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 
 protocol ChooseFriendViewControllerDelegate {
-    func choseFriend(_ friend: String)
+    func chooseFriendViewController(vc: ChooseFriendViewController, choseFriend friend: String)
 }
 
 class ChooseFriendViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
@@ -147,8 +147,7 @@ class ChooseFriendViewController: UIViewController, UICollectionViewDataSource, 
         }
         
         if let selectedFriendUsername = friendsData[indexPath.row]["username"] {
-            self.delegate?.choseFriend(selectedFriendUsername)
-            performSegue(withIdentifier: "Return to Previous", sender: nil)
+            self.delegate?.chooseFriendViewController(vc: self, choseFriend: selectedFriendUsername)
         }
     }
     

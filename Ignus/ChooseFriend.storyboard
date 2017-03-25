@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16E183b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="RyB-ky-EMD">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16E192b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="RyB-ky-EMD">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -112,7 +112,7 @@
                                 <rect key="frame" x="169" y="315" width="37" height="37"/>
                             </activityIndicatorView>
                             <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Friends" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UGy-kc-FNW">
-                                <rect key="frame" x="119.5" y="321.5" width="136" height="25"/>
+                                <rect key="frame" x="120" y="321" width="136" height="25"/>
                                 <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="25"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -135,11 +135,9 @@
                         <outlet property="friendsCollectionView" destination="Ngg-Ab-YJk" id="2id-xC-Dab"/>
                         <outlet property="friendsLoadingIndicatorView" destination="5Wc-ek-IER" id="rXo-JE-XL2"/>
                         <outlet property="noFriendsLabel" destination="UGy-kc-FNW" id="Tnn-Md-0Oy"/>
-                        <segue destination="jrT-V8-f0u" kind="unwind" identifier="Return to Previous" unwindAction="returnToMessage:" id="WHY-WM-Sef"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2q1-q5-SdG" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="jrT-V8-f0u" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="3774" y="1801"/>
         </scene>

@@ -13,12 +13,17 @@ protocol RequestPaymentTableViewControllerDelegate: class {
     func canceledNewPaymentRequest(requestPaymentTVC: RequestPaymentTableViewController)
 }
 
-class RequestPaymentTableViewController: UITableViewController, ChooseFriendViewControllerDelegate {
+class RequestPaymentTableViewController: UITableViewController, ChooseFriendViewControllerDelegate, UITextViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
     
     @IBOutlet var requestPaymentTable: UITableView!
     
     @IBOutlet weak var recipientCell: UITableViewCell!
     @IBOutlet weak var recipientLabel: UILabel!
+    
+    @IBOutlet weak var paymentAmountPicker: UIPickerView!
+    @IBOutlet weak var memoTextView: UITextView!
+    
+    @IBOutlet weak var doneButton: UIBarButtonItem!
     
     var recipient: String?
     
@@ -44,6 +49,13 @@ class RequestPaymentTableViewController: UITableViewController, ChooseFriendView
         
         // Adds blur separator effect
         requestPaymentTable.separatorEffect = UIVibrancyEffect(blurEffect: UIBlurEffect(style: .dark))
+        
+        // Configures selection highlight color
+        let selectedView = UIView()
+        selectedView.backgroundColor = UIColor.gray
+        recipientCell.selectedBackgroundView = selectedView
+        
+        memoTextView.textContainerInset = UIEdgeInsets(top: 8, left: 10, bottom: 8, right: 10)
     }
 
     override func didReceiveMemoryWarning() {
@@ -59,17 +71,57 @@ class RequestPaymentTableViewController: UITableViewController, ChooseFriendView
         self.delegate?.sentNewPaymentRequest(requestPaymentTVC: self, requestData: [String : Any]())
     }
     
+    // MARK: - Picker view data source
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 2
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return 100
+    }
+    
+    // MARK: - Picker view delegate methods
+    
+    func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
+        var title = String()
+        
+        switch component {
+        case 0:
+            title = "$\(row)."
+        case 1:
+            title = row < 10 ? "0\(row)" : "\(row)"
+        default:
+            break
+        }
+        return NSAttributedString(string: title, attributes: [NSForegroundColorAttributeName:UIColor.white, NSFontAttributeName: UIFont(name: "Gotham-Book", size: 16)!])
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        let dollarsSelected = paymentAmountPicker.selectedRow(inComponent: 0)
+        let centsSelected = paymentAmountPicker.selectedRow(inComponent: 1)
+        
+        doneButton.isEnabled = !(dollarsSelected == 0 && centsSelected == 0) && recipient != nil
+    }
+
+    
     // MARK: - ChooseFriendViewController delegate methods
     
     func chooseFriendViewController(vc: ChooseFriendViewController, choseFriend friend: String) {
         self.recipient = friend
         recipientLabel.text = friend
-//        self.textViewDidChange(messageTextView)
         _ = self.navigationController?.popViewController(animated: true)
+        
+        self.pickerView(paymentAmountPicker, didSelectRow: 0, inComponent: 0)
     }
 
-    // MARK: - Table view data source
-
+    // MARK: - Table view delegate
+    
+    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        if let header = view as? UITableViewHeaderFooterView {
+            header.textLabel?.font = UIFont(name: "Gotham-Book", size: 13)
+        }
+    }
     
     // MARK: - Navigation
 

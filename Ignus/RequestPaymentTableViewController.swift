@@ -68,7 +68,35 @@ class RequestPaymentTableViewController: UITableViewController, ChooseFriendView
     }
     
     @IBAction func sentRequest(_ sender: Any) {
-        self.delegate?.sentNewPaymentRequest(requestPaymentTVC: self, requestData: [String : Any]())
+        guard
+            let currentUser = IgnusBackend.currentUserUsername,
+            let recipient = recipient
+        else {
+            return
+        }
+        
+        // Tells the user that the request is being sent
+        self.title = "Sending..."
+        self.recipientCell.isUserInteractionEnabled = false
+        self.doneButton.isEnabled = false
+        
+        // Creates new payment request data object
+        var paymentRequest = [String: Any]()
+        paymentRequest["sender"] = currentUser
+        paymentRequest["recipient"] = recipient
+        paymentRequest["dollars"] = paymentAmountPicker.selectedRow(inComponent: 0)
+        paymentRequest["cents"] = paymentAmountPicker.selectedRow(inComponent: 1)
+        paymentRequest["memo"] = memoTextView.text
+        paymentRequest["unread"] = true
+        paymentRequest["status"] = Constants.PaymentRequestStatus.Active
+        paymentRequest["rating"] = Constants.PaymentRating.None
+        
+        // Sends the payment request
+        IgnusBackend.sendPaymentRequest(paymentRequest: paymentRequest, toUser: recipient) { (error) in
+            if error == nil {
+                self.delegate?.sentNewPaymentRequest(requestPaymentTVC: self, requestData: paymentRequest)
+            }
+        }
     }
     
     // MARK: - Picker view data source

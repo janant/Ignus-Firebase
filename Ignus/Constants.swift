@@ -54,6 +54,7 @@ struct Constants {
         static let Red = "Red"
         static let Yellow = "Yellow"
         static let Green = "Green"
+        static let None = "None"
     }
     
     struct PaymentsScope {

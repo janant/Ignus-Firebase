@@ -199,7 +199,7 @@ struct IgnusBackend {
     
     // MARK: - Other user data accessor methods
     
-    static func getPaymentsRequests(forUser username: String, with completionHandler: @escaping ([String: [[String: Any]]]) -> Void) {
+    static func getPaymentRequests(forUser username: String, with completionHandler: @escaping ([String: [[String: Any]]]) -> Void) {
         databaseRef.child("paymentRequests/\(username)").observeSingleEvent(of: .value, with: { (snapshot) in
             if var paymentRequestsData = snapshot.value as? [String: [[String: Any]]] {
                 if paymentRequestsData["sent"] == nil {
@@ -245,7 +245,7 @@ struct IgnusBackend {
             }
             else {
                 let blankFriendRequestsData = ["sent":      [String](),
-                                        "received":  [String]()]
+                                               "received":  [String]()]
                 completionHandler(blankFriendRequestsData)
             }
         })
@@ -620,6 +620,36 @@ struct IgnusBackend {
     }
     
     // MARK: - Other data operations
+    
+    static func sendPaymentRequest(paymentRequest: [String: Any], toUser user: String, with completionHandler: @escaping (Error?) -> Void) {
+        
+        // Updates user received requests and current user sent requests
+        getPaymentRequests(forUser: user) { (userPaymentRequests) in
+            if var userReceivedPayments = userPaymentRequests["received"] {
+                userReceivedPayments.insert(paymentRequest, at: 0)
+                
+                // Gets current user payment requests
+                getCurrentUserPaymentRequests(with: { (currentUserPaymentRequests) in
+                    if var currentUserSentPaymentRequests = currentUserPaymentRequests["sent"] {
+                        currentUserSentPaymentRequests.insert(paymentRequest, at: 0)
+                        
+                        // Sets the user's received payment requests
+                        setReceivedPaymentRequests(userReceivedPayments, forUser: user, with: { (error) in
+                            if error == nil {
+                                // Sets the current user's sent payment requests
+                                setCurrentUserSentPaymentRequests(currentUserSentPaymentRequests, with: { (error) in
+                                    completionHandler(error)
+                                })
+                            }
+                            else {
+                                completionHandler(error)
+                            }
+                        })
+                    }
+                })
+            }
+        }
+    }
     
     static func sendMessage(message: String, toUser user: String, with completionHandler: @escaping (Error?) -> Void) {
         

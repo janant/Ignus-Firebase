@@ -414,6 +414,112 @@ class PaymentsViewController: UIViewController, UITableViewDataSource, UITableVi
         if paymentsCategorySegmentedControl.selectedSegmentIndex == Constants.PaymentsScope.Active {
             let cell = paymentsTable.dequeueReusableCell(withIdentifier: "Active Cell", for: indexPath)
             
+            // Gets views needed for setting up the table cell
+            guard
+                let profileImageView = cell.viewWithTag(1) as? UIImageView,
+                let nameLabel = cell.viewWithTag(2) as? UILabel,
+                let moneyMemoLabel = cell.viewWithTag(3) as? UILabel,
+                let unreadIndicator = cell.viewWithTag(4),
+                let dateLabel = cell.viewWithTag(5) as? UILabel
+            else {
+                return UITableViewCell()
+            }
+            
+            // Gets the current payment request data and username
+            guard
+                let paymentRequest: [String: Any] = {
+                    if indexPath.section == 0 {
+                        if !activePaymentsReceived.isEmpty {
+                            return activePaymentsReceived[indexPath.row]
+                        }
+                        else {
+                            return activePaymentsSent[indexPath.row]
+                        }
+                    }
+                    else if indexPath.section == 1 {
+                        return activePaymentsSent[indexPath.row]
+                    }
+                    else {
+                        return nil
+                    }
+                }(),
+                let username: String = {
+                    if indexPath.section == 0 {
+                        if !activePaymentsReceived.isEmpty {
+                            return paymentRequest["sender"] as? String
+                        }
+                        else {
+                            return paymentRequest["recipient"] as? String
+                        }
+                    }
+                    else if indexPath.section == 1 {
+                        return paymentRequest["recipient"] as? String
+                    }
+                    else {
+                        return nil
+                    }
+                }()
+            else {
+                return UITableViewCell()
+            }
+            
+            // Sets initial data to blank, since cells get reused
+            nameLabel.text = ""
+            moneyMemoLabel.text = ""
+            dateLabel.text = ""
+            profileImageView.image = #imageLiteral(resourceName: "Not Loaded Profile")
+            
+            // Gets profile info for this user
+            IgnusBackend.getUserInfo(forUser: username, with: { (error, userData) in
+                if error == nil {
+                    guard
+                        let userInfo = userData,
+                        let firstName = userInfo["firstName"],
+                        let lastName = userInfo["lastName"]
+                    else {
+                        return
+                    }
+                    
+                    UIView.transition(with: nameLabel, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                        nameLabel.text = "\(firstName) \(lastName)"
+                    }, completion: nil)
+                }
+            })
+            
+            // Gets profile image data
+            IgnusBackend.getProfileImage(forUser: username) { (error, image) in
+                if error == nil {
+                    UIView.transition(with: profileImageView, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                        profileImageView.image = image
+                    }, completion: nil)
+                }
+            }
+            
+            // Sets the label with money and memo
+            if let dollars = paymentRequest["dollars"] as? Int,
+               let cents   = paymentRequest["cents"] as? Int,
+               let memo    = paymentRequest["memo"] as? String {
+                var moneyMemoLabelText = "$\(dollars)."
+                moneyMemoLabelText += (cents >= 10 ? "\(cents)" : "0\(cents)")
+                if !memo.isEmpty {
+                    moneyMemoLabelText += " - \(memo)"
+                }
+                moneyMemoLabel.text = moneyMemoLabelText
+            }
+            
+            // Sets timestamp
+            if let timeSent = paymentRequest["timestamp"] as? Double {
+                let messageDate = Date(timeIntervalSince1970: timeSent / 1000)
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = (Calendar.current.isDateInToday(messageDate)) ? "h:mm a" : "MM/dd/yy"
+                dateLabel.text = dateFormatter.string(from: messageDate)
+            }
+            
+            // Shows/hides unread indicator
+            if let messageUnread = paymentRequest["unread"] as? Bool {
+                unreadIndicator.isHidden = !messageUnread
+            }
+            
             cell.backgroundColor = UIColor.clear
             
             let backgroundView = UIView()
@@ -424,6 +530,106 @@ class PaymentsViewController: UIViewController, UITableViewDataSource, UITableVi
         }
         else if paymentsCategorySegmentedControl.selectedSegmentIndex == Constants.PaymentsScope.Completed {
             let cell = paymentsTable.dequeueReusableCell(withIdentifier: "Completed Cell", for: indexPath)
+            
+            // Gets views needed for setting up the table cell
+            guard
+                let profileImageView = cell.viewWithTag(1) as? UIImageView,
+                let nameLabel = cell.viewWithTag(2) as? UILabel,
+                let moneyMemoLabel = cell.viewWithTag(3) as? UILabel,
+                let dateLabel = cell.viewWithTag(5) as? UILabel
+            else {
+                return UITableViewCell()
+            }
+            
+            // Gets the current payment request data and username
+            guard
+                let paymentRequest: [String: Any] = {
+                    if indexPath.section == 0 {
+                        if !completedPaymentsReceived.isEmpty {
+                            return completedPaymentsReceived[indexPath.row]
+                        }
+                        else {
+                            return completedPaymentsSent[indexPath.row]
+                        }
+                    }
+                    else if indexPath.section == 1 {
+                        return completedPaymentsSent[indexPath.row]
+                    }
+                    else {
+                        return nil
+                    }
+                }(),
+                let username: String = {
+                    if indexPath.section == 0 {
+                        if !completedPaymentsReceived.isEmpty {
+                            return paymentRequest["sender"] as? String
+                        }
+                        else {
+                            return paymentRequest["recipient"] as? String
+                        }
+                    }
+                    else if indexPath.section == 1 {
+                        return paymentRequest["recipient"] as? String
+                    }
+                    else {
+                        return nil
+                    }
+                }()
+            else {
+                return UITableViewCell()
+            }
+            
+            // Sets initial data to blank, since cells get reused
+            nameLabel.text = ""
+            moneyMemoLabel.text = ""
+            dateLabel.text = ""
+            profileImageView.image = #imageLiteral(resourceName: "Not Loaded Profile")
+            
+            // Gets profile info for this user
+            IgnusBackend.getUserInfo(forUser: username, with: { (error, userData) in
+                if error == nil {
+                    guard
+                        let userInfo = userData,
+                        let firstName = userInfo["firstName"],
+                        let lastName = userInfo["lastName"]
+                    else {
+                        return
+                    }
+                    
+                    UIView.transition(with: nameLabel, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                        nameLabel.text = "\(firstName) \(lastName)"
+                    }, completion: nil)
+                }
+            })
+            
+            // Gets profile image data
+            IgnusBackend.getProfileImage(forUser: username) { (error, image) in
+                if error == nil {
+                    UIView.transition(with: profileImageView, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                        profileImageView.image = image
+                    }, completion: nil)
+                }
+            }
+            
+            // Sets the label with money and memo
+            if let dollars = paymentRequest["dollars"] as? Int,
+                let cents   = paymentRequest["cents"] as? Int,
+                let memo    = paymentRequest["memo"] as? String {
+                var moneyMemoLabelText = "$\(dollars)."
+                moneyMemoLabelText += (cents >= 10 ? "\(cents)" : "0\(cents)")
+                if !memo.isEmpty {
+                    moneyMemoLabelText += " - \(memo)"
+                }
+                moneyMemoLabel.text = moneyMemoLabelText
+            }
+            
+            // Sets timestamp
+            if let timeSent = paymentRequest["timestamp"] as? Double {
+                let messageDate = Date(timeIntervalSince1970: timeSent / 1000)
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = (Calendar.current.isDateInToday(messageDate)) ? "h:mm a" : "MM/dd/yy"
+                dateLabel.text = dateFormatter.string(from: messageDate)
+            }
             
             cell.backgroundColor = UIColor.clear
             

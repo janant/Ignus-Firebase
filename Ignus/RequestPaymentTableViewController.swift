@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 protocol RequestPaymentTableViewControllerDelegate: class {
     func sentNewPaymentRequest(requestPaymentTVC: RequestPaymentTableViewController, requestData: [String: Any])
@@ -90,6 +91,7 @@ class RequestPaymentTableViewController: UITableViewController, ChooseFriendView
         paymentRequest["unread"] = true
         paymentRequest["status"] = Constants.PaymentRequestStatus.Active
         paymentRequest["rating"] = Constants.PaymentRating.None
+        paymentRequest["timestamp"] = FIRServerValue.timestamp()
         
         // Sends the payment request
         IgnusBackend.sendPaymentRequest(paymentRequest: paymentRequest, toUser: recipient) { (error) in

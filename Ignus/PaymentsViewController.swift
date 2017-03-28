@@ -411,7 +411,31 @@ class PaymentsViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        if paymentsCategorySegmentedControl.selectedSegmentIndex == Constants.PaymentsScope.Active {
+            let cell = paymentsTable.dequeueReusableCell(withIdentifier: "Active Cell", for: indexPath)
+            
+            cell.backgroundColor = UIColor.clear
+            
+            let backgroundView = UIView()
+            backgroundView.backgroundColor = UIColor.gray
+            cell.selectedBackgroundView = backgroundView
+            
+            return cell
+        }
+        else if paymentsCategorySegmentedControl.selectedSegmentIndex == Constants.PaymentsScope.Completed {
+            let cell = paymentsTable.dequeueReusableCell(withIdentifier: "Completed Cell", for: indexPath)
+            
+            cell.backgroundColor = UIColor.clear
+            
+            let backgroundView = UIView()
+            backgroundView.backgroundColor = UIColor.gray
+            cell.selectedBackgroundView = backgroundView
+            
+            return cell
+        }
+        else {
+            return UITableViewCell()
+        }
     }
     
     // MARK: - Table view delegate methods

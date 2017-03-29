@@ -249,7 +249,7 @@
         <scene sceneID="NA4-gL-h8A">
             <objects>
                 <navigationController id="fki-mb-d7B" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" barStyle="black" id="bw0-kk-WS7">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="bw0-kk-WS7">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -700,7 +700,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="2G4-qa-4yW" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Settings" image="Settings Icon" id="hjk-sa-S3p"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" barStyle="black" id="B1P-eD-Cy4">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="B1P-eD-Cy4">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="0.91764705879999997" green="0.20000000000000001" blue="0.21960784310000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1150,7 +1150,7 @@ Cg
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Ges-1Y-ZKk" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Messages" image="Messages Icon" id="drD-hE-f2w"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" barStyle="black" id="NWC-JA-6lV">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="NWC-JA-6lV">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1169,7 +1169,7 @@ Cg
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="1gL-sa-368" customClass="PaymentsNavigationViewController" customModule="Ignus" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Payments" image="Payments Icon" id="gcm-Hg-RgR"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" barStyle="black" id="L0n-E9-mic">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="L0n-E9-mic">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1182,10 +1182,10 @@ Cg
             </objects>
             <point key="canvasLocation" x="1553" y="-1275"/>
         </scene>
-        <!--View Controller-->
+        <!--Payment View Controller-->
         <scene sceneID="b88-Rn-bZc">
             <objects>
-                <viewController id="85L-29-kuz" sceneMemberID="viewController">
+                <viewController id="85L-29-kuz" customClass="PaymentViewController" customModule="Ignus" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="CqC-IY-zAy"/>
                         <viewControllerLayoutGuide type="bottom" id="RVk-ay-qXX"/>
@@ -1220,7 +1220,7 @@ Cg
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="AOA-Nn-KfR" customClass="FriendsNavigationViewController" customModule="Ignus" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" barStyle="black" id="X2h-0e-HMu">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="X2h-0e-HMu">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1258,7 +1258,7 @@ Cg
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Results Found" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qNe-ne-BjW">
-                                                        <rect key="frame" x="86.5" y="322" width="202.5" height="23"/>
+                                                        <rect key="frame" x="95.5" y="320" width="184.5" height="27"/>
                                                         <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="23"/>
                                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -1310,13 +1310,13 @@ Cg
                                                                 </userDefinedRuntimeAttributes>
                                                             </imageView>
                                                             <label opaque="NO" userInteractionEnabled="NO" tag="3" contentMode="left" horizontalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wqW-3Z-Lp9">
-                                                                <rect key="frame" x="76" y="34" width="258" height="18"/>
+                                                                <rect key="frame" x="76" y="37.5" width="258" height="14.5"/>
                                                                 <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="13"/>
                                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="760" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fwu-DD-roV">
-                                                                <rect key="frame" x="76" y="12" width="258" height="19"/>
+                                                                <rect key="frame" x="76" y="12" width="258" height="22.5"/>
                                                                 <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="19"/>
                                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <nil key="highlightedColor"/>
@@ -1397,7 +1397,7 @@ Cg
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" modalPresentationStyle="overFullScreen" id="9yh-Yr-Fr5" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" barStyle="black" id="5e8-nE-5WP">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="5e8-nE-5WP">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1415,7 +1415,7 @@ Cg
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="eQ9-Rh-Jdb" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" barStyle="black" id="qpz-Kz-iQK">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="qpz-Kz-iQK">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1443,7 +1443,7 @@ Cg
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="t5j-ff-ldy" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" barStyle="black" id="rIo-OI-ZaT">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="rIo-OI-ZaT">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1469,8 +1469,8 @@ Cg
         <image name="Settings Icon" width="23" height="23"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="ceR-j6-WpR"/>
         <segue reference="DdU-9z-Nwh"/>
-        <segue reference="EGd-w1-jih"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.91764705879999997" green="0.20000000000000001" blue="0.21960784310000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

@@ -14,6 +14,8 @@ class PaymentsNavigationViewController: UINavigationController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        self.view.backgroundColor = UIColor(red: 49/255, green: 49/255, blue: 49/255, alpha: 1.0)
+        self.navigationBar.backgroundColor = UIColor(red: 49/255, green: 49/255, blue: 49/255, alpha: 1.0)
     }
 
     override func didReceiveMemoryWarning() {

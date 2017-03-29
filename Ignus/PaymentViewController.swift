@@ -9,6 +9,8 @@
 import UIKit
 
 class PaymentViewController: UIViewController {
+    
+    var paymentInfo: [String: Any]?
 
     override func viewDidLoad() {
         super.viewDidLoad()

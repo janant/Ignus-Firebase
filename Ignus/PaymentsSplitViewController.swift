@@ -8,17 +8,30 @@
 
 import UIKit
 
-class PaymentsSplitViewController: UISplitViewController {
+class PaymentsSplitViewController: UISplitViewController, UISplitViewControllerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        self.preferredDisplayMode = .allVisible
+        self.delegate = self
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
+        if let paymentNavVC = secondaryViewController as? UINavigationController {
+            if let paymentVC = paymentNavVC.topViewController as? PaymentViewController {
+                if let _ = paymentVC.paymentInfo {
+                    return false
+                }
+            }
+        }
+        return true
     }
     
 

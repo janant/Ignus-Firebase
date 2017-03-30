@@ -404,7 +404,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIViewControll
         
         let animation = CABasicAnimation(keyPath: "transform.rotation.z")
         animation.fromValue = 0.0
-        animation.toValue = 2 * M_PI
+        animation.toValue = 2 * Double.pi
         animation.duration = 1.0
         animation.repeatCount = 999.0
         self.loginLoadingCircle.layer.add(animation, forKey: "rotationAnimation")

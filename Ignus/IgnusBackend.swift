@@ -621,7 +621,24 @@ struct IgnusBackend {
     
     // MARK: - Other data operations
     
-    static func sendPaymentRequest(paymentRequest: [String: Any], toUser user: String, with completionHandler: @escaping (Error?) -> Void) {
+    static func sendPaymentRequest(toUser user: String, dollars: Int, cents: Int, memo: String, with completionHandler: @escaping (Error?) -> Void) {
+        
+        guard let currentUser = currentUserUsername else {
+            completionHandler(Errors.CurrentUserNotLoggedIn)
+            return
+        }
+        
+        // Creates new payment request data object
+        var paymentRequest = [String: Any]()
+        paymentRequest["sender"] = currentUser
+        paymentRequest["recipient"] = user
+        paymentRequest["dollars"] = dollars
+        paymentRequest["cents"] = cents
+        paymentRequest["memo"] = memo
+        paymentRequest["unread"] = true
+        paymentRequest["status"] = Constants.PaymentRequestStatus.Active
+        paymentRequest["rating"] = Constants.PaymentRating.None
+        paymentRequest["timestamp"] = FIRServerValue.timestamp()
         
         // Updates user received requests and current user sent requests
         getPaymentRequests(forUser: user) { (userPaymentRequests) in

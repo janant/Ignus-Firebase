@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		160510481E8F152500045C39 /* PaymentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160510471E8F152500045C39 /* PaymentViewController.swift */; };
 		160C1CD01E0C470300E139C3 /* ProfileOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160C1CCF1E0C470300E139C3 /* ProfileOptionsViewController.swift */; };
 		160C1CD41E0C8AA400E139C3 /* ProfileOptionsPresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160C1CD31E0C8AA400E139C3 /* ProfileOptionsPresentation.swift */; };
 		160C1CD61E0C8ABA00E139C3 /* ProfileOptionsAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160C1CD51E0C8ABA00E139C3 /* ProfileOptionsAnimation.swift */; };
@@ -22,7 +23,6 @@
 		166D26F01E64C49500540C84 /* PaymentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166D26EF1E64C49500540C84 /* PaymentsViewController.swift */; };
 		166D26F21E64C4A100540C84 /* PaymentsSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166D26F11E64C4A100540C84 /* PaymentsSplitViewController.swift */; };
 		166D26F51E64C53700540C84 /* PaymentsNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166D26F41E64C53700540C84 /* PaymentsNavigationViewController.swift */; };
-		1676A1A31E8D785900DABFF1 /* PaymentTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1676A1A21E8D785900DABFF1 /* PaymentTableViewController.swift */; };
 		167BB0EE1DC46B7A0033FC37 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 167BB0ED1DC46B7A0033FC37 /* GoogleService-Info.plist */; };
 		167BB1221E7BADA1002A92B5 /* RequestPaymentTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167BB1211E7BADA1002A92B5 /* RequestPaymentTransition.swift */; };
 		167BB1241E7BADAB002A92B5 /* RequestPaymentPresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167BB1231E7BADAB002A92B5 /* RequestPaymentPresentation.swift */; };
@@ -82,6 +82,7 @@
 
 /* Begin PBXFileReference section */
 		099B984168BF97EAE675E13E /* Pods_Ignus.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Ignus.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		160510471E8F152500045C39 /* PaymentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentViewController.swift; sourceTree = "<group>"; };
 		160C1CCF1E0C470300E139C3 /* ProfileOptionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileOptionsViewController.swift; sourceTree = "<group>"; };
 		160C1CD31E0C8AA400E139C3 /* ProfileOptionsPresentation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileOptionsPresentation.swift; sourceTree = "<group>"; };
 		160C1CD51E0C8ABA00E139C3 /* ProfileOptionsAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileOptionsAnimation.swift; sourceTree = "<group>"; };
@@ -97,7 +98,6 @@
 		166D26EF1E64C49500540C84 /* PaymentsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentsViewController.swift; sourceTree = "<group>"; };
 		166D26F11E64C4A100540C84 /* PaymentsSplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentsSplitViewController.swift; sourceTree = "<group>"; };
 		166D26F41E64C53700540C84 /* PaymentsNavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentsNavigationViewController.swift; sourceTree = "<group>"; };
-		1676A1A21E8D785900DABFF1 /* PaymentTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentTableViewController.swift; sourceTree = "<group>"; };
 		167BB0ED1DC46B7A0033FC37 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		167BB1211E7BADA1002A92B5 /* RequestPaymentTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestPaymentTransition.swift; sourceTree = "<group>"; };
 		167BB1231E7BADAB002A92B5 /* RequestPaymentPresentation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestPaymentPresentation.swift; sourceTree = "<group>"; };
@@ -188,7 +188,7 @@
 				166D26F11E64C4A100540C84 /* PaymentsSplitViewController.swift */,
 				166D26F41E64C53700540C84 /* PaymentsNavigationViewController.swift */,
 				166D26EF1E64C49500540C84 /* PaymentsViewController.swift */,
-				1676A1A21E8D785900DABFF1 /* PaymentTableViewController.swift */,
+				160510471E8F152500045C39 /* PaymentViewController.swift */,
 				167BB1251E7BADD1002A92B5 /* RequestPaymentTableViewController.swift */,
 				167BB1211E7BADA1002A92B5 /* RequestPaymentTransition.swift */,
 				167BB1231E7BADAB002A92B5 /* RequestPaymentPresentation.swift */,
@@ -545,6 +545,7 @@
 				16B1B4B71E17760800F9830F /* ProfileViewController.swift in Sources */,
 				16A0D7A71DFCCF5000B89807 /* LogInAnimation.swift in Sources */,
 				160E2F3E1E62962E005E2F39 /* AcknowledgementsViewController.swift in Sources */,
+				160510481E8F152500045C39 /* PaymentViewController.swift in Sources */,
 				16C717921E09A875002D7270 /* MyAccountViewController.swift in Sources */,
 				16323ED51E1581FB00D9EA39 /* FriendsViewController.swift in Sources */,
 				16F47E1A1DC7AFCD0005C3DB /* SignUpPresentation.swift in Sources */,
@@ -562,7 +563,6 @@
 				160C1CD61E0C8ABA00E139C3 /* ProfileOptionsAnimation.swift in Sources */,
 				16AE71FE1E0B843300CEE396 /* Constants.swift in Sources */,
 				162213ED1E5A4C2700DE3FB3 /* MessagePresentation.swift in Sources */,
-				1676A1A31E8D785900DABFF1 /* PaymentTableViewController.swift in Sources */,
 				16A0D7A91DFCCF5900B89807 /* LogInPresentation.swift in Sources */,
 				16D63F841DD7124500287C1F /* PrivacyPolicyViewController.swift in Sources */,
 				166D26F51E64C53700540C84 /* PaymentsNavigationViewController.swift in Sources */,

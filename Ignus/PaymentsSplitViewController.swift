@@ -25,7 +25,7 @@ class PaymentsSplitViewController: UISplitViewController, UISplitViewControllerD
     
     func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
         if let paymentNavVC = secondaryViewController as? UINavigationController {
-            if let paymentVC = paymentNavVC.topViewController as? PaymentTableViewController {
+            if let paymentVC = paymentNavVC.topViewController as? PaymentViewController {
                 if let _ = paymentVC.paymentInfo {
                     return false
                 }

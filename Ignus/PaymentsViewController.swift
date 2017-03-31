@@ -656,7 +656,7 @@ class PaymentsViewController: UIViewController, UITableViewDataSource, UITableVi
     
     // MARK: - RequestPaymentTableViewControllerDelegate methods
     
-    func sentNewPaymentRequest(requestPaymentTVC: RequestPaymentTableViewController, requestData: [String : Any]) {
+    func sentNewPaymentRequest(requestPaymentTVC: RequestPaymentTableViewController) {
         reloadData()
         
         requestPaymentDismissalTransition = RequestPaymentTransition(presenting: false, sentMessage: true)

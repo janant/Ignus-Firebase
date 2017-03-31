@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 
 protocol RequestPaymentTableViewControllerDelegate: class {
-    func sentNewPaymentRequest(requestPaymentTVC: RequestPaymentTableViewController, requestData: [String: Any])
+    func sentNewPaymentRequest(requestPaymentTVC: RequestPaymentTableViewController)
     func canceledNewPaymentRequest(requestPaymentTVC: RequestPaymentTableViewController)
 }
 
@@ -69,10 +69,7 @@ class RequestPaymentTableViewController: UITableViewController, ChooseFriendView
     }
     
     @IBAction func sentRequest(_ sender: Any) {
-        guard
-            let currentUser = IgnusBackend.currentUserUsername,
-            let recipient = recipient
-        else {
+        guard let recipient = recipient else {
             return
         }
         
@@ -81,22 +78,10 @@ class RequestPaymentTableViewController: UITableViewController, ChooseFriendView
         self.recipientCell.isUserInteractionEnabled = false
         self.doneButton.isEnabled = false
         
-        // Creates new payment request data object
-        var paymentRequest = [String: Any]()
-        paymentRequest["sender"] = currentUser
-        paymentRequest["recipient"] = recipient
-        paymentRequest["dollars"] = paymentAmountPicker.selectedRow(inComponent: 0)
-        paymentRequest["cents"] = paymentAmountPicker.selectedRow(inComponent: 1)
-        paymentRequest["memo"] = memoTextView.text
-        paymentRequest["unread"] = true
-        paymentRequest["status"] = Constants.PaymentRequestStatus.Active
-        paymentRequest["rating"] = Constants.PaymentRating.None
-        paymentRequest["timestamp"] = FIRServerValue.timestamp()
-        
         // Sends the payment request
-        IgnusBackend.sendPaymentRequest(paymentRequest: paymentRequest, toUser: recipient) { (error) in
+        IgnusBackend.sendPaymentRequest(toUser: recipient, dollars: paymentAmountPicker.selectedRow(inComponent: 0), cents: paymentAmountPicker.selectedRow(inComponent: 1), memo: memoTextView.text) { (error) in
             if error == nil {
-                self.delegate?.sentNewPaymentRequest(requestPaymentTVC: self, requestData: paymentRequest)
+                self.delegate?.sentNewPaymentRequest(requestPaymentTVC: self)
             }
         }
     }

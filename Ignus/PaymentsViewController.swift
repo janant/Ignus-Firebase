@@ -659,12 +659,12 @@ class PaymentsViewController: UIViewController, UITableViewDataSource, UITableVi
     func sentNewPaymentRequest(requestPaymentTVC: RequestPaymentTableViewController) {
         reloadData()
         
-        requestPaymentDismissalTransition = RequestPaymentTransition(presenting: false, sentMessage: true)
+        requestPaymentDismissalTransition = RequestPaymentTransition(presenting: false, sentRequest: true)
         requestPaymentTVC.dismiss(animated: true, completion: nil)
     }
     
     func canceledNewPaymentRequest(requestPaymentTVC: RequestPaymentTableViewController) {
-        requestPaymentDismissalTransition = RequestPaymentTransition(presenting: false, sentMessage: false)
+        requestPaymentDismissalTransition = RequestPaymentTransition(presenting: false, sentRequest: false)
         requestPaymentTVC.dismiss(animated: true, completion: nil)
     }
     

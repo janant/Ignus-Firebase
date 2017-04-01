@@ -11,11 +11,11 @@ import UIKit
 class RequestPaymentTransition: NSObject, UIViewControllerAnimatedTransitioning {
     
     var presenting: Bool
-    var sentMessage: Bool
+    var sentRequest: Bool
     
-    init(presenting: Bool, sentMessage: Bool = false) {
+    init(presenting: Bool, sentRequest: Bool = false) {
         self.presenting = presenting
-        self.sentMessage = sentMessage
+        self.sentRequest = sentRequest
     }
     
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
@@ -27,7 +27,7 @@ class RequestPaymentTransition: NSObject, UIViewControllerAnimatedTransitioning 
             animatePresentation(using: transitionContext)
         }
         else {
-            if sentMessage {
+            if sentRequest {
                 animateRequestSent(using: transitionContext)
             }
             else {

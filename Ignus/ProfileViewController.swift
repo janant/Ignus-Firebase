@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class ProfileViewController: UIViewController, UIViewControllerTransitioningDelegate, ProfileOptionsViewControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, MessageViewControllerDelegate {
+class ProfileViewController: UIViewController, UIViewControllerTransitioningDelegate, ProfileOptionsViewControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, MessageViewControllerDelegate, RequestPaymentTableViewControllerDelegate {
     
     @IBOutlet weak var selectUserLabel: UILabel!
     @IBOutlet weak var profileView: UIView!
@@ -33,7 +33,8 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
     var profileInfo: [String: String]?
     var profileType: String!
     
-    var messageDismissalTransition: UIViewControllerAnimatedTransitioning!
+    var requestPaymentDismissalTransition: RequestPaymentTransition?
+    var messageDismissalTransition: MessageTransition?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -323,8 +324,7 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
     }
     
     func requestPayment() {
-        // TODO
-        print("should request payment")
+        performSegue(withIdentifier: "Request Payment", sender: nil)
     }
     
     func message() {
@@ -339,7 +339,10 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
             return ProfileOptionsAnimation(presenting: true, initialPoint: buttonCenter)
         }
         else if let navVC = presented as? UINavigationController {
-            if navVC.topViewController is MessageViewController {
+            if navVC.topViewController is RequestPaymentTableViewController {
+                return RequestPaymentTransition(presenting: true)
+            }
+            else if navVC.topViewController is MessageViewController {
                 return MessageTransition(presenting: true)
             }
         }
@@ -352,7 +355,10 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
             return ProfileOptionsAnimation(presenting: false, initialPoint: buttonCenter)
         }
         else if let navVC = dismissed as? UINavigationController {
-            if navVC.topViewController is MessageViewController {
+            if navVC.topViewController is RequestPaymentTableViewController {
+                return requestPaymentDismissalTransition
+            }
+            else if navVC.topViewController is MessageViewController {
                 return messageDismissalTransition
             }
         }
@@ -364,7 +370,10 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
             return ProfileOptionsPresentation(presentedViewController: presented, presenting: presenting)
         }
         else if let navVC = presented as? UINavigationController {
-            if navVC.topViewController is MessageViewController {
+            if navVC.topViewController is RequestPaymentTableViewController {
+                return RequestPaymentPresentation(presentedViewController: presented, presenting: presenting)
+            }
+            else if navVC.topViewController is MessageViewController {
                 return MessagePresentation(presentedViewController: presented, presenting: presenting)
             }
         }
@@ -467,6 +476,20 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
         messageVC.dismiss(animated: true, completion: nil)
     }
     
+    // MARK: - Request payment table view controller delegate methods
+    
+    func sentNewPaymentRequest(requestPaymentTVC: RequestPaymentTableViewController) {
+        requestPaymentDismissalTransition = RequestPaymentTransition(presenting: false, sentRequest: true)
+        requestPaymentTVC.dismiss(animated: true, completion: nil)
+        
+        NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NotificationNames.ReloadPayments), object: nil)
+    }
+    
+    func canceledNewPaymentRequest(requestPaymentTVC: RequestPaymentTableViewController) {
+        requestPaymentDismissalTransition = RequestPaymentTransition(presenting: false)
+        requestPaymentTVC.dismiss(animated: true, completion: nil)
+    }
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -479,6 +502,20 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
             profileOptionsVC.delegate = self
             profileOptionsVC.modalPresentationStyle = .custom
             profileOptionsVC.transitioningDelegate = self
+        }
+        else if segue.identifier == "Request Payment" {
+            if let navVC = segue.destination as? UINavigationController {
+                navVC.transitioningDelegate = self
+                navVC.modalPresentationStyle = .custom
+                
+                if let requestPaymentTVC = navVC.topViewController as? RequestPaymentTableViewController {
+                    requestPaymentTVC.delegate = self
+                    
+                    if let profileUsername = self.profileInfo?["username"] {
+                        requestPaymentTVC.recipient = profileUsername
+                    }
+                }
+            }
         }
         else if segue.identifier == "Compose Message" {
             if let navVC = segue.destination as? UINavigationController {

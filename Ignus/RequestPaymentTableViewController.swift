@@ -45,6 +45,7 @@ class RequestPaymentTableViewController: UITableViewController, ChooseFriendView
         // If composing a payment request from someone's profile
         if recipient != nil {
             self.recipientCell.isUserInteractionEnabled = false
+            self.recipientCell.accessoryType = .none
             self.recipientLabel.text = recipient
         }
         

@@ -41,6 +41,7 @@
 		16B1B4B91E17761B00F9830F /* FriendsSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B1B4B81E17761B00F9830F /* FriendsSplitViewController.swift */; };
 		16C717921E09A875002D7270 /* MyAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C717911E09A875002D7270 /* MyAccountViewController.swift */; };
 		16C7F4AF1DC584E50001991A /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C7F4AE1DC584E50001991A /* CreateAccountViewController.swift */; };
+		16C8DFE81E916EE3005BE610 /* PaymentDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16C8DFE71E916EE2005BE610 /* PaymentDetail.storyboard */; };
 		16C8FEB41E7363F00067965B /* Message.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16C8FEB31E7363F00067965B /* Message.storyboard */; };
 		16C8FEB61E7365260067965B /* ChooseFriend.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16C8FEB51E7365260067965B /* ChooseFriend.storyboard */; };
 		16C8FEB91E7366470067965B /* ProfileOptions.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16C8FEB81E7366470067965B /* ProfileOptions.storyboard */; };
@@ -119,6 +120,7 @@
 		16B1B4B81E17761B00F9830F /* FriendsSplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsSplitViewController.swift; sourceTree = "<group>"; };
 		16C717911E09A875002D7270 /* MyAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyAccountViewController.swift; sourceTree = "<group>"; };
 		16C7F4AE1DC584E50001991A /* CreateAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountViewController.swift; sourceTree = "<group>"; };
+		16C8DFE71E916EE2005BE610 /* PaymentDetail.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = PaymentDetail.storyboard; sourceTree = "<group>"; };
 		16C8FEB31E7363F00067965B /* Message.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Message.storyboard; sourceTree = "<group>"; };
 		16C8FEB51E7365260067965B /* ChooseFriend.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ChooseFriend.storyboard; sourceTree = "<group>"; };
 		16C8FEB81E7366470067965B /* ProfileOptions.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ProfileOptions.storyboard; sourceTree = "<group>"; };
@@ -308,6 +310,7 @@
 				16C8FEB51E7365260067965B /* ChooseFriend.storyboard */,
 				16C8FEB81E7366470067965B /* ProfileOptions.storyboard */,
 				16D6D4E21E84D465003EE9B5 /* RequestPayment.storyboard */,
+				16C8DFE71E916EE2005BE610 /* PaymentDetail.storyboard */,
 			);
 			name = Storyboards;
 			sourceTree = "<group>";
@@ -464,6 +467,7 @@
 				16DEC2D61DC51366003AF4AA /* 22.png in Resources */,
 				16C8FEB61E7365260067965B /* ChooseFriend.storyboard in Resources */,
 				16DEC2D91DC51366003AF4AA /* 3.png in Resources */,
+				16C8DFE81E916EE3005BE610 /* PaymentDetail.storyboard in Resources */,
 				16DEC2E11DC51366003AF4AA /* 18.png in Resources */,
 				16DEC2DE1DC51366003AF4AA /* 6.png in Resources */,
 				16DEC2DF1DC51366003AF4AA /* 4.png in Resources */,

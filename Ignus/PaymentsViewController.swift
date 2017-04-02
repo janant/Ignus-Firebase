@@ -654,6 +654,54 @@ class PaymentsViewController: UIViewController, UITableViewDataSource, UITableVi
         headerView.textLabel?.textColor = UIColor.white
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // Gets the current payment request data and username
+        if paymentsCategorySegmentedControl.selectedSegmentIndex == Constants.PaymentsScope.Active {
+            guard
+                let paymentRequest: [String: Any] = {
+                    if indexPath.section == 0 {
+                        if !activePaymentsReceived.isEmpty {
+                            return activePaymentsReceived[indexPath.row]
+                        }
+                        else {
+                            return activePaymentsSent[indexPath.row]
+                        }
+                    }
+                    else if indexPath.section == 1 {
+                        return activePaymentsSent[indexPath.row]
+                    }
+                    else {
+                        return nil
+                    }
+                }(),
+                let username: String = {
+                    if indexPath.section == 0 {
+                        if !activePaymentsReceived.isEmpty {
+                            return paymentRequest["sender"] as? String
+                        }
+                        else {
+                            return paymentRequest["recipient"] as? String
+                        }
+                    }
+                    else if indexPath.section == 1 {
+                        return paymentRequest["recipient"] as? String
+                    }
+                    else {
+                        return nil
+                    }
+                }()
+            else {
+                return
+            }
+            
+            let paymentSegueInfo: [String: Any] =
+                [Constants.PaymentSegueInfoKeys.Username: username,
+                 Constants.PaymentSegueInfoKeys.PaymentRequest: paymentRequest]
+            
+            performSegue(withIdentifier: "Show Payment Detail", sender: paymentSegueInfo)
+        }
+    }
+    
     // MARK: - RequestPaymentTableViewControllerDelegate methods
     
     func sentNewPaymentRequest(requestPaymentTVC: RequestPaymentTableViewController) {
@@ -713,6 +761,22 @@ class PaymentsViewController: UIViewController, UITableViewDataSource, UITableVi
                 
                 if let requestPaymentTVC = navVC.topViewController as? RequestPaymentTableViewController {
                     requestPaymentTVC.delegate = self
+                }
+            }
+        }
+        else if segue.identifier == "Show Payment Detail" {
+            if let navVC = segue.destination as? UINavigationController {
+                if let paymentVC = navVC.topViewController as? PaymentViewController {
+                    guard
+                        let paymentSegueInfo = sender as? [String: Any],
+                        let username = paymentSegueInfo[Constants.PaymentSegueInfoKeys.Username] as? String,
+                        let paymentInfo = paymentSegueInfo[Constants.PaymentSegueInfoKeys.PaymentRequest] as? [String: Any]
+                    else {
+                        return
+                    }
+                    
+                    paymentVC.username = username
+                    paymentVC.paymentInfo = paymentInfo
                 }
             }
         }

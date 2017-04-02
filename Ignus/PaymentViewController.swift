@@ -14,6 +14,7 @@ class PaymentViewController: UIViewController {
     @IBOutlet weak var paymentDetailTable: UITableView!
     
     var paymentInfo: [String: Any]?
+    var username: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()

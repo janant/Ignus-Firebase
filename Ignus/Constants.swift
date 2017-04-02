@@ -45,6 +45,11 @@ struct Constants {
         static let RequestsDetail = "Incoming friend requests will appear here."
     }
     
+    struct PaymentSegueInfoKeys {
+        static let Username = "username"
+        static let PaymentRequest = "paymentRequest"
+    }
+    
     struct PaymentRequestStatus {
         static let Active = "Active"
         static let Completed = "Completed"

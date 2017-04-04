@@ -28,6 +28,7 @@
 		167BB1241E7BADAB002A92B5 /* RequestPaymentPresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167BB1231E7BADAB002A92B5 /* RequestPaymentPresentation.swift */; };
 		167BB1261E7BADD1002A92B5 /* RequestPaymentTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167BB1251E7BADD1002A92B5 /* RequestPaymentTableViewController.swift */; };
 		167BB1301DC473D00033FC37 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167BB12F1DC473D00033FC37 /* LoginViewController.swift */; };
+		1682CB9A1E9326BB007B821D /* RatePaymentTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1682CB991E9326BB007B821D /* RatePaymentTableViewController.swift */; };
 		1696D8411DC46A96003BFDA8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1696D8401DC46A96003BFDA8 /* AppDelegate.swift */; };
 		1696D8461DC46A96003BFDA8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1696D8441DC46A96003BFDA8 /* Main.storyboard */; };
 		1696D8481DC46A96003BFDA8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1696D8471DC46A96003BFDA8 /* Assets.xcassets */; };
@@ -104,6 +105,7 @@
 		167BB1231E7BADAB002A92B5 /* RequestPaymentPresentation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestPaymentPresentation.swift; sourceTree = "<group>"; };
 		167BB1251E7BADD1002A92B5 /* RequestPaymentTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestPaymentTableViewController.swift; sourceTree = "<group>"; };
 		167BB12F1DC473D00033FC37 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		1682CB991E9326BB007B821D /* RatePaymentTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatePaymentTableViewController.swift; sourceTree = "<group>"; };
 		1696D83D1DC46A96003BFDA8 /* Ignus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ignus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1696D8401DC46A96003BFDA8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1696D8451DC46A96003BFDA8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -191,6 +193,7 @@
 				166D26F41E64C53700540C84 /* PaymentsNavigationViewController.swift */,
 				166D26EF1E64C49500540C84 /* PaymentsViewController.swift */,
 				160510471E8F152500045C39 /* PaymentViewController.swift */,
+				1682CB991E9326BB007B821D /* RatePaymentTableViewController.swift */,
 				167BB1251E7BADD1002A92B5 /* RequestPaymentTableViewController.swift */,
 				167BB1211E7BADA1002A92B5 /* RequestPaymentTransition.swift */,
 				167BB1231E7BADAB002A92B5 /* RequestPaymentPresentation.swift */,
@@ -563,6 +566,7 @@
 				16318AC71E18445F0099858C /* FriendsNavigationViewController.swift in Sources */,
 				16B1B4B91E17761B00F9830F /* FriendsSplitViewController.swift in Sources */,
 				167BB1261E7BADD1002A92B5 /* RequestPaymentTableViewController.swift in Sources */,
+				1682CB9A1E9326BB007B821D /* RatePaymentTableViewController.swift in Sources */,
 				167BB1301DC473D00033FC37 /* LoginViewController.swift in Sources */,
 				160C1CD61E0C8ABA00E139C3 /* ProfileOptionsAnimation.swift in Sources */,
 				16AE71FE1E0B843300CEE396 /* Constants.swift in Sources */,

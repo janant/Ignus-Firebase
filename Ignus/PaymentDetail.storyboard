@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E192b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="4i1-ML-GZp">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16F43c" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="4i1-ML-GZp">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -234,10 +234,23 @@ A person's ratings will be compiled on their profile for everyone to see. Prove 
                                 </cells>
                             </tableViewSection>
                         </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="sXp-xd-DDM" id="Gyv-OE-0sO"/>
+                            <outlet property="delegate" destination="sXp-xd-DDM" id="Ah7-gd-agr"/>
+                        </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Rate Payment" id="3vB-wu-4p3">
-                        <barButtonItem key="rightBarButtonItem" enabled="NO" systemItem="done" id="Oxm-qG-n5h"/>
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" systemItem="done" id="Oxm-qG-n5h">
+                            <connections>
+                                <action selector="doneRating:" destination="sXp-xd-DDM" id="kvQ-aM-rs1"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="greenCell" destination="GPn-Ag-b99" id="KYI-rd-lug"/>
+                        <outlet property="redCell" destination="Lou-rF-met" id="kbQ-ug-E7c"/>
+                        <outlet property="yellowCell" destination="Pp6-Ge-AVJ" id="za4-28-mTO"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Bx9-lI-V8v" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

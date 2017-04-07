@@ -112,11 +112,11 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="73.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" tag="1" contentMode="scaleToFill" misplaced="YES" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8fR-II-nfA">
-                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="73"/>
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" tag="1" contentMode="scaleToFill" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8fR-II-nfA">
+                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="73"/>
                                                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="16"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                     <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES" address="YES" calendarEvent="YES"/>
                                                 </textView>
@@ -186,7 +186,7 @@
                     <connections>
                         <outlet property="paymentDetailTable" destination="GWI-gy-di2" id="93U-Ov-Pkq"/>
                         <outlet property="selectPaymentLabel" destination="80v-vn-3Q8" id="eC0-0n-WzB"/>
-                        <segue destination="sXp-xd-DDM" kind="show" id="16B-bg-RP8"/>
+                        <segue destination="sXp-xd-DDM" kind="show" identifier="Rate Payment" id="16B-bg-RP8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="o9m-ND-bOX" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -13,7 +13,7 @@ class PaymentViewController: UIViewController, UITableViewDataSource, UITableVie
     @IBOutlet weak var selectPaymentLabel: UILabel!
     @IBOutlet weak var paymentDetailTable: UITableView!
     
-    var paymentInfo: [String: Any]?
+    var paymentRequest: [String: Any]?
     var username: String?
 
     override func viewDidLoad() {
@@ -22,7 +22,7 @@ class PaymentViewController: UIViewController, UITableViewDataSource, UITableVie
         // Do any additional setup after loading the view.
         
         // Hides/shows views based on available information
-        guard let paymentInfo = paymentInfo else {
+        guard let paymentRequest = paymentRequest else {
             paymentDetailTable.isHidden = true
             return
         }
@@ -38,11 +38,11 @@ class PaymentViewController: UIViewController, UITableViewDataSource, UITableVie
     
     func numberOfSections(in tableView: UITableView) -> Int {
         guard
-            let paymentInfo = paymentInfo,
+            let paymentRequest = paymentRequest,
             let username = username,
-            let sender = paymentInfo["sender"] as? String,
-            let recipient = paymentInfo["recipient"] as? String,
-            let memo = paymentInfo["memo"] as? String
+            let sender = paymentRequest["sender"] as? String,
+            let recipient = paymentRequest["recipient"] as? String,
+            let memo = paymentRequest["memo"] as? String
         else {
             return 0
         }
@@ -60,11 +60,11 @@ class PaymentViewController: UIViewController, UITableViewDataSource, UITableVie
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard
-            let paymentInfo = paymentInfo,
+            let paymentRequest = paymentRequest,
             let username = username,
-            let sender = paymentInfo["sender"] as? String,
-            let recipient = paymentInfo["recipient"] as? String,
-            let memo = paymentInfo["memo"] as? String
+            let sender = paymentRequest["sender"] as? String,
+            let recipient = paymentRequest["recipient"] as? String,
+            let memo = paymentRequest["memo"] as? String
         else {
             return 0
         }
@@ -96,72 +96,124 @@ class PaymentViewController: UIViewController, UITableViewDataSource, UITableVie
         }
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell: UITableViewCell = UITableViewCell()
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        var cell = UITableViewCell()
         
-        if (indexPath as NSIndexPath).section == 0 {
-            if (indexPath as NSIndexPath).row == 0 {
+        if indexPath.section == 0 {
+            if indexPath.row == 0 {
                 cell = tableView.dequeueReusableCell(withIdentifier: "Friend Cell", for: indexPath)
                 
-                let personImageView = cell.viewWithTag(1) as! UIImageView!
-                let personNameView = cell.viewWithTag(2) as! UILabel!
-                let personUsernameView = cell.viewWithTag(3) as! UILabel!
-                
-                let profileFile = user["Profile"] as! PFFile
-                profileFile.getDataInBackground { (data, error) -> Void in
-                    if error == nil {
-                        UIView.transition(with: personImageView!, duration: 0.3, options: .transitionCrossDissolve, animations: { () -> Void in
-                            personImageView?.image = UIImage(data: data!)
-                        }, completion: nil)
-                    }
+                guard
+                    let personImageView = cell.viewWithTag(1) as? UIImageView,
+                    let personNameView = cell.viewWithTag(2) as? UILabel,
+                    let personUsernameView = cell.viewWithTag(3) as? UILabel,
+                    let username = username
+                else {
+                    return UITableViewCell()
                 }
                 
-                personNameView?.text = user["FullName"] as? String
-                personUsernameView?.text = user["username"] as? String
+                // Sets initial views to blank, since cells get reused
+                personNameView.text = ""
+                personUsernameView.text = ""
+                personImageView.image = #imageLiteral(resourceName: "Not Loaded Profile")
+                
+                // Gets user information
+                IgnusBackend.getUserInfo(forUser: username, with: { (error, userInfo) in
+                    if error == nil {
+                        guard
+                            let friendData = userInfo,
+                            let firstName = friendData["firstName"],
+                            let lastName = friendData["lastName"]
+                        else {
+                            return
+                        }
+                        
+                        UIView.transition(with: personNameView, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                            personNameView.text = "\(firstName) \(lastName)"
+                        }, completion: nil)
+                        UIView.transition(with: personUsernameView, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                            personUsernameView.text = username
+                        }, completion: nil)
+                    }
+                })
+                
+                // Gets profile image data
+                IgnusBackend.getProfileImage(forUser: username, with: { (error, image) in
+                    if error == nil {
+                        UIView.transition(with: personImageView, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                            personImageView.image = image
+                        }, completion: nil)
+                    }
+                })
                 
                 let backgroundView = UIView()
                 backgroundView.backgroundColor = UIColor.gray
                 cell.selectedBackgroundView = backgroundView
             }
-            else if (indexPath as NSIndexPath).row == 1 {
+            else if indexPath.row == 1 {
                 cell = tableView.dequeueReusableCell(withIdentifier: "Info Cell", for: indexPath)
                 
-                if paymentType == .myRequest {
+                guard
+                    let username = username,
+                    let paymentRequest = paymentRequest,
+                    let sender = paymentRequest["sender"] as? String,
+                    let recipient = paymentRequest["recipient"] as? String
+                else {
+                    return UITableViewCell()
+                }
+                
+                if username == sender {
+                    cell.textLabel?.text = "Requested:"
+                }
+                else if username == recipient {
                     cell.textLabel?.text = "Owes me:"
                 }
-                else if paymentType == .incoming {
-                    cell.textLabel?.text = "Needs:"
-                }
                 
-                cell.detailTextLabel?.text = "$" + (payment["MoneyOwed"] as! String)
+                // Sets the label with money and memo
+                if let dollars = paymentRequest["dollars"] as? Int,
+                   let cents   = paymentRequest["cents"] as? Int,
+                   let memo    = paymentRequest["memo"] as? String {
+                    var moneyMemoLabelText = "$\(dollars)."
+                    moneyMemoLabelText += (cents >= 10 ? "\(cents)" : "0\(cents)")
+                    cell.detailTextLabel?.text = moneyMemoLabelText
+                }
             }
-            else if (indexPath as NSIndexPath).row == 2 {
+            else if indexPath.row == 2 {
                 cell = tableView.dequeueReusableCell(withIdentifier: "Info Cell", for: indexPath)
+                
+                guard
+                    let paymentRequest = paymentRequest
+                else {
+                    return UITableViewCell()
+                }
                 
                 cell.textLabel?.text = "Requested on:"
                 
-                let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "MM/dd/yy h:mm a"
-                cell.detailTextLabel?.text = dateFormatter.string(from: payment.createdAt)
+                // Sets timestamp
+                if let timeSent = paymentRequest["timestamp"] as? Double {
+                    let messageDate = Date(timeIntervalSince1970: timeSent / 1000)
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.dateFormat = (Calendar.current.isDateInToday(messageDate)) ? "h:mm a" : "MM/dd/yy"
+                    cell.detailTextLabel?.text = dateFormatter.string(from: messageDate)
+                }
             }
         }
-        else if (indexPath as NSIndexPath).section == 1 {
-            if memoExists {
-                cell = tableView.dequeueReusableCell(withIdentifier: "Memo Cell", for: indexPath)
-                
-                let memoTextView = cell.viewWithTag(1) as! UITextView
-                memoTextView.text = payment["Memo"] as? String
-                
-                memoTextView.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
-            }
+        else if indexPath.section == 1 {
+            guard
+                let paymentRequest = paymentRequest,
+                let memo = paymentRequest["memo"] as? String
             else {
+                return UITableViewCell()
+            }
+            
+            if memo.isEmpty {
                 cell = tableView.dequeueReusableCell(withIdentifier: "Button Cell", for: indexPath)
                 
-                if (indexPath as NSIndexPath).row == 0 {
+                if indexPath.row == 0 {
                     cell.textLabel?.text = "Complete Request"
                     cell.textLabel?.textColor = UIColor.white
                 }
-                else if (indexPath as NSIndexPath).row == 1 {
+                else if indexPath.row == 1 {
                     cell.textLabel?.text = "Delete Request"
                     cell.textLabel?.textColor = UIColor(red: 1.0, green: 82 / 255.0, blue: 72 / 255.0, alpha: 1.0)
                 }
@@ -170,15 +222,23 @@ class PaymentViewController: UIViewController, UITableViewDataSource, UITableVie
                 backgroundView.backgroundColor = UIColor.gray
                 cell.selectedBackgroundView = backgroundView
             }
+            else {
+                cell = tableView.dequeueReusableCell(withIdentifier: "Memo Cell", for: indexPath)
+                
+                if let memoTextView = cell.viewWithTag(1) as? UITextView {
+                    memoTextView.text = memo
+                    memoTextView.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+                }
+            }
         }
-        else if (indexPath as NSIndexPath).section == 2 {
+        else if indexPath.section == 2 {
             cell = tableView.dequeueReusableCell(withIdentifier: "Button Cell", for: indexPath)
             
-            if (indexPath as NSIndexPath).row == 0 {
+            if indexPath.row == 0 {
                 cell.textLabel?.text = "Complete Request"
                 cell.textLabel?.textColor = UIColor.white
             }
-            else if (indexPath as NSIndexPath).row == 1 {
+            else if indexPath.row == 1 {
                 cell.textLabel?.text = "Delete Request"
                 cell.textLabel?.textColor = UIColor(red: 1.0, green: 82 / 255.0, blue: 72 / 255.0, alpha: 1.0)
             }
@@ -197,8 +257,8 @@ class PaymentViewController: UIViewController, UITableViewDataSource, UITableVie
             return "Payment Info"
         case 1:
             guard
-                let paymentInfo = paymentInfo,
-                let memo = paymentInfo["memo"] as? String
+                let paymentRequest = paymentRequest,
+                let memo = paymentRequest["memo"] as? String
             else {
                 return nil
             }
@@ -228,8 +288,8 @@ class PaymentViewController: UIViewController, UITableViewDataSource, UITableVie
             }
         case 1:
             guard
-                let paymentInfo = paymentInfo,
-                let memo = paymentInfo["memo"] as? String
+                let paymentRequest = paymentRequest,
+                let memo = paymentRequest["memo"] as? String
             else {
                 return 0
             }
@@ -247,49 +307,49 @@ class PaymentViewController: UIViewController, UITableViewDataSource, UITableVie
         }
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        switch (indexPath as NSIndexPath).section {
-        case 1:
-            if !memoExists {
-                switch (indexPath as NSIndexPath).row {
-                case 0:
-                    performSegue(withIdentifier: "Rate Payment", sender: nil)
-                    break
-                case 1:
-                    let confirmationActionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-                    confirmationActionSheet.addAction(UIAlertAction(title: "Delete Request", style: .destructive, handler: { (alertAction) -> Void in
-                        self.delegate?.deletePayment()
-                        self.dismiss(animated: true, completion: nil)
-                    }))
-                    confirmationActionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (alertAction) -> Void in
-                        self.tableView.deselectRow(at: indexPath, animated: true)
-                    }))
-                    present(confirmationActionSheet, animated: true, completion: nil)
-                default:
-                    break
-                }
-            }
-        case 2:
-            switch (indexPath as NSIndexPath).row {
-            case 0:
-                performSegue(withIdentifier: "Rate Payment", sender: nil)
-                break
-            case 1:
-                let confirmationActionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-                confirmationActionSheet.addAction(UIAlertAction(title: "Delete Request", style: .destructive, handler: { (alertAction) -> Void in
-                    self.delegate?.deletePayment()
-                    self.dismiss(animated: true, completion: nil)
-                }))
-                confirmationActionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (alertAction) -> Void in
-                    self.tableView.deselectRow(at: indexPath, animated: true)
-                }))
-                present(confirmationActionSheet, animated: true, completion: nil)
-            default:
-                break
-            }
-        default:
-            break
-        }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        switch indexPath.section {
+//        case 1:
+//            if !memoExists {
+//                switch indexPath.row {
+//                case 0:
+//                    performSegue(withIdentifier: "Rate Payment", sender: nil)
+//                    break
+//                case 1:
+//                    let confirmationActionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+//                    confirmationActionSheet.addAction(UIAlertAction(title: "Delete Request", style: .destructive, handler: { (alertAction) -> Void in
+//                        self.delegate?.deletePayment()
+//                        self.dismiss(animated: true, completion: nil)
+//                    }))
+//                    confirmationActionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (alertAction) -> Void in
+//                        self.tableView.deselectRow(at: indexPath, animated: true)
+//                    }))
+//                    present(confirmationActionSheet, animated: true, completion: nil)
+//                default:
+//                    break
+//                }
+//            }
+//        case 2:
+//            switch indexPath.row {
+//            case 0:
+//                performSegue(withIdentifier: "Rate Payment", sender: nil)
+//                break
+//            case 1:
+//                let confirmationActionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+//                confirmationActionSheet.addAction(UIAlertAction(title: "Delete Request", style: .destructive, handler: { (alertAction) -> Void in
+//                    self.delegate?.deletePayment()
+//                    self.dismiss(animated: true, completion: nil)
+//                }))
+//                confirmationActionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (alertAction) -> Void in
+//                    self.tableView.deselectRow(at: indexPath, animated: true)
+//                }))
+//                present(confirmationActionSheet, animated: true, completion: nil)
+//            default:
+//                break
+//            }
+//        default:
+//            break
+//        }
     }
     
 

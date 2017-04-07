@@ -613,8 +613,8 @@ class PaymentsViewController: UIViewController, UITableViewDataSource, UITableVi
             
             // Sets the label with money and memo
             if let dollars = paymentRequest["dollars"] as? Int,
-                let cents   = paymentRequest["cents"] as? Int,
-                let memo    = paymentRequest["memo"] as? String {
+               let cents   = paymentRequest["cents"] as? Int,
+               let memo    = paymentRequest["memo"] as? String {
                 var moneyMemoLabelText = "$\(dollars)."
                 moneyMemoLabelText += (cents >= 10 ? "\(cents)" : "0\(cents)")
                 if !memo.isEmpty {
@@ -776,7 +776,7 @@ class PaymentsViewController: UIViewController, UITableViewDataSource, UITableVi
                     }
                     
                     paymentVC.username = username
-                    paymentVC.paymentInfo = paymentInfo
+                    paymentVC.paymentRequest = paymentInfo
                 }
             }
         }

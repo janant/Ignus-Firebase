@@ -150,6 +150,10 @@
                                     </tableViewCell>
                                 </prototypes>
                                 <sections/>
+                                <connections>
+                                    <outlet property="dataSource" destination="4i1-ML-GZp" id="88u-na-taD"/>
+                                    <outlet property="delegate" destination="4i1-ML-GZp" id="hjv-CM-VNg"/>
+                                </connections>
                             </tableView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="80v-vn-3Q8">
                                 <rect key="frame" x="20" y="301" width="335" height="65"/>

@@ -15,18 +15,26 @@ class PaymentViewController: UIViewController, UITableViewDataSource, UITableVie
     
     var paymentRequest: [String: Any]?
     var username: String?
-
+    var profileInfo: [String: String]?
+    
+    override func viewWillAppear(_ animated: Bool) {
+        if let selectedIndex = paymentDetailTable.indexPathForSelectedRow {
+            paymentDetailTable.deselectRow(at: selectedIndex, animated: true)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         
         // Hides/shows views based on available information
-        guard let paymentRequest = paymentRequest else {
+        if paymentRequest == nil {
             paymentDetailTable.isHidden = true
-            return
         }
-        selectPaymentLabel.isHidden = true
+        else {
+            selectPaymentLabel.isHidden = true
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -101,7 +109,7 @@ class PaymentViewController: UIViewController, UITableViewDataSource, UITableVie
         
         if indexPath.section == 0 {
             if indexPath.row == 0 {
-                cell = tableView.dequeueReusableCell(withIdentifier: "Friend Cell", for: indexPath)
+                cell = tableView.dequeueReusableCell(withIdentifier: "User Cell", for: indexPath)
                 
                 guard
                     let personImageView = cell.viewWithTag(1) as? UIImageView,
@@ -116,17 +124,21 @@ class PaymentViewController: UIViewController, UITableViewDataSource, UITableVie
                 personNameView.text = ""
                 personUsernameView.text = ""
                 personImageView.image = #imageLiteral(resourceName: "Not Loaded Profile")
+                cell.isUserInteractionEnabled = false
                 
                 // Gets user information
                 IgnusBackend.getUserInfo(forUser: username, with: { (error, userInfo) in
                     if error == nil {
                         guard
-                            let friendData = userInfo,
-                            let firstName = friendData["firstName"],
-                            let lastName = friendData["lastName"]
+                            let userInfo = userInfo,
+                            let firstName = userInfo["firstName"],
+                            let lastName = userInfo["lastName"]
                         else {
                             return
                         }
+                        
+                        self.profileInfo = userInfo
+                        cell.isUserInteractionEnabled = true
                         
                         UIView.transition(with: personNameView, duration: 0.2, options: .transitionCrossDissolve, animations: {
                             personNameView.text = "\(firstName) \(lastName)"
@@ -171,8 +183,7 @@ class PaymentViewController: UIViewController, UITableViewDataSource, UITableVie
                 
                 // Sets the label with money and memo
                 if let dollars = paymentRequest["dollars"] as? Int,
-                   let cents   = paymentRequest["cents"] as? Int,
-                   let memo    = paymentRequest["memo"] as? String {
+                   let cents   = paymentRequest["cents"] as? Int {
                     var moneyMemoLabelText = "$\(dollars)."
                     moneyMemoLabelText += (cents >= 10 ? "\(cents)" : "0\(cents)")
                     cell.detailTextLabel?.text = moneyMemoLabelText
@@ -227,7 +238,7 @@ class PaymentViewController: UIViewController, UITableViewDataSource, UITableVie
                 
                 if let memoTextView = cell.viewWithTag(1) as? UITextView {
                     memoTextView.text = memo
-                    memoTextView.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+                    memoTextView.textContainerInset = UIEdgeInsets(top: 8, left: 10, bottom: 8, right: 10)
                 }
             }
         }
@@ -308,59 +319,74 @@ class PaymentViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        switch indexPath.section {
-//        case 1:
-//            if !memoExists {
-//                switch indexPath.row {
-//                case 0:
-//                    performSegue(withIdentifier: "Rate Payment", sender: nil)
-//                    break
-//                case 1:
-//                    let confirmationActionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-//                    confirmationActionSheet.addAction(UIAlertAction(title: "Delete Request", style: .destructive, handler: { (alertAction) -> Void in
+        switch indexPath.section {
+        case 1:
+            guard
+                let paymentRequest = paymentRequest,
+                let memo = paymentRequest["memo"] as? String
+            else {
+                return
+            }
+            if !memo.isEmpty {
+                if indexPath.row == 0 {
+                    performSegue(withIdentifier: "Rate Payment", sender: nil)
+                }
+                else if indexPath.row == 1 {
+                    let confirmationActionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+                    confirmationActionSheet.addAction(UIAlertAction(title: "Delete Request", style: .destructive, handler: { (alertAction) -> Void in
 //                        self.delegate?.deletePayment()
 //                        self.dismiss(animated: true, completion: nil)
-//                    }))
-//                    confirmationActionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (alertAction) -> Void in
-//                        self.tableView.deselectRow(at: indexPath, animated: true)
-//                    }))
-//                    present(confirmationActionSheet, animated: true, completion: nil)
-//                default:
-//                    break
-//                }
-//            }
-//        case 2:
-//            switch indexPath.row {
-//            case 0:
-//                performSegue(withIdentifier: "Rate Payment", sender: nil)
-//                break
-//            case 1:
-//                let confirmationActionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-//                confirmationActionSheet.addAction(UIAlertAction(title: "Delete Request", style: .destructive, handler: { (alertAction) -> Void in
-//                    self.delegate?.deletePayment()
-//                    self.dismiss(animated: true, completion: nil)
-//                }))
-//                confirmationActionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (alertAction) -> Void in
-//                    self.tableView.deselectRow(at: indexPath, animated: true)
-//                }))
-//                present(confirmationActionSheet, animated: true, completion: nil)
-//            default:
-//                break
-//            }
-//        default:
-//            break
-//        }
+                    }))
+                    confirmationActionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (alertAction) -> Void in
+                        tableView.deselectRow(at: indexPath, animated: true)
+                    }))
+                    present(confirmationActionSheet, animated: true, completion: nil)
+                }
+            }
+        case 2:
+            if indexPath.row == 0 {
+                performSegue(withIdentifier: "Rate Payment", sender: nil)
+            }
+            else if indexPath.row == 1 {
+                let confirmationActionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+                confirmationActionSheet.addAction(UIAlertAction(title: "Delete Request", style: .destructive, handler: { (alertAction) -> Void in
+                    //                        self.delegate?.deletePayment()
+                    //                        self.dismiss(animated: true, completion: nil)
+                }))
+                confirmationActionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (alertAction) -> Void in
+                    tableView.deselectRow(at: indexPath, animated: true)
+                }))
+                present(confirmationActionSheet, animated: true, completion: nil)
+            }
+        default:
+            break
+        }
     }
     
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        if segue.identifier == "Show Profile" {
+            if let profileVC = segue.destination as? ProfileViewController {
+                profileVC.profileInfo = profileInfo
+            }
+            guard
+                let profileNavVC = segue.destination as? UINavigationController,
+                let profileVC = profileNavVC.topViewController as? ProfileViewController,
+                
+                let profileData = sender as? [String : String]
+                else {
+                    return
+            }
+            
+            profileVC.profileInfo = profileData
+        }
     }
-    */
+    
 
 }

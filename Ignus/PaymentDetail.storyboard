@@ -33,7 +33,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" red="0.19249251840000001" green="0.19249251840000001" blue="0.19249251840000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="Friend Cell" rowHeight="64" id="viS-74-ehz">
+                                    <tableViewCell userInteractionEnabled="NO" contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="User Cell" rowHeight="64" id="viS-74-ehz">
                                         <rect key="frame" x="0.0" y="55.5" width="375" height="64"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="viS-74-ehz" id="5Xt-1G-rQh">
@@ -79,6 +79,9 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.249575564" green="0.249575564" blue="0.249575564" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <connections>
+                                            <segue destination="YJk-0x-Dbc" kind="show" identifier="Show Profile" id="6f1-ew-U2P"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="Info Cell" textLabel="sOI-Pq-rRI" detailTextLabel="lP7-ga-a5e" style="IBUITableViewCellStyleValue1" id="4gP-tR-dIv">
                                         <rect key="frame" x="0.0" y="119.5" width="375" height="44"/>
@@ -193,6 +196,14 @@
             </objects>
             <point key="canvasLocation" x="2493.5999999999999" y="-546.47676161919048"/>
         </scene>
+        <!--Profile-->
+        <scene sceneID="Omr-Oe-Tzv">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Profile" id="YJk-0x-Dbc" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="UMj-Ia-8OF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3198" y="-805"/>
+        </scene>
         <!--Rate Payment-->
         <scene sceneID="cBf-5c-E6o">
             <objects>
@@ -216,6 +227,7 @@ A person's ratings will be compiled on their profile for everyone to see. Prove 
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.33333333329999998" green="0.80392156859999997" blue="0.16078431369999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="Pp6-Ge-AVJ">
                                         <rect key="frame" x="0.0" y="115" width="375" height="80"/>
@@ -225,6 +237,7 @@ A person's ratings will be compiled on their profile for everyone to see. Prove 
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="Lou-rF-met">
                                         <rect key="frame" x="0.0" y="195" width="375" height="80"/>
@@ -234,6 +247,7 @@ A person's ratings will be compiled on their profile for everyone to see. Prove 
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -258,7 +272,7 @@ A person's ratings will be compiled on their profile for everyone to see. Prove 
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Bx9-lI-V8v" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3292" y="-546"/>
+            <point key="canvasLocation" x="3441" y="-404"/>
         </scene>
     </scenes>
     <resources>

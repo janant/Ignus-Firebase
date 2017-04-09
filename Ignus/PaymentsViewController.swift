@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class PaymentsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIViewControllerTransitioningDelegate, RequestPaymentTableViewControllerDelegate {
+class PaymentsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIViewControllerTransitioningDelegate, RequestPaymentTableViewControllerDelegate, PaymentViewControllerDelegate {
     
     // Navigation item
     @IBOutlet weak var paymentsCategorySegmentedControl: UISegmentedControl!
@@ -716,6 +716,12 @@ class PaymentsViewController: UIViewController, UITableViewDataSource, UITableVi
         requestPaymentTVC.dismiss(animated: true, completion: nil)
     }
     
+    // MARK: - PaymentViewController delegate methods
+    
+    func closePaymentInfo(paymentVC: PaymentViewController) {
+        self.navigationController?.popToRootViewController(animated: true)
+    }
+    
     // MARK: - Transitioning delegate methods
     
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
@@ -777,6 +783,7 @@ class PaymentsViewController: UIViewController, UITableViewDataSource, UITableVi
                     
                     paymentVC.username = username
                     paymentVC.paymentRequest = paymentInfo
+                    paymentVC.delegate = self
                 }
             }
         }

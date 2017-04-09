@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol RatePaymentTableViewControllerDelegate {
+protocol RatePaymentTableViewControllerDelegate: class {
     func finishedRating(ratePaymentTVC: RatePaymentTableViewController)
 }
 
@@ -36,7 +36,9 @@ class RatePaymentTableViewController: UITableViewController {
     }
     
     var rating = Rating.none
-    var delegate: RatePaymentTableViewControllerDelegate?
+    var paymentToRate: [String: Any]!
+    
+    weak var delegate: RatePaymentTableViewControllerDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()

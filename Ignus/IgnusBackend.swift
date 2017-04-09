@@ -619,7 +619,7 @@ struct IgnusBackend {
         }
     }
     
-    // MARK: - Other data operations
+    // MARK: - Payment operations
     
     static func sendPaymentRequest(toUser user: String, dollars: Int, cents: Int, memo: String, with completionHandler: @escaping (Error?) -> Void) {
         
@@ -667,6 +667,59 @@ struct IgnusBackend {
             }
         }
     }
+    
+    static func completePaymentRequest(_ paymentRequest: [String: Any], withRating rating: String, with completionHandler: @escaping (Error?) -> Void) {
+        
+//        guard let currentUser = currentUserUsername else {
+//            completionHandler(Errors.CurrentUserNotLoggedIn)
+//            return
+//        }
+//        
+//        // Creates new payment request data object
+//        var paymentRequest = [String: Any]()
+//        paymentRequest["sender"] = currentUser
+//        paymentRequest["recipient"] = user
+//        paymentRequest["dollars"] = dollars
+//        paymentRequest["cents"] = cents
+//        paymentRequest["memo"] = memo
+//        paymentRequest["unread"] = true
+//        paymentRequest["status"] = Constants.PaymentRequestStatus.Active
+//        paymentRequest["rating"] = Constants.PaymentRating.None
+//        paymentRequest["timestamp"] = FIRServerValue.timestamp()
+//        
+//        // Updates user received requests and current user sent requests
+//        getPaymentRequests(forUser: user) { (userPaymentRequests) in
+//            if var userReceivedPayments = userPaymentRequests["received"] {
+//                userReceivedPayments.insert(paymentRequest, at: 0)
+//                
+//                // Gets current user payment requests
+//                getCurrentUserPaymentRequests(with: { (currentUserPaymentRequests) in
+//                    if var currentUserSentPaymentRequests = currentUserPaymentRequests["sent"] {
+//                        currentUserSentPaymentRequests.insert(paymentRequest, at: 0)
+//                        
+//                        // Sets the user's received payment requests
+//                        setReceivedPaymentRequests(userReceivedPayments, forUser: user, with: { (error) in
+//                            if error == nil {
+//                                // Sets the current user's sent payment requests
+//                                setCurrentUserSentPaymentRequests(currentUserSentPaymentRequests, with: { (error) in
+//                                    completionHandler(error)
+//                                })
+//                            }
+//                            else {
+//                                completionHandler(error)
+//                            }
+//                        })
+//                    }
+//                })
+//            }
+//        }
+    }
+    
+    static func deletePaymentRequest(_ paymentRequest: [String: Any], with completionHandler: @escaping (Error?) -> Void) {
+        
+    }
+    
+    // MARK: - Message operations
     
     static func sendMessage(message: String, toUser user: String, with completionHandler: @escaping (Error?) -> Void) {
         

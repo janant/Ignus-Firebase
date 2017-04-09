@@ -8,7 +8,11 @@
 
 import UIKit
 
-class PaymentViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+protocol PaymentViewControllerDelegate: class {
+    func closePaymentInfo(paymentVC: PaymentViewController)
+}
+
+class PaymentViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, RatePaymentTableViewControllerDelegate {
     
     @IBOutlet weak var selectPaymentLabel: UILabel!
     @IBOutlet weak var paymentDetailTable: UITableView!
@@ -16,6 +20,8 @@ class PaymentViewController: UIViewController, UITableViewDataSource, UITableVie
     var paymentRequest: [String: Any]?
     var username: String?
     var profileInfo: [String: String]?
+    
+    weak var delegate: PaymentViewControllerDelegate?
     
     override func viewWillAppear(_ animated: Bool) {
         if let selectedIndex = paymentDetailTable.indexPathForSelectedRow {
@@ -350,8 +356,9 @@ class PaymentViewController: UIViewController, UITableViewDataSource, UITableVie
             else if indexPath.row == 1 {
                 let confirmationActionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
                 confirmationActionSheet.addAction(UIAlertAction(title: "Delete Request", style: .destructive, handler: { (alertAction) -> Void in
-                    //                        self.delegate?.deletePayment()
-                    //                        self.dismiss(animated: true, completion: nil)
+                    // Deletes the payment
+                    self.deletePayment()
+                    tableView.deselectRow(at: indexPath, animated: true)
                 }))
                 confirmationActionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (alertAction) -> Void in
                     tableView.deselectRow(at: indexPath, animated: true)
@@ -363,8 +370,16 @@ class PaymentViewController: UIViewController, UITableViewDataSource, UITableVie
         }
     }
     
-
+    func deletePayment() {
+        self.delegate?.closePaymentInfo(paymentVC: self)
+    }
     
+    // MARK: - Rate payment table view controller delegate methods
+    
+    func finishedRating(ratePaymentTVC: RatePaymentTableViewController) {
+        self.delegate?.closePaymentInfo(paymentVC: self)
+    }
+
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -375,16 +390,12 @@ class PaymentViewController: UIViewController, UITableViewDataSource, UITableVie
             if let profileVC = segue.destination as? ProfileViewController {
                 profileVC.profileInfo = profileInfo
             }
-            guard
-                let profileNavVC = segue.destination as? UINavigationController,
-                let profileVC = profileNavVC.topViewController as? ProfileViewController,
-                
-                let profileData = sender as? [String : String]
-                else {
-                    return
+        }
+        else if segue.identifier == "Rate Payment" {
+            if let ratePaymentTVC = segue.destination as? RatePaymentTableViewController {
+                ratePaymentTVC.delegate = self
+                ratePaymentTVC.paymentToRate = paymentRequest
             }
-            
-            profileVC.profileInfo = profileData
         }
     }
     

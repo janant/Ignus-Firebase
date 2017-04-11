@@ -671,37 +671,88 @@ struct IgnusBackend {
     
     static func completePaymentRequest(_ paymentRequest: [String: Any], withRating rating: String, with completionHandler: @escaping (Error?) -> Void) {
         
-//        guard let recipientUsername = paymentRequest["recipient"] as? String else {
-//            completionHandler(Errors.PaymentRequestDataError)
-//            return
-//        }
-//        
-//        // Updates user received requests and current user sent requests
-//        getPaymentRequests(forUser: user) { (userPaymentRequests) in
-//            if var userReceivedPayments = userPaymentRequests["received"] {
-//                userReceivedPayments.insert(paymentRequest, at: 0)
-//                
-//                // Gets current user payment requests
-//                getCurrentUserPaymentRequests(with: { (currentUserPaymentRequests) in
-//                    if var currentUserSentPaymentRequests = currentUserPaymentRequests["sent"] {
-//                        currentUserSentPaymentRequests.insert(paymentRequest, at: 0)
-//                        
-//                        // Sets the user's received payment requests
-//                        setReceivedPaymentRequests(userReceivedPayments, forUser: user, with: { (error) in
-//                            if error == nil {
-//                                // Sets the current user's sent payment requests
-//                                setCurrentUserSentPaymentRequests(currentUserSentPaymentRequests, with: { (error) in
-//                                    completionHandler(error)
-//                                })
-//                            }
-//                            else {
-//                                completionHandler(error)
-//                            }
-//                        })
-//                    }
-//                })
-//            }
-//        }
+        guard
+            let paymentRequestToUpdateTimestamp = paymentRequest["createdTimestamp"] as? TimeInterval,
+            let recipientUsername = paymentRequest["recipient"] as? String
+        else {
+            completionHandler(Errors.PaymentRequestDataError)
+            return
+        }
+        
+        // Creates completed payment request data
+        var completedPaymentRequest = paymentRequest
+        completedPaymentRequest["rating"] = rating;
+        completedPaymentRequest["status"] = Constants.PaymentRequestStatus.Completed
+        completedPaymentRequest["completedTimestamp"] = FIRServerValue.timestamp()
+        
+        // Get's the current user's sent payment requests
+        getCurrentUserPaymentRequests { (currentUserPaymentRequests) in
+            guard
+                var currentUserSentPaymentRequests = currentUserPaymentRequests["sent"]
+            else {
+                completionHandler(Errors.PaymentRequestDataError)
+                return
+            }
+            
+            // Updates the payment request
+            for i in 0..<(currentUserSentPaymentRequests.count) {
+                let currentRequest = currentUserSentPaymentRequests[i]
+                guard let currentPaymentRequestTimestamp = currentRequest["createdTimestamp"] as? TimeInterval else {
+                    continue
+                }
+                
+                // Updates data
+                if currentPaymentRequestTimestamp == paymentRequestToUpdateTimestamp {
+                    currentUserSentPaymentRequests[i]["rating"] = rating;
+                    currentUserSentPaymentRequests[i]["status"] = Constants.PaymentRequestStatus.Completed
+                    currentUserSentPaymentRequests[i]["completedTimestamp"] = FIRServerValue.timestamp()
+                }
+            }
+            
+            // Gets the recipient's received payment requests
+            getPaymentRequests(forUser: recipientUsername, with: { (recipientPaymentRequests) in
+                guard
+                    var recipientReceivedPaymentRequests = recipientPaymentRequests["received"]
+                else {
+                    completionHandler(Errors.PaymentRequestDataError)
+                    return
+                }
+                
+                // Updates the payment request
+                for i in 0..<(recipientReceivedPaymentRequests.count) {
+                    let currentRequest = recipientReceivedPaymentRequests[i]
+                    guard let currentPaymentRequestTimestamp = currentRequest["createdTimestamp"] as? TimeInterval else {
+                        continue
+                    }
+                    
+                    // Updates data
+                    if currentPaymentRequestTimestamp == paymentRequestToUpdateTimestamp {
+                        recipientReceivedPaymentRequests[i]["rating"] = rating;
+                        recipientReceivedPaymentRequests[i]["status"] = Constants.PaymentRequestStatus.Completed
+                        recipientReceivedPaymentRequests[i]["completedTimestamp"] = FIRServerValue.timestamp()
+                    }
+                }
+                
+                // Saves the current user's data
+                setCurrentUserSentPaymentRequests(currentUserSentPaymentRequests, with: { (error) in
+                    if error == nil {
+                        // Saves the recipient user's data
+                        setReceivedPaymentRequests(recipientReceivedPaymentRequests, forUser: recipientUsername, with: { (error) in
+                            if error == nil {
+                                completionHandler(nil)
+                            }
+                            else {
+                                completionHandler(error)
+                            }
+                        })
+                    }
+                    else {
+                        completionHandler(error)
+                    }
+                })
+            })
+            
+        }
     }
     
     static func deletePaymentRequest(_ paymentRequest: [String: Any], with completionHandler: @escaping (Error?) -> Void) {

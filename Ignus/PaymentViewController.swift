@@ -207,7 +207,7 @@ class PaymentViewController: UIViewController, UITableViewDataSource, UITableVie
                 cell.textLabel?.text = "Requested on:"
                 
                 // Sets timestamp
-                if let timeSent = paymentRequest["timestamp"] as? Double {
+                if let timeSent = paymentRequest["createdTimestamp"] as? TimeInterval {
                     let messageDate = Date(timeIntervalSince1970: timeSent / 1000)
                     let dateFormatter = DateFormatter()
                     dateFormatter.dateFormat = (Calendar.current.isDateInToday(messageDate)) ? "h:mm a" : "MM/dd/yy"

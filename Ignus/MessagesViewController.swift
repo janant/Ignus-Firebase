@@ -197,7 +197,7 @@ class MessagesViewController: UIViewController, UITableViewDataSource, UITableVi
         }
         
         // Sets timestamp
-        if let timeSent = messageData["timestamp"] as? Double {
+        if let timeSent = messageData["createdTimestamp"] as? TimeInterval {
             let messageDate = Date(timeIntervalSince1970: timeSent / 1000)
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = (Calendar.current.isDateInToday(messageDate)) ? "h:mm a" : "MM/dd/yy"

@@ -95,4 +95,5 @@ enum Errors: Error {
     case UserDoesNotExist
     case ImageLoadFailed
     case CurrentUserNotLoggedIn
+    case PaymentRequestDataError
 }

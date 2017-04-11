@@ -638,7 +638,8 @@ struct IgnusBackend {
         paymentRequest["unread"] = true
         paymentRequest["status"] = Constants.PaymentRequestStatus.Active
         paymentRequest["rating"] = Constants.PaymentRating.None
-        paymentRequest["timestamp"] = FIRServerValue.timestamp()
+        paymentRequest["createdTimestamp"] = FIRServerValue.timestamp()
+        paymentRequest["completedTimestamp"] = 0
         
         // Updates user received requests and current user sent requests
         getPaymentRequests(forUser: user) { (userPaymentRequests) in
@@ -670,22 +671,10 @@ struct IgnusBackend {
     
     static func completePaymentRequest(_ paymentRequest: [String: Any], withRating rating: String, with completionHandler: @escaping (Error?) -> Void) {
         
-//        guard let currentUser = currentUserUsername else {
-//            completionHandler(Errors.CurrentUserNotLoggedIn)
+//        guard let recipientUsername = paymentRequest["recipient"] as? String else {
+//            completionHandler(Errors.PaymentRequestDataError)
 //            return
 //        }
-//        
-//        // Creates new payment request data object
-//        var paymentRequest = [String: Any]()
-//        paymentRequest["sender"] = currentUser
-//        paymentRequest["recipient"] = user
-//        paymentRequest["dollars"] = dollars
-//        paymentRequest["cents"] = cents
-//        paymentRequest["memo"] = memo
-//        paymentRequest["unread"] = true
-//        paymentRequest["status"] = Constants.PaymentRequestStatus.Active
-//        paymentRequest["rating"] = Constants.PaymentRating.None
-//        paymentRequest["timestamp"] = FIRServerValue.timestamp()
 //        
 //        // Updates user received requests and current user sent requests
 //        getPaymentRequests(forUser: user) { (userPaymentRequests) in
@@ -717,6 +706,65 @@ struct IgnusBackend {
     
     static func deletePaymentRequest(_ paymentRequest: [String: Any], with completionHandler: @escaping (Error?) -> Void) {
         
+        guard
+            let paymentRequestToDeleteTimestamp = paymentRequest["createdTimestamp"] as? TimeInterval,
+            let recipientUsername = paymentRequest["recipient"] as? String
+        else {
+            completionHandler(Errors.PaymentRequestDataError)
+            return
+        }
+        
+        // Gets current payment requests
+        getCurrentUserPaymentRequests { (currentUserPaymentRequests) in
+            if var currentUserSentPaymentRequests = currentUserPaymentRequests["sent"] {
+                
+                // Deletes if the timestamp matches
+                currentUserSentPaymentRequests = currentUserSentPaymentRequests.filter({ (request) -> Bool in
+                    guard let currentPaymentRequestTimestamp = request["createdTimestamp"] as? TimeInterval else {
+                        return true
+                    }
+                    return paymentRequestToDeleteTimestamp != currentPaymentRequestTimestamp
+                })
+                
+                // Gets the recipient's payment requests
+                getPaymentRequests(forUser: recipientUsername, with: { (recipientPaymentRequests) in
+                    
+                    guard var recipientReceivedPaymentRequests = recipientPaymentRequests["received"] else {
+                        completionHandler(Errors.PaymentRequestDataError)
+                        return
+                    }
+                    
+                    // Deletes if the timestamp matches
+                    recipientReceivedPaymentRequests = recipientReceivedPaymentRequests.filter({ (request) -> Bool in
+                        guard let currentPaymentRequestTimestamp = request["createdTimestamp"] as? TimeInterval else {
+                            return true
+                        }
+                        return paymentRequestToDeleteTimestamp != currentPaymentRequestTimestamp
+                    })
+                    
+                    // Sets current user's payment requests
+                    setCurrentUserSentPaymentRequests(currentUserSentPaymentRequests, with: { (error) in
+                        if error == nil {
+                            // Sets recipient's payment requests
+                            setReceivedPaymentRequests(recipientReceivedPaymentRequests, forUser: recipientUsername, with: { (error) in
+                                if error == nil {
+                                    completionHandler(nil)
+                                }
+                                else {
+                                    completionHandler(error)
+                                    return
+                                }
+                            })
+                        }
+                        else {
+                            completionHandler(error)
+                            return
+                        }
+                    })
+                    
+                })
+            }
+        }
     }
     
     // MARK: - Message operations

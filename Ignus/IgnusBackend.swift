@@ -671,10 +671,7 @@ struct IgnusBackend {
     
     static func completePaymentRequest(_ paymentRequest: [String: Any], withRating rating: String, with completionHandler: @escaping (Error?) -> Void) {
         
-        guard
-            let paymentRequestToUpdateTimestamp = paymentRequest["createdTimestamp"] as? TimeInterval,
-            let recipientUsername = paymentRequest["recipient"] as? String
-        else {
+        guard let recipientUsername = paymentRequest["recipient"] as? String else {
             completionHandler(Errors.PaymentRequestDataError)
             return
         }
@@ -697,12 +694,9 @@ struct IgnusBackend {
             // Updates the payment request
             for i in 0..<(currentUserSentPaymentRequests.count) {
                 let currentRequest = currentUserSentPaymentRequests[i]
-                guard let currentPaymentRequestTimestamp = currentRequest["createdTimestamp"] as? TimeInterval else {
-                    continue
-                }
                 
                 // Updates data
-                if currentPaymentRequestTimestamp == paymentRequestToUpdateTimestamp {
+                if paymentRequestsAreEqual(paymentRequest, currentRequest) {
                     currentUserSentPaymentRequests[i]["rating"] = rating;
                     currentUserSentPaymentRequests[i]["status"] = Constants.PaymentRequestStatus.Completed
                     currentUserSentPaymentRequests[i]["completedTimestamp"] = FIRServerValue.timestamp()
@@ -721,12 +715,9 @@ struct IgnusBackend {
                 // Updates the payment request
                 for i in 0..<(recipientReceivedPaymentRequests.count) {
                     let currentRequest = recipientReceivedPaymentRequests[i]
-                    guard let currentPaymentRequestTimestamp = currentRequest["createdTimestamp"] as? TimeInterval else {
-                        continue
-                    }
                     
                     // Updates data
-                    if currentPaymentRequestTimestamp == paymentRequestToUpdateTimestamp {
+                    if paymentRequestsAreEqual(paymentRequest, currentRequest) {
                         recipientReceivedPaymentRequests[i]["rating"] = rating;
                         recipientReceivedPaymentRequests[i]["status"] = Constants.PaymentRequestStatus.Completed
                         recipientReceivedPaymentRequests[i]["completedTimestamp"] = FIRServerValue.timestamp()
@@ -757,10 +748,7 @@ struct IgnusBackend {
     
     static func deletePaymentRequest(_ paymentRequest: [String: Any], with completionHandler: @escaping (Error?) -> Void) {
         
-        guard
-            let paymentRequestToDeleteTimestamp = paymentRequest["createdTimestamp"] as? TimeInterval,
-            let recipientUsername = paymentRequest["recipient"] as? String
-        else {
+        guard let recipientUsername = paymentRequest["recipient"] as? String else {
             completionHandler(Errors.PaymentRequestDataError)
             return
         }
@@ -771,10 +759,7 @@ struct IgnusBackend {
                 
                 // Deletes if the timestamp matches
                 currentUserSentPaymentRequests = currentUserSentPaymentRequests.filter({ (request) -> Bool in
-                    guard let currentPaymentRequestTimestamp = request["createdTimestamp"] as? TimeInterval else {
-                        return true
-                    }
-                    return paymentRequestToDeleteTimestamp != currentPaymentRequestTimestamp
+                    return !paymentRequestsAreEqual(paymentRequest, request)
                 })
                 
                 // Gets the recipient's payment requests
@@ -787,10 +772,7 @@ struct IgnusBackend {
                     
                     // Deletes if the timestamp matches
                     recipientReceivedPaymentRequests = recipientReceivedPaymentRequests.filter({ (request) -> Bool in
-                        guard let currentPaymentRequestTimestamp = request["createdTimestamp"] as? TimeInterval else {
-                            return true
-                        }
-                        return paymentRequestToDeleteTimestamp != currentPaymentRequestTimestamp
+                        return !paymentRequestsAreEqual(paymentRequest, request)
                     })
                     
                     // Sets current user's payment requests
@@ -816,6 +798,37 @@ struct IgnusBackend {
                 })
             }
         }
+    }
+    
+    private static func paymentRequestsAreEqual(_ paymentRequest1: [String: Any], _ paymentRequest2: [String: Any]) -> Bool {
+        // Gets all attributes to check
+        guard
+            let sender1 = paymentRequest1["sender"] as? String,
+            let sender2 = paymentRequest2["sender"] as? String,
+            let recipient1 = paymentRequest1["recipient"] as? String,
+            let recipient2 = paymentRequest2["recipient"] as? String,
+            let dollars1 = paymentRequest1["dollars"] as? Int,
+            let dollars2 = paymentRequest2["dollars"] as? Int,
+            let cents1 = paymentRequest1["cents"] as? Int,
+            let cents2 = paymentRequest2["cents"] as? Int,
+            let memo1 = paymentRequest1["memo"] as? String,
+            let memo2 = paymentRequest2["memo"] as? String,
+            let status1 = paymentRequest1["status"] as? String,
+            let status2 = paymentRequest2["status"] as? String,
+            let rating1 = paymentRequest1["rating"] as? String,
+            let rating2 = paymentRequest2["rating"] as? String
+        else {
+            return false
+        }
+        
+        // Checks if the attributes are equal
+        return (sender1 == sender2)
+            && (recipient1 == recipient2)
+            && (dollars1 == dollars2)
+            && (cents1 == cents2)
+            && (memo1 == memo2)
+            && (status1 == status2)
+            && (rating1 == rating2)
     }
     
     // MARK: - Message operations

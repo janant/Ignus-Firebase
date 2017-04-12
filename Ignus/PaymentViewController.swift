@@ -333,15 +333,16 @@ class PaymentViewController: UIViewController, UITableViewDataSource, UITableVie
             else {
                 return
             }
-            if !memo.isEmpty {
+            if memo.isEmpty {
                 if indexPath.row == 0 {
                     performSegue(withIdentifier: "Rate Payment", sender: nil)
                 }
                 else if indexPath.row == 1 {
                     let confirmationActionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
                     confirmationActionSheet.addAction(UIAlertAction(title: "Delete Request", style: .destructive, handler: { (alertAction) -> Void in
-//                        self.delegate?.deletePayment()
-//                        self.dismiss(animated: true, completion: nil)
+                        // Deletes the payment
+                        self.deletePayment()
+                        tableView.deselectRow(at: indexPath, animated: true)
                     }))
                     confirmationActionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (alertAction) -> Void in
                         tableView.deselectRow(at: indexPath, animated: true)
@@ -371,7 +372,16 @@ class PaymentViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func deletePayment() {
-        self.delegate?.closePaymentInfo(paymentVC: self)
+        guard let paymentRequest = paymentRequest else {
+            return
+        }
+        
+        // Deletes payment request and returns to payments view controller
+        IgnusBackend.deletePaymentRequest(paymentRequest) { (error) in
+            if error == nil {
+                self.delegate?.closePaymentInfo(paymentVC: self)
+            }
+        }
     }
     
     // MARK: - Rate payment table view controller delegate methods

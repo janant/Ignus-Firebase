@@ -624,7 +624,7 @@ class PaymentsViewController: UIViewController, UITableViewDataSource, UITableVi
             }
             
             // Sets timestamp
-            if let timeSent = paymentRequest["createdTimestamp"] as? TimeInterval {
+            if let timeSent = paymentRequest["completedTimestamp"] as? TimeInterval {
                 let messageDate = Date(timeIntervalSince1970: timeSent / 1000)
                 let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = (Calendar.current.isDateInToday(messageDate)) ? "h:mm a" : "MM/dd/yy"

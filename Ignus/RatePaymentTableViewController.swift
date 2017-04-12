@@ -63,6 +63,9 @@ class RatePaymentTableViewController: UITableViewController {
     }
     
     @IBAction func doneRating(_ sender: AnyObject) {
+        guard let paymentToRate = paymentToRate else {
+            return
+        }
         var paymentRating: String!
         
         if rating == .green {
@@ -75,9 +78,12 @@ class RatePaymentTableViewController: UITableViewController {
             paymentRating = Constants.PaymentRating.Red
         }
         
-        // TODO: complete payment
-        
-        self.delegate?.finishedRating(ratePaymentTVC: self)
+        // Completes payment in Firebase
+        IgnusBackend.completePaymentRequest(paymentToRate, withRating: paymentRating) { (error) in
+            if error == nil {
+                self.delegate?.finishedRating(ratePaymentTVC: self)
+            }
+        }
     }
 
     // MARK: - Table view delegate methods

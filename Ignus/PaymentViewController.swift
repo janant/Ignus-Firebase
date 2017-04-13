@@ -40,6 +40,7 @@ class PaymentViewController: UIViewController, UITableViewDataSource, UITableVie
         }
         else {
             selectPaymentLabel.isHidden = true
+            selectPaymentLabel.alpha = 0.0
         }
     }
 
@@ -387,6 +388,7 @@ class PaymentViewController: UIViewController, UITableViewDataSource, UITableVie
     // MARK: - Rate payment table view controller delegate methods
     
     func finishedRating(ratePaymentTVC: RatePaymentTableViewController) {
+        ratePaymentTVC.navigationController?.popViewController(animated: true)
         self.delegate?.closePaymentInfo(paymentVC: self)
     }
 

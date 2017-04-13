@@ -30,10 +30,19 @@ class PaymentsViewController: UIViewController, UITableViewDataSource, UITableVi
     
     var requestPaymentDismissalTransition: RequestPaymentTransition?
     
+    var shouldManuallyReload = false
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        paymentsCategoryChanged(paymentsCategorySegmentedControl)
+        if shouldManuallyReload {
+            reloadData()
+            shouldManuallyReload = false
+        }
+        else {
+            paymentsCategoryChanged(paymentsCategorySegmentedControl)
+        }
+        
         if let selectedIndex = paymentsTable.indexPathForSelectedRow {
             paymentsTable.deselectRow(at: selectedIndex, animated: true)
         }
@@ -719,7 +728,25 @@ class PaymentsViewController: UIViewController, UITableViewDataSource, UITableVi
     // MARK: - PaymentViewController delegate methods
     
     func closePaymentInfo(paymentVC: PaymentViewController) {
-        self.navigationController?.popToRootViewController(animated: true)
+        
+        // Pops view controllers
+        if self.splitViewController?.traitCollection.horizontalSizeClass == .regular {
+//            paymentVC.navigationController?.popToRootViewController(animated: true)
+            reloadData()
+        }
+        else {
+            shouldManuallyReload = true
+            self.navigationController?.popToRootViewController(animated: true)
+        }
+        
+        // Hides payment detail views
+        paymentVC.selectPaymentLabel.isHidden = false
+        paymentVC.paymentRequest = nil
+        paymentVC.paymentDetailTable.isUserInteractionEnabled = false
+        UIView.animate(withDuration: 0.25, animations: {
+            paymentVC.selectPaymentLabel.alpha = 1.0
+            paymentVC.paymentDetailTable.alpha = 0.0
+        })
     }
     
     // MARK: - Transitioning delegate methods

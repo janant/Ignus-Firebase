@@ -697,7 +697,7 @@ struct IgnusBackend {
                 
                 // Updates data
                 if paymentRequestsAreEqual(paymentRequest, currentRequest) {
-                    currentUserSentPaymentRequests[i]["rating"] = rating;
+                    currentUserSentPaymentRequests[i]["rating"] = rating
                     currentUserSentPaymentRequests[i]["status"] = Constants.PaymentRequestStatus.Completed
                     currentUserSentPaymentRequests[i]["completedTimestamp"] = FIRServerValue.timestamp()
                 }
@@ -718,7 +718,7 @@ struct IgnusBackend {
                     
                     // Updates data
                     if paymentRequestsAreEqual(paymentRequest, currentRequest) {
-                        recipientReceivedPaymentRequests[i]["rating"] = rating;
+                        recipientReceivedPaymentRequests[i]["rating"] = rating
                         recipientReceivedPaymentRequests[i]["status"] = Constants.PaymentRequestStatus.Completed
                         recipientReceivedPaymentRequests[i]["completedTimestamp"] = FIRServerValue.timestamp()
                     }
@@ -729,12 +729,7 @@ struct IgnusBackend {
                     if error == nil {
                         // Saves the recipient user's data
                         setReceivedPaymentRequests(recipientReceivedPaymentRequests, forUser: recipientUsername, with: { (error) in
-                            if error == nil {
-                                completionHandler(nil)
-                            }
-                            else {
-                                completionHandler(error)
-                            }
+                            completionHandler(error)
                         })
                     }
                     else {
@@ -780,13 +775,7 @@ struct IgnusBackend {
                         if error == nil {
                             // Sets recipient's payment requests
                             setReceivedPaymentRequests(recipientReceivedPaymentRequests, forUser: recipientUsername, with: { (error) in
-                                if error == nil {
-                                    completionHandler(nil)
-                                }
-                                else {
-                                    completionHandler(error)
-                                    return
-                                }
+                                completionHandler(error)
                             })
                         }
                         else {
@@ -795,6 +784,29 @@ struct IgnusBackend {
                         }
                     })
                     
+                })
+            }
+        }
+    }
+    
+    static func markPaymentRequestAsRead(_ paymentRequest: [String: Any], with completionHandler: @escaping (Error?) -> Void) {
+        // Gets current user payments
+        getCurrentUserPaymentRequests { (currentUserPaymentRequests) in
+            if var currentUserReceivedPaymentRequests = currentUserPaymentRequests["received"] {
+                // Updates the payment request
+                for i in 0..<(currentUserReceivedPaymentRequests.count) {
+                    let currentRequest = currentUserReceivedPaymentRequests[i]
+                    
+                    // Updates data
+                    if paymentRequestsAreEqual(paymentRequest, currentRequest) {
+                        currentUserReceivedPaymentRequests[i]["unread"] = false
+                        break
+                    }
+                }
+                
+                // Saves payment requests
+                setCurrentUserReceivedPaymentRequests(currentUserReceivedPaymentRequests, with: { (error) in
+                    completionHandler(nil)
                 })
             }
         }
@@ -858,4 +870,33 @@ struct IgnusBackend {
             })
         }
     }
+    
+//    static func markMessageAsRead(_ message: [String: Any], with completionHandler: @escaping (Error?) -> Void) {
+//        // Gets current user messages
+//        getCurrentUserMessages { (currentUserMessages) in
+//            var currentUserMessages = currentUserMessages
+//            
+//            
+//        }
+//        getCurrentUserPaymentRequests { (currentUserPaymentRequests) in
+//            if var currentUserReceivedPaymentRequests = currentUserPaymentRequests["received"] {
+//                // Updates the payment request
+//                for i in 0..<(currentUserReceivedPaymentRequests.count) {
+//                    let currentRequest = currentUserReceivedPaymentRequests[i]
+//                    
+//                    // Updates data
+//                    if paymentRequestsAreEqual(paymentRequest, currentRequest) {
+//                        currentUserReceivedPaymentRequests[i]["unread"] = false
+//                        break
+//                    }
+//                }
+//                
+//                // Saves payment requests
+//                setCurrentUserReceivedPaymentRequests(currentUserReceivedPaymentRequests, with: { (error) in
+//                    completionHandler(nil)
+//                })
+//            }
+//        }
+//    }
+    
 }

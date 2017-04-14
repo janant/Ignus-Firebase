@@ -525,9 +525,15 @@ class PaymentsViewController: UIViewController, UITableViewDataSource, UITableVi
             }
             
             // Shows/hides unread indicator
-            if let messageUnread = paymentRequest["unread"] as? Bool {
-                unreadIndicator.isHidden = !messageUnread
+            if paymentRequest["sender"] as? String == username {
+                if let messageUnread = paymentRequest["unread"] as? Bool {
+                    unreadIndicator.isHidden = !messageUnread
+                }
             }
+            else {
+                unreadIndicator.isHidden = true
+            }
+            
             
             cell.backgroundColor = UIColor.clear
             
@@ -707,6 +713,20 @@ class PaymentsViewController: UIViewController, UITableViewDataSource, UITableVi
                 [Constants.PaymentSegueInfoKeys.Username: username,
                  Constants.PaymentSegueInfoKeys.PaymentRequest: paymentRequest]
             
+            // Marks the payment request as read, if not already
+            if paymentRequest["sender"] as? String == username &&
+               paymentRequest["unread"] as? Bool == true {
+                activePaymentsReceived[indexPath.row]["unread"] = false
+                IgnusBackend.markPaymentRequestAsRead(paymentRequest, with: { (error) in
+                    if let selectedCell = tableView.cellForRow(at: indexPath) {
+                        if let unreadIndicator = selectedCell.viewWithTag(4) {
+
+                            unreadIndicator.isHidden = true
+                        }
+                    }
+                })
+            }
+            
             performSegue(withIdentifier: "Show Payment Detail", sender: paymentSegueInfo)
         }
     }
@@ -731,7 +751,6 @@ class PaymentsViewController: UIViewController, UITableViewDataSource, UITableVi
         
         // Pops view controllers
         if self.splitViewController?.traitCollection.horizontalSizeClass == .regular {
-//            paymentVC.navigationController?.popToRootViewController(animated: true)
             reloadData()
         }
         else {

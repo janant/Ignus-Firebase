@@ -25,7 +25,7 @@ class FriendsSplitViewController: UISplitViewController, UISplitViewControllerDe
     
     func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
         if let profileNavVC = secondaryViewController as? UINavigationController {
-            if let profileVC = profileNavVC.topViewController as? ProfileViewController {
+            if let profileVC = profileNavVC.viewControllers[0] as? ProfileViewController {
                 if let _ = profileVC.profileInfo {
                     return false
                 }

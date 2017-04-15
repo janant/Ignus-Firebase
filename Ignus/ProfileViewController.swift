@@ -335,7 +335,10 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
     
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         if presented is ProfileOptionsViewController {
-            let buttonCenter = self.view.convert(profileOptionsButton.center, from: profileInfoView)
+            var buttonCenter = self.view.convert(profileOptionsButton.center, from: profileInfoView)
+            if let splitVC = self.splitViewController {
+                buttonCenter = splitVC.view.convert(buttonCenter, from: self.view)
+            }
             return ProfileOptionsAnimation(presenting: true, initialPoint: buttonCenter)
         }
         else if let navVC = presented as? UINavigationController {
@@ -343,7 +346,7 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
                 return RequestPaymentTransition(presenting: true)
             }
             else if navVC.topViewController is MessageViewController {
-                return MessageTransition(presenting: true)
+                return MessageTransition(presenting: true, isViewingMessage: false, sentMessage: false, sourceFrame: CGRect(), shouldCallMessageAppearance: false)
             }
         }
         return nil
@@ -351,7 +354,10 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
     
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         if dismissed is ProfileOptionsViewController {
-            let buttonCenter = self.view.convert(profileOptionsButton.center, from: profileInfoView)
+            var buttonCenter = self.view.convert(profileOptionsButton.center, from: profileInfoView)
+            if let splitVC = self.splitViewController {
+                buttonCenter = splitVC.view.convert(buttonCenter, from: self.view)
+            }
             return ProfileOptionsAnimation(presenting: false, initialPoint: buttonCenter)
         }
         else if let navVC = dismissed as? UINavigationController {
@@ -463,7 +469,7 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
     // MARK: - Message view controller delegate methods
     
     func canceledNewMessage(messageVC: MessageViewController) {
-        messageDismissalTransition = MessageTransition(presenting: false)
+        messageDismissalTransition = MessageTransition(presenting: false, isViewingMessage: false, sentMessage: false, sourceFrame: CGRect(), shouldCallMessageAppearance: false)
         messageVC.dismiss(animated: true, completion: nil)
     }
     
@@ -472,7 +478,7 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
     }
     
     func sentNewMessage(messageVC: MessageViewController) {
-        messageDismissalTransition = MessageTransition(presenting: false, isViewingMessage: false, sentMessage: true)
+        messageDismissalTransition = MessageTransition(presenting: false, isViewingMessage: false, sentMessage: true, sourceFrame: CGRect(), shouldCallMessageAppearance: false)
         messageVC.dismiss(animated: true, completion: nil)
     }
     

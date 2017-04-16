@@ -597,7 +597,6 @@ class PaymentsViewController: UIViewController, UITableViewDataSource, UITableVi
             // Sets initial data to blank, since cells get reused
             nameLabel.text = ""
             moneyMemoLabel.text = ""
-            dateLabel.text = ""
             profileImageView.image = #imageLiteral(resourceName: "Not Loaded Profile")
             
             // Gets profile info for this user
@@ -643,7 +642,25 @@ class PaymentsViewController: UIViewController, UITableViewDataSource, UITableVi
                 let messageDate = Date(timeIntervalSince1970: timeSent / 1000)
                 let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = (Calendar.current.isDateInToday(messageDate)) ? "h:mm a" : "MM/dd/yy"
-                dateLabel.text = dateFormatter.string(from: messageDate)
+                let dateText = "\(dateFormatter.string(from: messageDate))   "
+                let dateAttributedText = NSAttributedString(string: dateText, attributes: dateLabel.attributedText?.attributes(at: 0, effectiveRange: nil))
+                dateLabel.attributedText = dateAttributedText
+            }
+            
+            // Sets the background color of timestamp label to indicate rating
+            if let rating = paymentRequest["rating"] as? String {
+                if rating == Constants.PaymentRating.Green {
+                    dateLabel.backgroundColor = #colorLiteral(red: 0.3333333333, green: 0.8039215686, blue: 0.1607843137, alpha: 1)
+                    dateLabel.textColor = UIColor.white
+                }
+                else if rating == Constants.PaymentRating.Yellow {
+                    dateLabel.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 0, alpha: 1)
+                    dateLabel.textColor = UIColor.darkGray
+                }
+                else if rating == Constants.PaymentRating.Red {
+                    dateLabel.backgroundColor = #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1)
+                    dateLabel.textColor = UIColor.white
+                }
             }
             
             cell.backgroundColor = UIColor.clear

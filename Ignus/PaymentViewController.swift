@@ -57,19 +57,25 @@ class PaymentViewController: UIViewController, UITableViewDataSource, UITableVie
             let username = username,
             let sender = paymentRequest["sender"] as? String,
             let recipient = paymentRequest["recipient"] as? String,
-            let memo = paymentRequest["memo"] as? String
+            let memo = paymentRequest["memo"] as? String,
+            let paymentStatus = paymentRequest["status"] as? String
         else {
             return 0
         }
         
-        if username == recipient {
-            return memo.isEmpty ? 2 : 3
-        }
-        else if username == sender {
+        if paymentStatus == Constants.PaymentRequestStatus.Completed {
             return memo.isEmpty ? 1 : 2
         }
         else {
-            return 0
+            if username == recipient {
+                return memo.isEmpty ? 2 : 3
+            }
+            else if username == sender {
+                return memo.isEmpty ? 1 : 2
+            }
+            else {
+                return 0
+            }
         }
     }
     
@@ -79,27 +85,16 @@ class PaymentViewController: UIViewController, UITableViewDataSource, UITableVie
             let username = username,
             let sender = paymentRequest["sender"] as? String,
             let recipient = paymentRequest["recipient"] as? String,
-            let memo = paymentRequest["memo"] as? String
+            let memo = paymentRequest["memo"] as? String,
+            let paymentStatus = paymentRequest["status"] as? String
         else {
             return 0
         }
         
-        if username == recipient {
+        if paymentStatus == Constants.PaymentRequestStatus.Completed {
             switch section {
             case 0:
-                return 3
-            case 1:
-                return memo.isEmpty ? 2 : 1
-            case 2:
-                return 2
-            default:
-                return 0
-            }
-        }
-        else if username == sender {
-            switch section {
-            case 0:
-                return 3
+                return 5
             case 1:
                 return memo.isEmpty ? 0 : 1
             default:
@@ -107,8 +102,31 @@ class PaymentViewController: UIViewController, UITableViewDataSource, UITableVie
             }
         }
         else {
-            return 0
+            if username == recipient {
+                switch section {
+                case 0:
+                    return 3
+                case 1:
+                    return memo.isEmpty ? 2 : 1
+                case 2:
+                    return 2
+                default:
+                    return 0
+                }
+            }
+            else if username == sender {
+                switch section {
+                case 0:
+                    return 3
+                case 1:
+                    return memo.isEmpty ? 0 : 1
+                default:
+                    return 0
+                }
+            }
         }
+        
+        return 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -209,11 +227,65 @@ class PaymentViewController: UIViewController, UITableViewDataSource, UITableVie
                 
                 // Sets timestamp
                 if let timeSent = paymentRequest["createdTimestamp"] as? TimeInterval {
-                    let messageDate = Date(timeIntervalSince1970: timeSent / 1000)
+                    let requestDate = Date(timeIntervalSince1970: timeSent / 1000)
                     let dateFormatter = DateFormatter()
-                    dateFormatter.dateFormat = (Calendar.current.isDateInToday(messageDate)) ? "h:mm a" : "MM/dd/yy"
-                    cell.detailTextLabel?.text = dateFormatter.string(from: messageDate)
+                    dateFormatter.dateFormat = (Calendar.current.isDateInToday(requestDate)) ? "h:mm a" : "MM/dd/yy"
+                    cell.detailTextLabel?.text = dateFormatter.string(from: requestDate)
                 }
+            }
+            else if indexPath.row == 3 {
+                cell = tableView.dequeueReusableCell(withIdentifier: "Info Cell", for: indexPath)
+                
+                guard
+                    let paymentRequest = paymentRequest
+                else {
+                    return UITableViewCell()
+                }
+                
+                cell.textLabel?.text = "Completed on:"
+                
+                // Sets timestamp
+                if let timeCompleted = paymentRequest["completedTimestamp"] as? TimeInterval {
+                    let requestDate = Date(timeIntervalSince1970: timeCompleted / 1000)
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.dateFormat = (Calendar.current.isDateInToday(requestDate)) ? "h:mm a" : "MM/dd/yy"
+                    cell.detailTextLabel?.text = dateFormatter.string(from: requestDate)
+                }
+            }
+            else if indexPath.row == 4 {
+                cell = tableView.dequeueReusableCell(withIdentifier: "Rating Cell", for: indexPath)
+                
+                guard
+                    let paymentRequest = paymentRequest,
+                    let rating = paymentRequest["rating"] as? String
+                else {
+                    return UITableViewCell()
+                }
+                
+                // Creates rating view
+                let ratingView = UIView(frame: CGRect(x: 0, y: 0, width: 60, height: 25))
+                
+                // Sets rating color
+                if rating == Constants.PaymentRating.Green {
+                    ratingView.backgroundColor = #colorLiteral(red: 0.3333333333, green: 0.8039215686, blue: 0.1607843137, alpha: 1)
+                }
+                else if rating == Constants.PaymentRating.Yellow {
+                    ratingView.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 0, alpha: 1)
+                }
+                else if rating == Constants.PaymentRating.Red {
+                    ratingView.backgroundColor = #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1)
+                }
+                
+                // Sets up size constraints
+                ratingView.widthAnchor.constraint(equalToConstant: 60).isActive = true
+                ratingView.heightAnchor.constraint(equalToConstant: 25).isActive = true
+                
+                // Sets up layer properties
+                ratingView.layer.cornerRadius = 5
+                ratingView.layer.masksToBounds = true
+                
+                // Adds to cell
+                cell.accessoryView = ratingView
             }
         }
         else if indexPath.section == 1 {

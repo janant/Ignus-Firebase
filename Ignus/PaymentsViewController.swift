@@ -690,7 +690,7 @@ class PaymentsViewController: UIViewController, UITableViewDataSource, UITableVi
         // Gets the current payment request data and username
         if paymentsCategorySegmentedControl.selectedSegmentIndex == Constants.PaymentsScope.Active {
             guard
-                let paymentRequest: [String: Any] = {
+                var paymentRequest: [String: Any] = {
                     if indexPath.section == 0 {
                         if !activePaymentsReceived.isEmpty {
                             return activePaymentsReceived[indexPath.row]
@@ -726,14 +726,11 @@ class PaymentsViewController: UIViewController, UITableViewDataSource, UITableVi
                 return
             }
             
-            let paymentSegueInfo: [String: Any] =
-                [Constants.PaymentSegueInfoKeys.Username: username,
-                 Constants.PaymentSegueInfoKeys.PaymentRequest: paymentRequest]
-            
             // Marks the payment request as read, if not already
             if paymentRequest["sender"] as? String == username &&
                paymentRequest["unread"] as? Bool == true {
                 activePaymentsReceived[indexPath.row]["unread"] = false
+                paymentRequest["unread"] = false
                 IgnusBackend.markPaymentRequestAsRead(paymentRequest, with: { (error) in
                     if let selectedCell = tableView.cellForRow(at: indexPath) {
                         if let unreadIndicator = selectedCell.viewWithTag(4) {
@@ -743,6 +740,54 @@ class PaymentsViewController: UIViewController, UITableViewDataSource, UITableVi
                     }
                 })
             }
+            
+            let paymentSegueInfo: [String: Any] =
+                [Constants.PaymentSegueInfoKeys.Username: username,
+                 Constants.PaymentSegueInfoKeys.PaymentRequest: paymentRequest]
+            
+            performSegue(withIdentifier: "Show Payment Detail", sender: paymentSegueInfo)
+        }
+        if paymentsCategorySegmentedControl.selectedSegmentIndex == Constants.PaymentsScope.Completed {
+            guard
+                let paymentRequest: [String: Any] = {
+                    if indexPath.section == 0 {
+                        if !completedPaymentsReceived.isEmpty {
+                            return completedPaymentsReceived[indexPath.row]
+                        }
+                        else {
+                            return completedPaymentsSent[indexPath.row]
+                        }
+                    }
+                    else if indexPath.section == 1 {
+                        return completedPaymentsSent[indexPath.row]
+                    }
+                    else {
+                        return nil
+                    }
+                }(),
+                let username: String = {
+                    if indexPath.section == 0 {
+                        if !completedPaymentsReceived.isEmpty {
+                            return paymentRequest["sender"] as? String
+                        }
+                        else {
+                            return paymentRequest["recipient"] as? String
+                        }
+                    }
+                    else if indexPath.section == 1 {
+                        return paymentRequest["recipient"] as? String
+                    }
+                    else {
+                        return nil
+                    }
+                }()
+                else {
+                    return
+            }
+            
+            let paymentSegueInfo: [String: Any] =
+                [Constants.PaymentSegueInfoKeys.Username: username,
+                 Constants.PaymentSegueInfoKeys.PaymentRequest: paymentRequest]
             
             performSegue(withIdentifier: "Show Payment Detail", sender: paymentSegueInfo)
         }

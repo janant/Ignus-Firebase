@@ -24,11 +24,17 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
     
     // Needed for profile options view controller animation
     @IBOutlet weak var profileOptionsButton: UIButton!
-    @IBOutlet weak var profileInfoView: UIView!
+    @IBOutlet weak var profileCoverView: UIView!
     
     // Used for changing profile/cover images
     var profilePickerVC: UIImagePickerController?
     var coverPickerVC: UIImagePickerController?
+    
+    // Payment data
+    var activePaymentsSent        = [[String: Any]]()
+    var activePaymentsReceived    = [[String: Any]]()
+    var completedPaymentsSent     = [[String: Any]]()
+    var completedPaymentsReceived = [[String: Any]]()
     
     var profileInfo: [String: String]?
     var profileType: String!
@@ -121,12 +127,78 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
             }, completion: nil)
         }
         
+        // Gets payment requests
+        IgnusBackend.getPaymentRequests(forUser: username) { (paymentRequests) in
+            guard
+                let sentPaymentRequests = paymentRequests["sent"],
+                let receivedPaymentRequests = paymentRequests["received"]
+            else {
+                return
+            }
+            
+            // Sets current payments data
+            self.activePaymentsSent = sentPaymentRequests.filter {
+                guard let paymentStatus = $0["status"] as? String else {
+                    return false
+                }
+                return paymentStatus == Constants.PaymentRequestStatus.Active
+            }
+            self.activePaymentsReceived = receivedPaymentRequests.filter {
+                guard let paymentStatus = $0["status"] as? String else {
+                    return false
+                }
+                return paymentStatus == Constants.PaymentRequestStatus.Active
+            }
+            self.completedPaymentsSent = sentPaymentRequests.filter {
+                guard let paymentStatus = $0["status"] as? String else {
+                    return false
+                }
+                return paymentStatus == Constants.PaymentRequestStatus.Completed
+            }
+            self.completedPaymentsReceived = receivedPaymentRequests.filter {
+                guard let paymentStatus = $0["status"] as? String else {
+                    return false
+                }
+                return paymentStatus == Constants.PaymentRequestStatus.Completed
+            }
+            
+            let userRating = Int(round((self.ratingProportion(forRating: Constants.PaymentRating.Green) * 100)))
+            
+            // Sets rating label
+            UIView.transition(with: self.ratingLabel, duration: 0.25, options: .transitionCrossDissolve, animations: {
+                self.ratingLabel.text = "\(userRating)%"
+            }, completion: nil)
+        }
+        
         NotificationCenter.default.addObserver(self, selector: #selector(MyAccountViewController.refreshProfile(_:)), name: NSNotification.Name(rawValue: Constants.NotificationNames.ReloadProfileImages), object: nil)
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func ratingProportion(forRating rating: String) -> Double {
+        let totalRatings = completedPaymentsSent.count + completedPaymentsReceived.count
+        var matchingRatings = 0
+        
+        if totalRatings == 0 {
+            return 0
+        }
+        
+        // Goes through completed payments and counts number of matching ratings
+        for paymentRequest in completedPaymentsSent {
+            if (paymentRequest["rating"] as? String) == rating {
+                matchingRatings += 1
+            }
+        }
+        for paymentRequest in completedPaymentsReceived {
+            if (paymentRequest["rating"] as? String) == rating {
+                matchingRatings += 1
+            }
+        }
+        
+        return Double(matchingRatings) / Double(totalRatings)
     }
     
     func refreshProfile(_ notification: Notification) {
@@ -335,7 +407,7 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
     
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         if presented is ProfileOptionsViewController {
-            var buttonCenter = self.view.convert(profileOptionsButton.center, from: profileInfoView)
+            var buttonCenter = self.view.convert(profileOptionsButton.center, from: profileCoverView)
             if let splitVC = self.splitViewController {
                 buttonCenter = splitVC.view.convert(buttonCenter, from: self.view)
             }
@@ -354,7 +426,7 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
     
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         if dismissed is ProfileOptionsViewController {
-            var buttonCenter = self.view.convert(profileOptionsButton.center, from: profileInfoView)
+            var buttonCenter = self.view.convert(profileOptionsButton.center, from: profileCoverView)
             if let splitVC = self.splitViewController {
                 buttonCenter = splitVC.view.convert(buttonCenter, from: self.view)
             }

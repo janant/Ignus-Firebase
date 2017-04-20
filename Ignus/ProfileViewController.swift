@@ -8,8 +8,9 @@
 
 import UIKit
 import Firebase
+import XYPieChart
 
-class ProfileViewController: UIViewController, UIViewControllerTransitioningDelegate, ProfileOptionsViewControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, MessageViewControllerDelegate, RequestPaymentTableViewControllerDelegate {
+class ProfileViewController: UIViewController, UIViewControllerTransitioningDelegate, ProfileOptionsViewControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, MessageViewControllerDelegate, RequestPaymentTableViewControllerDelegate, XYPieChartDataSource, XYPieChartDelegate {
     
     @IBOutlet weak var selectUserLabel: UILabel!
     @IBOutlet weak var profileView: UIView!
@@ -25,6 +26,14 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
     // Needed for profile options view controller animation
     @IBOutlet weak var profileOptionsButton: UIButton!
     @IBOutlet weak var profileCoverView: UIView!
+    
+    // Pie chart views
+    @IBOutlet weak var pieChart: XYPieChart!
+    @IBOutlet weak var ratingBackgroundView: UIVisualEffectView!
+    @IBOutlet weak var pieChartLoadingIndicatorView: UIActivityIndicatorView!
+    @IBOutlet weak var pieChartNoRatingsLabel: UILabel!
+    @IBOutlet weak var chartPercentageLabel: UILabel!
+    @IBOutlet weak var chartPercentageDescription: UILabel!
     
     // Used for changing profile/cover images
     var profilePickerVC: UIImagePickerController?
@@ -127,6 +136,13 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
             }, completion: nil)
         }
         
+        // Sets up pie chart view
+        pieChart.dataSource = self
+        pieChart.delegate = self
+        pieChart.animationSpeed = 1.0
+        pieChart.showLabel = false
+        ratingBackgroundView.transform = CGAffineTransform(scaleX: 0, y: 0)
+        
         // Gets payment requests
         IgnusBackend.getPaymentRequests(forUser: username) { (paymentRequests) in
             guard
@@ -162,12 +178,61 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
                 return paymentStatus == Constants.PaymentRequestStatus.Completed
             }
             
-            let userRating = Int(round((self.ratingProportion(forRating: Constants.PaymentRating.Green) * 100)))
-            
-            // Sets rating label
-            UIView.transition(with: self.ratingLabel, duration: 0.25, options: .transitionCrossDissolve, animations: {
-                self.ratingLabel.text = "\(userRating)%"
-            }, completion: nil)
+            // Sets up pie chart view
+            let totalRatings = self.completedPaymentsSent.count + self.completedPaymentsReceived.count
+            if totalRatings > 0 {
+                let userRating = Int(round((self.ratingProportion(forRating: Constants.PaymentRating.Green) * 100)))
+                // Sets rating label
+                UIView.transition(with: self.ratingLabel, duration: 0.25, options: .transitionCrossDissolve, animations: {
+                    self.ratingLabel.text = "\(userRating)%"
+                }, completion: nil)
+                
+                // Prevents user from interacting with pie chart if only one rating type exists
+                let greenRatings = self.numberOfRatings(forRating: Constants.PaymentRating.Green)
+                let yellowRatings = self.numberOfRatings(forRating: Constants.PaymentRating.Yellow)
+                let redRatings = self.numberOfRatings(forRating: Constants.PaymentRating.Red)
+                if totalRatings == max(greenRatings, yellowRatings, redRatings) {
+                    self.pieChart.isUserInteractionEnabled = false
+                }
+                
+                // Sets up pie chart
+                self.pieChart.pieRadius = min(self.pieChart.frame.size.height * 0.4, 120)
+                self.pieChart.pieCenter = self.ratingBackgroundView.center
+                self.pieChart.reloadData()
+                
+                // Sets chart percentage label
+                self.chartPercentageLabel.text = String(format: "%.1lf%%", self.ratingProportion(forRating: Constants.PaymentRating.Green) * 100.0)
+                
+                // Animates away loading indicator
+                UIView.animate(withDuration: 0.25, animations: { () -> Void in
+                    self.pieChartLoadingIndicatorView.alpha = 0.0
+                }, completion: { (completed) -> Void in
+                    self.pieChartLoadingIndicatorView.stopAnimating()
+                })
+                
+                // Shows rating background view on pie chart
+                UIView.animate(withDuration: 1.0, animations: { () -> Void in
+                    self.ratingBackgroundView.transform =  self.view.frame.size.height < 500 ? CGAffineTransform(scaleX: 0.8, y: 0.8) : CGAffineTransform.identity
+                })
+            }
+            else {
+                // Sets rating label
+                UIView.transition(with: self.ratingLabel, duration: 0.25, options: .transitionCrossDissolve, animations: {
+                    self.ratingLabel.text = "N/A"
+                }, completion: nil)
+                
+                // Animates away loading indicator
+                UIView.animate(withDuration: 0.25, animations: { () -> Void in
+                    self.pieChartLoadingIndicatorView.alpha = 0.0
+                }, completion: { (completed) -> Void in
+                    self.pieChartLoadingIndicatorView.stopAnimating()
+                })
+                
+                // Shows no ratings view
+                UIView.animate(withDuration: 0.25, animations: { () -> Void in
+                    self.pieChartNoRatingsLabel.alpha = 1.0
+                })
+            }
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(MyAccountViewController.refreshProfile(_:)), name: NSNotification.Name(rawValue: Constants.NotificationNames.ReloadProfileImages), object: nil)
@@ -199,6 +264,24 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
         }
         
         return Double(matchingRatings) / Double(totalRatings)
+    }
+    
+    func numberOfRatings(forRating rating: String) -> Int {
+        var matchingRatings = 0
+        
+        // Goes through completed payments and counts number of matching ratings
+        for paymentRequest in completedPaymentsSent {
+            if (paymentRequest["rating"] as? String) == rating {
+                matchingRatings += 1
+            }
+        }
+        for paymentRequest in completedPaymentsReceived {
+            if (paymentRequest["rating"] as? String) == rating {
+                matchingRatings += 1
+            }
+        }
+        
+        return matchingRatings
     }
     
     func refreshProfile(_ notification: Notification) {
@@ -401,6 +484,78 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
     
     func message() {
         performSegue(withIdentifier: "Compose Message", sender: nil)
+    }
+    
+    // MARK: - Pie chart data source methods
+    
+    func numberOfSlices(in pieChart: XYPieChart!) -> UInt {
+        return 3
+    }
+    
+    func pieChart(_ pieChart: XYPieChart!, colorForSliceAt index: UInt) -> UIColor! {
+        if index == 0 {
+            return UIColor(red: 85/255.0, green: 205/255.0, blue: 41/255.0, alpha: 1.0)
+        }
+        else if index == 1 {
+            return UIColor.yellow
+        }
+        else if index == 2 {
+            return UIColor.red
+        }
+        else {
+            return UIColor.white
+        }
+    }
+    
+    func pieChart(_ pieChart: XYPieChart!, valueForSliceAt index: UInt) -> CGFloat {
+        if index == 0 {
+            return CGFloat(ratingProportion(forRating: Constants.PaymentRating.Green))
+        }
+        else if index == 1 {
+            return CGFloat(ratingProportion(forRating: Constants.PaymentRating.Yellow))
+        }
+        else if index == 2 {
+            return CGFloat(ratingProportion(forRating: Constants.PaymentRating.Red))
+        }
+        else {
+            return 0
+        }
+    }
+    
+    // MARK: - Pie chart delegate methods
+    func pieChart(_ pieChart: XYPieChart!, didSelectSliceAt index: UInt) {
+        let ratingPercentage = self.pieChart(pieChart, valueForSliceAt: index) * 100.0
+        
+        // Determines description text
+        var text = ""
+        if index == 0 {
+            text = "positive"
+        }
+        else if index == 1 {
+            text = "neutral"
+        }
+        else if index == 2 {
+            text = "negative"
+        }
+        
+        // Sets labels with animation
+        UIView.transition(with: chartPercentageLabel, duration: 0.3, options: UIViewAnimationOptions.transitionCrossDissolve, animations: { () -> Void in
+            self.chartPercentageLabel.text = String(format: "%.1lf%%", ratingPercentage)
+        }, completion: nil)
+        UIView.transition(with: chartPercentageDescription, duration: 0.3, options: UIViewAnimationOptions.transitionCrossDissolve, animations: { () -> Void in
+            self.chartPercentageDescription.text = text
+        }, completion: nil)
+    }
+    
+    func pieChart(_ pieChart: XYPieChart!, didDeselectSliceAt index: UInt) {
+        let ratingPercentage = self.pieChart(pieChart, valueForSliceAt: 0) * 100.0
+        
+        UIView.transition(with: chartPercentageLabel, duration: 0.3, options: UIViewAnimationOptions.transitionCrossDissolve, animations: { () -> Void in
+            self.chartPercentageLabel.text = String(format: "%.1lf%%", ratingPercentage)
+        }, completion: nil)
+        UIView.transition(with: chartPercentageDescription, duration: 0.3, options: UIViewAnimationOptions.transitionCrossDissolve, animations: { () -> Void in
+            self.chartPercentageDescription.text = "positive"
+        }, completion: nil)
     }
 
     // MARK: - Transitioning delegate methods

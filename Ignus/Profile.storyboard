@@ -308,7 +308,9 @@
                                                     <segment title="Ratings"/>
                                                     <segment title="Payments"/>
                                                 </segments>
-                                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <connections>
+                                                    <action selector="profileInfoScopeChanged:" destination="x9b-pU-fV5" eventType="valueChanged" id="upq-0T-2Bi"/>
+                                                </connections>
                                             </segmentedControl>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fXH-rP-ZJs">
                                                 <rect key="frame" x="0.0" y="36" width="375" height="386"/>
@@ -411,8 +413,27 @@
                                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c5S-0c-2Ux">
                                                 <rect key="frame" x="0.0" y="36" width="375" height="386"/>
                                                 <subviews>
-                                                    <tableView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" ambiguous="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="64" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Vu5-XR-kND">
-                                                        <rect key="frame" x="8" y="-8" width="359" height="0.0"/>
+                                                    <segmentedControl opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="6M5-Pq-z52">
+                                                        <rect key="frame" x="16" y="8" width="343" height="29"/>
+                                                        <segments>
+                                                            <segment title="Active"/>
+                                                            <segment title="Completed"/>
+                                                        </segments>
+                                                        <connections>
+                                                            <action selector="paymentsScopeChanged:" destination="x9b-pU-fV5" eventType="valueChanged" id="Hl3-od-ckp"/>
+                                                        </connections>
+                                                    </segmentedControl>
+                                                    <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Payments" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wsV-gC-0zn">
+                                                        <rect key="frame" x="105" y="181" width="165.5" height="25"/>
+                                                        <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="25"/>
+                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="4tN-x4-4ZM">
+                                                        <rect key="frame" x="169.5" y="175" width="37" height="37"/>
+                                                    </activityIndicatorView>
+                                                    <tableView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="64" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Vu5-XR-kND">
+                                                        <rect key="frame" x="8" y="44" width="359" height="334"/>
                                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <prototypes>
                                                             <tableViewCell userInteractionEnabled="NO" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="My Payments Cell" id="lC6-eb-ZkK">
@@ -522,25 +543,24 @@
                                                                 </tableViewCellContentView>
                                                             </tableViewCell>
                                                         </prototypes>
+                                                        <connections>
+                                                            <outlet property="dataSource" destination="x9b-pU-fV5" id="FYL-2V-Tnf"/>
+                                                            <outlet property="delegate" destination="x9b-pU-fV5" id="WT7-er-tPr"/>
+                                                        </connections>
                                                     </tableView>
-                                                    <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Payments" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wsV-gC-0zn">
-                                                        <rect key="frame" x="105" y="181" width="165.5" height="25"/>
-                                                        <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="25"/>
-                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="4tN-x4-4ZM">
-                                                        <rect key="frame" x="169.5" y="175" width="37" height="37"/>
-                                                    </activityIndicatorView>
                                                 </subviews>
                                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstItem="Vu5-XR-kND" firstAttribute="leading" secondItem="c5S-0c-2Ux" secondAttribute="leading" constant="8" id="48Y-Vu-hYu"/>
+                                                    <constraint firstItem="6M5-Pq-z52" firstAttribute="top" secondItem="c5S-0c-2Ux" secondAttribute="top" constant="8" id="8DY-Mu-DcO"/>
                                                     <constraint firstAttribute="bottom" secondItem="Vu5-XR-kND" secondAttribute="bottom" constant="8" id="AoV-Ky-1P9"/>
+                                                    <constraint firstItem="6M5-Pq-z52" firstAttribute="leading" secondItem="c5S-0c-2Ux" secondAttribute="leading" constant="16" id="EqO-Ke-edG"/>
                                                     <constraint firstAttribute="trailing" secondItem="Vu5-XR-kND" secondAttribute="trailing" constant="8" id="FNU-BS-1rL"/>
                                                     <constraint firstAttribute="centerX" secondItem="wsV-gC-0zn" secondAttribute="centerX" id="Jdu-fz-T7O"/>
                                                     <constraint firstAttribute="centerX" secondItem="4tN-x4-4ZM" secondAttribute="centerX" id="MKn-gm-Jyi"/>
                                                     <constraint firstAttribute="centerY" secondItem="wsV-gC-0zn" secondAttribute="centerY" id="RrI-3Y-Nap"/>
+                                                    <constraint firstItem="Vu5-XR-kND" firstAttribute="top" secondItem="6M5-Pq-z52" secondAttribute="bottom" constant="8" id="SBT-Hk-QyX"/>
+                                                    <constraint firstAttribute="trailing" secondItem="6M5-Pq-z52" secondAttribute="trailing" constant="16" id="nGB-Kv-jIk"/>
                                                     <constraint firstAttribute="centerY" secondItem="4tN-x4-4ZM" secondAttribute="centerY" id="tof-yi-3tF"/>
                                                 </constraints>
                                             </view>
@@ -605,9 +625,15 @@
                         <outlet property="coverImageView" destination="aUc-sp-SFD" id="Vp3-Fz-hbA"/>
                         <outlet property="friendsLabel" destination="jDW-dR-yXj" id="mx1-J6-Rqf"/>
                         <outlet property="nameLabel" destination="qp9-hT-4Ez" id="V8y-9T-Vcu"/>
+                        <outlet property="paymentsLoadingIndicatorView" destination="4tN-x4-4ZM" id="AAO-lR-yce"/>
+                        <outlet property="paymentsNoPaymentsLabel" destination="wsV-gC-0zn" id="6Fd-W2-20g"/>
+                        <outlet property="paymentsScopeSegmentedControl" destination="6M5-Pq-z52" id="b1z-sP-0vM"/>
+                        <outlet property="paymentsTable" destination="Vu5-XR-kND" id="2Dl-wt-LKN"/>
+                        <outlet property="paymentsView" destination="c5S-0c-2Ux" id="os8-dp-Sn8"/>
                         <outlet property="pieChart" destination="jFn-YA-ceE" id="Fwq-84-pVl"/>
                         <outlet property="pieChartLoadingIndicatorView" destination="qSK-gV-0aF" id="3m9-iD-hzK"/>
                         <outlet property="pieChartNoRatingsLabel" destination="ZF2-1p-rat" id="NDr-AN-JnV"/>
+                        <outlet property="pieChartView" destination="fXH-rP-ZJs" id="S9k-jK-w6r"/>
                         <outlet property="profileCoverView" destination="sJi-Zh-TTE" id="Owe-Wy-Knm"/>
                         <outlet property="profileImageView" destination="gVq-kl-Z30" id="Kyu-Es-wZa"/>
                         <outlet property="profileOptionsButton" destination="Yal-LR-rK8" id="NYY-Bd-CD9"/>

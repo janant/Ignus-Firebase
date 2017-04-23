@@ -36,7 +36,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rs1-Gq-SIa">
-                                <rect key="frame" x="20" y="317.5" width="335" height="32.5"/>
+                                <rect key="frame" x="20" y="318" width="335" height="32.5"/>
                                 <attributedString key="attributedText">
                                     <fragment content="Select a user on the left.">
                                         <attributes>
@@ -87,7 +87,7 @@
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                         <subviews>
                                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="—" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jDW-dR-yXj">
-                                                                                <rect key="frame" x="26" y="10.5" width="19" height="21"/>
+                                                                                <rect key="frame" x="26" y="10" width="19" height="21"/>
                                                                                 <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="21"/>
                                                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                                 <nil key="highlightedColor"/>
@@ -135,7 +135,7 @@
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                         <subviews>
                                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="—" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g8A-nT-B5Q">
-                                                                                <rect key="frame" x="27" y="10.5" width="19" height="21"/>
+                                                                                <rect key="frame" x="27" y="10" width="19" height="21"/>
                                                                                 <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="21"/>
                                                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                                 <nil key="highlightedColor"/>
@@ -171,7 +171,7 @@
                                                         </userDefinedRuntimeAttributes>
                                                     </visualEffectView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Friends" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vlN-Ig-gIv">
-                                                        <rect key="frame" x="89.5" y="159" width="48" height="14"/>
+                                                        <rect key="frame" x="89" y="159" width="48" height="14"/>
                                                         <fontDescription key="fontDescription" name="Gotham-Light" family="Gotham" pointSize="13"/>
                                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -306,7 +306,7 @@
                                                 <rect key="frame" x="16" y="8" width="343" height="29"/>
                                                 <segments>
                                                     <segment title="Ratings"/>
-                                                    <segment title="Payments"/>
+                                                    <segment title="Payments Between Us"/>
                                                 </segments>
                                                 <connections>
                                                     <action selector="profileInfoScopeChanged:" destination="x9b-pU-fV5" eventType="valueChanged" id="upq-0T-2Bi"/>
@@ -337,7 +337,7 @@
                                                                                         <nil key="highlightedColor"/>
                                                                                     </label>
                                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="positive" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sSp-fq-sU7">
-                                                                                        <rect key="frame" x="17.5" y="50.5" width="54.5" height="14"/>
+                                                                                        <rect key="frame" x="17.5" y="50" width="54.5" height="14"/>
                                                                                         <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="14"/>
                                                                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                                         <nil key="highlightedColor"/>
@@ -392,7 +392,7 @@
                                                         <rect key="frame" x="169.5" y="175" width="37" height="37"/>
                                                     </activityIndicatorView>
                                                     <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Ratings" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZF2-1p-rat">
-                                                        <rect key="frame" x="119" y="180.5" width="137" height="25"/>
+                                                        <rect key="frame" x="119.5" y="181" width="137" height="25"/>
                                                         <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="25"/>
                                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -424,7 +424,7 @@
                                                         </connections>
                                                     </segmentedControl>
                                                     <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Payments" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wsV-gC-0zn">
-                                                        <rect key="frame" x="105" y="180.5" width="165.5" height="25"/>
+                                                        <rect key="frame" x="105" y="181" width="165.5" height="25"/>
                                                         <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="25"/>
                                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -433,30 +433,33 @@
                                                         <rect key="frame" x="169.5" y="175" width="37" height="37"/>
                                                     </activityIndicatorView>
                                                     <tableView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="64" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Vu5-XR-kND">
-                                                        <rect key="frame" x="8" y="44" width="359" height="334"/>
+                                                        <rect key="frame" x="0.0" y="44" width="375" height="342"/>
                                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <prototypes>
                                                             <tableViewCell userInteractionEnabled="NO" contentMode="scaleToFill" selectionStyle="gray" indentationWidth="10" reuseIdentifier="Payment Cell" id="1jh-Lf-jOS">
-                                                                <rect key="frame" x="0.0" y="22" width="359" height="64"/>
+                                                                <rect key="frame" x="0.0" y="22" width="375" height="64"/>
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                 <tableViewCellContentView key="contentView" autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1jh-Lf-jOS" id="1cE-qe-3cm">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="359" height="63.5"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="63.5"/>
                                                                     <autoresizingMask key="autoresizingMask"/>
                                                                     <subviews>
                                                                         <label opaque="NO" userInteractionEnabled="NO" tag="3" contentMode="left" horizontalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wjt-cP-Odc">
-                                                                            <rect key="frame" x="8" y="34" width="297" height="13"/>
+                                                                            <rect key="frame" x="15" y="37" width="299" height="13"/>
                                                                             <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="13"/>
                                                                             <color key="textColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
                                                                         <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="260" verticalHuggingPriority="251" verticalCompressionResistancePriority="760" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="16J-on-LSe">
-                                                                            <rect key="frame" x="8" y="12" width="297" height="19"/>
+                                                                            <rect key="frame" x="15" y="12" width="299" height="19"/>
                                                                             <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="19"/>
                                                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
                                                                         <label opaque="NO" userInteractionEnabled="NO" tag="5" contentMode="left" horizontalHuggingPriority="500" horizontalCompressionResistancePriority="760" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UE3-Oa-KPg">
-                                                                            <rect key="frame" x="312.5" y="11" width="38.5" height="14"/>
+                                                                            <rect key="frame" x="321.5" y="11" width="38.5" height="25"/>
+                                                                            <constraints>
+                                                                                <constraint firstAttribute="height" constant="25" id="rcX-ZV-zEx"/>
+                                                                            </constraints>
                                                                             <attributedString key="attributedText">
                                                                                 <fragment content="Label">
                                                                                     <attributes>
@@ -476,14 +479,14 @@
                                                                         </label>
                                                                     </subviews>
                                                                     <constraints>
-                                                                        <constraint firstItem="16J-on-LSe" firstAttribute="leading" secondItem="1cE-qe-3cm" secondAttribute="leading" constant="8" id="3FJ-aP-MwG"/>
-                                                                        <constraint firstItem="Wjt-cP-Odc" firstAttribute="leading" secondItem="1cE-qe-3cm" secondAttribute="leading" constant="8" id="4ua-x6-bF7"/>
+                                                                        <constraint firstItem="16J-on-LSe" firstAttribute="leading" secondItem="1cE-qe-3cm" secondAttribute="leading" constant="15" id="3FJ-aP-MwG"/>
+                                                                        <constraint firstItem="Wjt-cP-Odc" firstAttribute="leading" secondItem="1cE-qe-3cm" secondAttribute="leading" constant="15" id="4ua-x6-bF7"/>
                                                                         <constraint firstItem="16J-on-LSe" firstAttribute="top" secondItem="1cE-qe-3cm" secondAttribute="top" constant="12" id="EEQ-Jy-uUu"/>
                                                                         <constraint firstItem="UE3-Oa-KPg" firstAttribute="top" secondItem="1cE-qe-3cm" secondAttribute="top" constant="11" id="GyU-8W-MbV"/>
                                                                         <constraint firstItem="Wjt-cP-Odc" firstAttribute="width" secondItem="16J-on-LSe" secondAttribute="width" id="HuG-5u-3Gs"/>
-                                                                        <constraint firstAttribute="trailing" secondItem="UE3-Oa-KPg" secondAttribute="trailing" constant="8" id="LHC-Z1-Kmy"/>
+                                                                        <constraint firstAttribute="trailing" secondItem="UE3-Oa-KPg" secondAttribute="trailing" constant="15" id="LHC-Z1-Kmy"/>
                                                                         <constraint firstItem="UE3-Oa-KPg" firstAttribute="leading" secondItem="16J-on-LSe" secondAttribute="trailing" constant="8" id="Q3K-qR-svf"/>
-                                                                        <constraint firstItem="Wjt-cP-Odc" firstAttribute="top" secondItem="16J-on-LSe" secondAttribute="bottom" constant="3" id="ylF-jE-a5F"/>
+                                                                        <constraint firstItem="Wjt-cP-Odc" firstAttribute="top" secondItem="16J-on-LSe" secondAttribute="bottom" constant="6" id="ylF-jE-a5F"/>
                                                                     </constraints>
                                                                 </tableViewCellContentView>
                                                             </tableViewCell>
@@ -496,11 +499,11 @@
                                                 </subviews>
                                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
-                                                    <constraint firstItem="Vu5-XR-kND" firstAttribute="leading" secondItem="c5S-0c-2Ux" secondAttribute="leading" constant="8" id="48Y-Vu-hYu"/>
+                                                    <constraint firstItem="Vu5-XR-kND" firstAttribute="leading" secondItem="c5S-0c-2Ux" secondAttribute="leading" id="48Y-Vu-hYu"/>
                                                     <constraint firstItem="6M5-Pq-z52" firstAttribute="top" secondItem="c5S-0c-2Ux" secondAttribute="top" constant="8" id="8DY-Mu-DcO"/>
-                                                    <constraint firstAttribute="bottom" secondItem="Vu5-XR-kND" secondAttribute="bottom" constant="8" id="AoV-Ky-1P9"/>
+                                                    <constraint firstAttribute="bottom" secondItem="Vu5-XR-kND" secondAttribute="bottom" id="AoV-Ky-1P9"/>
                                                     <constraint firstItem="6M5-Pq-z52" firstAttribute="leading" secondItem="c5S-0c-2Ux" secondAttribute="leading" constant="16" id="EqO-Ke-edG"/>
-                                                    <constraint firstAttribute="trailing" secondItem="Vu5-XR-kND" secondAttribute="trailing" constant="8" id="FNU-BS-1rL"/>
+                                                    <constraint firstAttribute="trailing" secondItem="Vu5-XR-kND" secondAttribute="trailing" id="FNU-BS-1rL"/>
                                                     <constraint firstAttribute="centerX" secondItem="wsV-gC-0zn" secondAttribute="centerX" id="Jdu-fz-T7O"/>
                                                     <constraint firstAttribute="centerX" secondItem="4tN-x4-4ZM" secondAttribute="centerX" id="MKn-gm-Jyi"/>
                                                     <constraint firstAttribute="centerY" secondItem="wsV-gC-0zn" secondAttribute="centerY" id="RrI-3Y-Nap"/>

@@ -54,6 +54,10 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
     var activePaymentsReceived    = [[String: Any]]()
     var completedPaymentsSent     = [[String: Any]]()
     var completedPaymentsReceived = [[String: Any]]()
+    var mutualActivePaymentsSent        = [[String: Any]]()
+    var mutualActivePaymentsReceived    = [[String: Any]]()
+    var mutualCompletedPaymentsSent     = [[String: Any]]()
+    var mutualCompletedPaymentsReceived = [[String: Any]]()
     
     var profileInfo: [String: String]?
     var profileType: String!
@@ -187,6 +191,18 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
                 }
                 return paymentStatus == Constants.PaymentRequestStatus.Completed
             }
+            self.mutualActivePaymentsSent = self.activePaymentsSent.filter {
+                return ($0["recipient"] as? String) == currentUserUsername
+            }
+            self.mutualActivePaymentsReceived = self.activePaymentsReceived.filter {
+                return ($0["sender"] as? String) == currentUserUsername
+            }
+            self.mutualCompletedPaymentsSent = self.completedPaymentsSent.filter {
+                return ($0["recipient"] as? String) == currentUserUsername
+            }
+            self.mutualCompletedPaymentsReceived = self.completedPaymentsReceived.filter {
+                return ($0["sender"] as? String) == currentUserUsername
+            }
             
             // Sets up pie chart view
             let totalRatings = self.completedPaymentsSent.count + self.completedPaymentsReceived.count
@@ -229,7 +245,7 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
                 
                 // Shows payments views
                 UIView.animate(withDuration: 0.25, animations: { 
-                    if self.activePaymentsSent.count + self.activePaymentsReceived.count > 0 {
+                    if self.mutualActivePaymentsSent.count + self.mutualActivePaymentsReceived.count > 0 {
                         self.paymentsTable.alpha = 1.0
                         self.paymentsTable.isUserInteractionEnabled = true
                     }
@@ -263,6 +279,11 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
             }
         }
         
+        // Sets up payments table
+        paymentsTable.separatorEffect = UIVibrancyEffect(blurEffect: UIBlurEffect(style: .dark))
+        paymentsTable.backgroundView = nil
+        paymentsTable.backgroundColor = UIColor.clear
+        
         NotificationCenter.default.addObserver(self, selector: #selector(MyAccountViewController.refreshProfile(_:)), name: NSNotification.Name(rawValue: Constants.NotificationNames.ReloadProfileImages), object: nil)
     }
 
@@ -288,7 +309,7 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
         paymentsTable.contentOffset = CGPoint(x: 0, y: 0)
         
         if sender.selectedSegmentIndex == Constants.PaymentsScope.Active {
-            if activePaymentsSent.count + activePaymentsReceived.count > 0 {
+            if mutualActivePaymentsSent.count + mutualActivePaymentsReceived.count > 0 {
                 paymentsTable.alpha = 1.0
                 paymentsNoPaymentsLabel.alpha = 0.0
                 paymentsTable.isUserInteractionEnabled = true
@@ -300,7 +321,7 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
             }
         }
         else if sender.selectedSegmentIndex == Constants.PaymentsScope.Completed {
-            if completedPaymentsSent.count + completedPaymentsReceived.count > 0 {
+            if mutualCompletedPaymentsSent.count + mutualCompletedPaymentsReceived.count > 0 {
                 paymentsTable.alpha = 1.0
                 paymentsNoPaymentsLabel.alpha = 0.0
                 paymentsTable.isUserInteractionEnabled = true
@@ -316,10 +337,10 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
     // MARK: - Table view data source
     func numberOfSections(in tableView: UITableView) -> Int {
         if paymentsScopeSegmentedControl.selectedSegmentIndex == Constants.PaymentsScope.Active {
-            if !activePaymentsSent.isEmpty && !activePaymentsReceived.isEmpty {
+            if !mutualActivePaymentsSent.isEmpty && !mutualActivePaymentsReceived.isEmpty {
                 return 2
             }
-            else if !activePaymentsSent.isEmpty || !activePaymentsReceived.isEmpty {
+            else if !mutualActivePaymentsSent.isEmpty || !mutualActivePaymentsReceived.isEmpty {
                 return 1
             }
             else {
@@ -327,10 +348,10 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
             }
         }
         else if paymentsScopeSegmentedControl.selectedSegmentIndex == Constants.PaymentsScope.Completed {
-            if !completedPaymentsSent.isEmpty && !completedPaymentsReceived.isEmpty {
+            if !mutualCompletedPaymentsSent.isEmpty && !mutualCompletedPaymentsReceived.isEmpty {
                 return 2
             }
-            else if !completedPaymentsSent.isEmpty || !completedPaymentsReceived.isEmpty {
+            else if !mutualCompletedPaymentsSent.isEmpty || !mutualCompletedPaymentsReceived.isEmpty {
                 return 1
             }
             else {
@@ -345,15 +366,15 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if paymentsScopeSegmentedControl.selectedSegmentIndex == Constants.PaymentsScope.Active {
             if section == 0 {
-                if !activePaymentsReceived.isEmpty {
-                    return activePaymentsReceived.count
+                if !mutualActivePaymentsSent.isEmpty {
+                    return mutualActivePaymentsSent.count
                 }
                 else {
-                    return activePaymentsSent.count
+                    return mutualActivePaymentsReceived.count
                 }
             }
             else if section == 1 {
-                return activePaymentsSent.count
+                return mutualActivePaymentsReceived.count
             }
             else {
                 return 0
@@ -361,15 +382,15 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
         }
         else if paymentsScopeSegmentedControl.selectedSegmentIndex == Constants.PaymentsScope.Completed {
             if section == 0 {
-                if !completedPaymentsReceived.isEmpty {
-                    return completedPaymentsReceived.count
+                if !mutualCompletedPaymentsSent.isEmpty {
+                    return mutualCompletedPaymentsSent.count
                 }
                 else {
-                    return completedPaymentsSent.count
+                    return mutualCompletedPaymentsReceived.count
                 }
             }
             else if section == 1 {
-                return completedPaymentsSent.count
+                return mutualCompletedPaymentsReceived.count
             }
             else {
                 return 0
@@ -383,7 +404,7 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if paymentsScopeSegmentedControl.selectedSegmentIndex == Constants.PaymentsScope.Active {
             if section == 0 {
-                if !activePaymentsReceived.isEmpty {
+                if !mutualActivePaymentsSent.isEmpty {
                     return "Requests to Me"
                 }
                 else {
@@ -399,7 +420,7 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
         }
         else if paymentsScopeSegmentedControl.selectedSegmentIndex == Constants.PaymentsScope.Completed {
             if section == 0 {
-                if !completedPaymentsReceived.isEmpty {
+                if !mutualCompletedPaymentsSent.isEmpty {
                     return "Requests to Me"
                 }
                 else {
@@ -419,7 +440,25 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Payment Cell", for: indexPath)
+        
+        guard
+            let requestTypeLabel = cell.viewWithTag(2) as? UILabel,
+            let requestDescriptionLabel = cell.viewWithTag(3) as? UILabel,
+            let requestDateLabel = cell.viewWithTag(5) as? UILabel
+        else {
+            return cell
+        }
+        
+        if paymentsScopeSegmentedControl.selectedSegmentIndex == Constants.PaymentsScope.Active {
+            
+        }
+        else if paymentsScopeSegmentedControl.selectedSegmentIndex == Constants.PaymentsScope.Completed {
+            
+        }
+        
+        cell.backgroundColor = UIColor.clear
+        return cell
 //        if paymentsCategorySegmentedControl.selectedSegmentIndex == Constants.PaymentsScope.Active {
 //            let cell = paymentsTable.dequeueReusableCell(withIdentifier: "Active Cell", for: indexPath)
 //            
@@ -693,7 +732,6 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // Do nothing
     }
-    
     
     // MARK: - Size change methods
     

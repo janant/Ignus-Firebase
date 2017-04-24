@@ -635,6 +635,7 @@ struct IgnusBackend {
         paymentRequest["dollars"] = dollars
         paymentRequest["cents"] = cents
         paymentRequest["memo"] = memo
+        paymentRequest["paymentMethod"] = Constants.PaymentMethodTypes.Other
         paymentRequest["unread"] = true
         paymentRequest["status"] = Constants.PaymentRequestStatus.Active
         paymentRequest["rating"] = Constants.PaymentRating.None

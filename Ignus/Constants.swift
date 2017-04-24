@@ -55,6 +55,11 @@ struct Constants {
         static let PaymentRequest = "paymentRequest"
     }
     
+    struct PaymentMethodTypes {
+        static let Cash = "Cash"
+        static let Other = "Other"
+    }
+    
     struct PaymentRequestStatus {
         static let Active = "Active"
         static let Completed = "Completed"

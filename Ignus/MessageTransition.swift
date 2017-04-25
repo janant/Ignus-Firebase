@@ -14,14 +14,12 @@ class MessageTransition: NSObject, UIViewControllerAnimatedTransitioning {
     var isViewingMessage: Bool
     var sentMessage: Bool
     var sourceFrame: CGRect
-    var shouldCallMessageAppearance: Bool
     
-    init(presenting: Bool, isViewingMessage: Bool = false, sentMessage: Bool = false, sourceFrame: CGRect = CGRect(), shouldCallMessageAppearance: Bool = true) {
+    init(presenting: Bool, isViewingMessage: Bool = false, sentMessage: Bool = false, sourceFrame: CGRect = CGRect()) {
         self.presenting = presenting
         self.isViewingMessage = isViewingMessage
         self.sentMessage = sentMessage
         self.sourceFrame = sourceFrame
-        self.shouldCallMessageAppearance = shouldCallMessageAppearance
     }
     
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
@@ -91,7 +89,7 @@ class MessageTransition: NSObject, UIViewControllerAnimatedTransitioning {
             fromVC.view.alpha = 0.0
             fromVC.view.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
         }, completion: { (completed) -> Void in
-            if self.shouldCallMessageAppearance {
+            if self.isViewingMessage {
                 if let tabBarVC = toVC as? UITabBarController {
                     if let messagesNavVC = tabBarVC.viewControllers?[2] as? UINavigationController {
                         if let messagesVC = messagesNavVC.topViewController {
@@ -118,7 +116,7 @@ class MessageTransition: NSObject, UIViewControllerAnimatedTransitioning {
         UIView.animate(withDuration: self.transitionDuration(using: transitionContext), delay: 0, options: .curveEaseIn, animations: { () -> Void in
             fromVC.view.transform = CGAffineTransform(translationX: 0, y: -translationY)
         }, completion: { (completed) -> Void in
-            if self.shouldCallMessageAppearance {
+            if self.isViewingMessage {
                 if let tabBarVC = toVC as? UITabBarController {
                     if let messagesNavVC = tabBarVC.viewControllers?[2] as? UINavigationController {
                         if let messagesVC = messagesNavVC.topViewController {

@@ -18,7 +18,6 @@
 		16318AC71E18445F0099858C /* FriendsNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16318AC61E18445F0099858C /* FriendsNavigationViewController.swift */; };
 		16323ED51E1581FB00D9EA39 /* FriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16323ED41E1581FB00D9EA39 /* FriendsViewController.swift */; };
 		16323ED71E15842000D9EA39 /* AddFriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16323ED61E15842000D9EA39 /* AddFriendsViewController.swift */; };
-		16391FEB1E527E8900AAEE88 /* ComposeTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16391FE91E527E8900AAEE88 /* ComposeTransition.swift */; };
 		16391FED1E52940700AAEE88 /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16391FEC1E52940700AAEE88 /* MessageViewController.swift */; };
 		166D26F01E64C49500540C84 /* PaymentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166D26EF1E64C49500540C84 /* PaymentsViewController.swift */; };
 		166D26F21E64C4A100540C84 /* PaymentsSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166D26F11E64C4A100540C84 /* PaymentsSplitViewController.swift */; };
@@ -95,7 +94,6 @@
 		16318AC61E18445F0099858C /* FriendsNavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsNavigationViewController.swift; sourceTree = "<group>"; };
 		16323ED41E1581FB00D9EA39 /* FriendsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsViewController.swift; sourceTree = "<group>"; };
 		16323ED61E15842000D9EA39 /* AddFriendsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddFriendsViewController.swift; sourceTree = "<group>"; };
-		16391FE91E527E8900AAEE88 /* ComposeTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComposeTransition.swift; sourceTree = "<group>"; };
 		16391FEC1E52940700AAEE88 /* MessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageViewController.swift; sourceTree = "<group>"; };
 		166D26EF1E64C49500540C84 /* PaymentsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentsViewController.swift; sourceTree = "<group>"; };
 		166D26F11E64C4A100540C84 /* PaymentsSplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentsSplitViewController.swift; sourceTree = "<group>"; };
@@ -339,7 +337,6 @@
 				16391FEC1E52940700AAEE88 /* MessageViewController.swift */,
 				162213EA1E5A4C1800DE3FB3 /* MessageTransition.swift */,
 				162213EC1E5A4C2700DE3FB3 /* MessagePresentation.swift */,
-				16391FE91E527E8900AAEE88 /* ComposeTransition.swift */,
 			);
 			name = "Messages Tab";
 			sourceTree = "<group>";
@@ -574,7 +571,6 @@
 				16A0D7A91DFCCF5900B89807 /* LogInPresentation.swift in Sources */,
 				16D63F841DD7124500287C1F /* PrivacyPolicyViewController.swift in Sources */,
 				166D26F51E64C53700540C84 /* PaymentsNavigationViewController.swift in Sources */,
-				16391FEB1E527E8900AAEE88 /* ComposeTransition.swift in Sources */,
 				16F47E181DC7AFC30005C3DB /* SignUpAnimation.swift in Sources */,
 				167BB1241E7BADAB002A92B5 /* RequestPaymentPresentation.swift in Sources */,
 				16AE72001E0B851300CEE396 /* LoginOptionsTableViewController.swift in Sources */,

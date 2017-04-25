@@ -947,7 +947,7 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
                 return RequestPaymentTransition(presenting: true)
             }
             else if navVC.topViewController is MessageViewController {
-                return MessageTransition(presenting: true, isViewingMessage: false, sentMessage: false, sourceFrame: CGRect(), shouldCallMessageAppearance: false)
+                return MessageTransition(presenting: true)
             }
         }
         return nil
@@ -1070,7 +1070,7 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
     // MARK: - Message view controller delegate methods
     
     func canceledNewMessage(messageVC: MessageViewController) {
-        messageDismissalTransition = MessageTransition(presenting: false, isViewingMessage: false, sentMessage: false, sourceFrame: CGRect(), shouldCallMessageAppearance: false)
+        messageDismissalTransition = MessageTransition(presenting: false)
         messageVC.dismiss(animated: true, completion: nil)
     }
     
@@ -1079,7 +1079,7 @@ class ProfileViewController: UIViewController, UIViewControllerTransitioningDele
     }
     
     func sentNewMessage(messageVC: MessageViewController) {
-        messageDismissalTransition = MessageTransition(presenting: false, isViewingMessage: false, sentMessage: true, sourceFrame: CGRect(), shouldCallMessageAppearance: false)
+        messageDismissalTransition = MessageTransition(presenting: false, sentMessage: true)
         messageVC.dismiss(animated: true, completion: nil)
     }
     

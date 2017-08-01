@@ -341,7 +341,7 @@ struct IgnusBackend {
     
     // Used to create a new user info entry when signing up
     static func createUserInfo(_ userInfo: [String: String], forUser user: String, with completionHandler: @escaping (Error?) -> Void) {
-        databaseRef.child("users/\(user)").setValue(messages) { (error, databaseReference) in
+        databaseRef.child("users/\(user)").setValue(userInfo) { (error, databaseReference) in
             completionHandler(error)
         }
     }

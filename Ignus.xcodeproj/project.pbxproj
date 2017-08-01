@@ -420,6 +420,9 @@
 							com.apple.Keychain = {
 								enabled = 1;
 							};
+							com.apple.Push = {
+								enabled = 1;
+							};
 						};
 					};
 				};
@@ -705,7 +708,7 @@
 				CODE_SIGN_ENTITLEMENTS = Ignus/Ignus.entitlements;
 				DEVELOPMENT_TEAM = RENT9T8393;
 				INFOPLIST_FILE = Ignus/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.anantsapps.Ignus;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -724,7 +727,7 @@
 				CODE_SIGN_ENTITLEMENTS = Ignus/Ignus.entitlements;
 				DEVELOPMENT_TEAM = RENT9T8393;
 				INFOPLIST_FILE = Ignus/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.anantsapps.Ignus;
 				PRODUCT_NAME = "$(TARGET_NAME)";

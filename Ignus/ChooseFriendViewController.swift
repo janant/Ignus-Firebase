@@ -124,7 +124,7 @@ class ChooseFriendViewController: UIViewController, UICollectionViewDataSource, 
         }
         
         nameLabel.text = friendData["firstName"]
-        usernameLabel.text = friendData["lastName"]
+        usernameLabel.text = friendUsername
         
         return cell
     }

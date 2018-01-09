@@ -96,7 +96,7 @@ class MyAccountViewController: UIViewController, UITableViewDataSource, UITableV
         // Dispose of any resources that can be recreated.
     }
     
-    func refreshProfile(_ notification: Notification) {
+    @objc func refreshProfile(_ notification: Notification) {
         guard
             let userInfo = notification.userInfo as? [String: UIImage],
             let profileImage = userInfo[Constants.UserInfoKeys.Profile],
@@ -179,7 +179,7 @@ class MyAccountViewController: UIViewController, UITableViewDataSource, UITableV
                 IgnusBackend.resetState()
                 
                 // Logs out
-                try? FIRAuth.auth()?.signOut()
+                try? Auth.auth().signOut()
                 
                 UserDefaults.standard.set(Constants.LoginOptions.None, forKey: "LoginOptions")
                 UserDefaults.standard.synchronize()
@@ -213,6 +213,8 @@ class MyAccountViewController: UIViewController, UITableViewDataSource, UITableV
                 return "Require Password"
             case Constants.LoginOptions.TouchID:
                 return "Touch ID"
+            case Constants.LoginOptions.FaceID:
+                return "Face ID"
             case Constants.LoginOptions.AutomaticLogin:
                 return "Automatic Login"
             default:
@@ -237,6 +239,7 @@ class MyAccountViewController: UIViewController, UITableViewDataSource, UITableV
                 imagePickerVC.sourceType = .camera
                 
                 UINavigationBar.appearance().titleTextAttributes = nil
+                UINavigationBar.appearance().largeTitleTextAttributes = nil
                 UISegmentedControl.appearance().setTitleTextAttributes(nil, for: UIControlState())
                 UIBarButtonItem.appearance().setTitleTextAttributes(nil, for: UIControlState())
                 
@@ -255,6 +258,7 @@ class MyAccountViewController: UIViewController, UITableViewDataSource, UITableV
                 imagePickerVC.sourceType = .photoLibrary
                 
                 UINavigationBar.appearance().titleTextAttributes = nil
+                UINavigationBar.appearance().largeTitleTextAttributes = nil
                 UISegmentedControl.appearance().setTitleTextAttributes(nil, for: UIControlState())
                 UIBarButtonItem.appearance().setTitleTextAttributes(nil, for: UIControlState())
                 
@@ -289,6 +293,7 @@ class MyAccountViewController: UIViewController, UITableViewDataSource, UITableV
                 imagePickerVC.sourceType = .camera
                 
                 UINavigationBar.appearance().titleTextAttributes = nil
+                UINavigationBar.appearance().largeTitleTextAttributes = nil
                 UISegmentedControl.appearance().setTitleTextAttributes(nil, for: UIControlState())
                 UIBarButtonItem.appearance().setTitleTextAttributes(nil, for: UIControlState())
                 
@@ -307,11 +312,9 @@ class MyAccountViewController: UIViewController, UITableViewDataSource, UITableV
                 imagePickerVC.sourceType = .photoLibrary
                 
                 UINavigationBar.appearance().titleTextAttributes = nil
+                UINavigationBar.appearance().largeTitleTextAttributes = nil
                 UISegmentedControl.appearance().setTitleTextAttributes(nil, for: UIControlState())
                 UIBarButtonItem.appearance().setTitleTextAttributes(nil, for: UIControlState())
-                
-                UIBarButtonItem.appearance().setTitleTextAttributes(nil, for: UIControlState())
-                UINavigationBar.appearance().titleTextAttributes = nil
                 
                 self.coverPickerVC = imagePickerVC
                 
@@ -334,9 +337,10 @@ class MyAccountViewController: UIViewController, UITableViewDataSource, UITableV
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [AnyHashable: Any]!) {
         
-        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont(name: "Gotham-Medium", size: 18)!]
-        UISegmentedControl.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor(red: 234/255, green: 51/255, blue: 56/255, alpha: 1.0), NSFontAttributeName: UIFont(name: "Gotham-Book", size: 14)!], for: UIControlState())
-        UIBarButtonItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor(red: 234/255, green: 51/255, blue: 56/255, alpha: 1.0), NSFontAttributeName: UIFont(name: "Gotham-Medium", size: 17)!], for: UIControlState())
+        UINavigationBar.appearance().titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white, NSAttributedStringKey.font: UIFont(name: "Gotham-Medium", size: 18)!]
+        UINavigationBar.appearance().largeTitleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white, NSAttributedStringKey.font: UIFont(name: "Gotham-Medium", size: 32)!]
+        UISegmentedControl.appearance().setTitleTextAttributes([NSAttributedStringKey.foregroundColor: UIColor(red: 234/255, green: 51/255, blue: 56/255, alpha: 1.0), NSAttributedStringKey.font: UIFont(name: "Gotham-Book", size: 14)!], for: UIControlState())
+        UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedStringKey.foregroundColor: UIColor(red: 234/255, green: 51/255, blue: 56/255, alpha: 1.0), NSAttributedStringKey.font: UIFont(name: "Gotham-Medium", size: 17)!], for: UIControlState())
         
         picker.dismiss(animated: true, completion: nil)
         
@@ -400,9 +404,10 @@ class MyAccountViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont(name: "Gotham-Medium", size: 18)!]
-        UISegmentedControl.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor(red: 234/255, green: 51/255, blue: 56/255, alpha: 1.0), NSFontAttributeName: UIFont(name: "Gotham-Book", size: 14)!], for: UIControlState())
-        UIBarButtonItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor(red: 234/255, green: 51/255, blue: 56/255, alpha: 1.0), NSFontAttributeName: UIFont(name: "Gotham-Medium", size: 17)!], for: UIControlState())
+        UINavigationBar.appearance().titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white, NSAttributedStringKey.font: UIFont(name: "Gotham-Medium", size: 18)!]
+        UINavigationBar.appearance().largeTitleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white, NSAttributedStringKey.font: UIFont(name: "Gotham-Medium", size: 32)!]
+        UISegmentedControl.appearance().setTitleTextAttributes([NSAttributedStringKey.foregroundColor: UIColor(red: 234/255, green: 51/255, blue: 56/255, alpha: 1.0), NSAttributedStringKey.font: UIFont(name: "Gotham-Book", size: 14)!], for: UIControlState())
+        UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedStringKey.foregroundColor: UIColor(red: 234/255, green: 51/255, blue: 56/255, alpha: 1.0), NSAttributedStringKey.font: UIFont(name: "Gotham-Medium", size: 17)!], for: UIControlState())
         
         picker.dismiss(animated: true, completion: nil)
         

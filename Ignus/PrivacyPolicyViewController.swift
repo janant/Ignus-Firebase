@@ -16,7 +16,7 @@ class PrivacyPolicyViewController: UIViewController {
         // Do any additional setup after loading the view.
         
         // Sets this navigation controller title to black (since system-wide appearance is white)
-        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.black, NSFontAttributeName: UIFont(name: "Gotham-Medium", size: 18)!]
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.black, NSAttributedStringKey.font: UIFont(name: "Gotham-Medium", size: 18)!]
     }
     
     override func didReceiveMemoryWarning() {

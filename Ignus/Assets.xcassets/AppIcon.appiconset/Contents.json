@@ -89,6 +89,12 @@
       "idiom" : "ipad",
       "filename" : "iPadPro@2x.png",
       "scale" : "2x"
+    },
+    {
+      "size" : "1024x1024",
+      "idiom" : "ios-marketing",
+      "filename" : "Ignus Icon.png",
+      "scale" : "1x"
     }
   ],
   "info" : {

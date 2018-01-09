@@ -13,17 +13,18 @@ class RequestPaymentPresentation: UIPresentationController {
     let shadowView = UIView()
     
     override var frameOfPresentedViewInContainerView: CGRect {
-        let presentingFrame = presentingViewController.view.frame
+        let safeAreaFrame = presentingViewController.view.safeAreaLayoutGuide.layoutFrame
+        
         let intendedWidth: CGFloat = 500 // Want to make the view at most 500 pixels wide
         let intendedHeight: CGFloat = 600 // Want to make the view at most 500 pixels tall
         
-        let maxPossibleWidth: CGFloat = presentingFrame.width - 40 // View width, 20px side margins
-        let maxPossibleHeight: CGFloat = presentingFrame.height - 50 // View height w/ margins
+        let maxPossibleWidth: CGFloat = safeAreaFrame.width - 40 // Safe area width, 20px side margins
+        let maxPossibleHeight: CGFloat = safeAreaFrame.height - 40 // View height w/ margins
         
         let actualWidth = min(intendedWidth, maxPossibleWidth)
         let actualHeight = min(intendedHeight, maxPossibleHeight)
         
-        return CGRect(x: presentingFrame.midX - (actualWidth / 2), y: 30, width: actualWidth, height: actualHeight)
+        return CGRect(x: safeAreaFrame.midX - (actualWidth / 2), y: safeAreaFrame.origin.y + 20, width: actualWidth, height: actualHeight)
     }
     
     override func presentationTransitionWillBegin() {

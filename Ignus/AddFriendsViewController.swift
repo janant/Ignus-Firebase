@@ -26,7 +26,7 @@ class AddFriendsViewController: UIViewController, UISearchBarDelegate, UITableVi
     var allUserData: [[String: String]]?
     var searchResults = [[String: String]]()
     
-    let usersDatabaseRef = FIRDatabase.database().reference().child("users")
+    let usersDatabaseRef = Database.database().reference().child("users")
     
     var topInset: CGFloat = 0.0
     
@@ -57,7 +57,7 @@ class AddFriendsViewController: UIViewController, UISearchBarDelegate, UITableVi
         // Configures table
         searchBar.keyboardAppearance = .dark
         addFriendsTable.separatorStyle = .none
-        addFriendsTable.separatorEffect = UIVibrancyEffect(blurEffect: UIBlurEffect(style: .dark))
+        addFriendsTable.separatorEffect = UIVibrancyEffect(blurEffect: UIBlurEffect(style: .light))
         addFriendsTable.backgroundView = nil
         addFriendsTable.isScrollEnabled = false
         
@@ -66,7 +66,7 @@ class AddFriendsViewController: UIViewController, UISearchBarDelegate, UITableVi
             if let textField = subview as? UITextField {
                 textField.font = UIFont(name: "Gotham-Medium", size: 14)
                 textField.textColor = UIColor.white
-                textField.attributedPlaceholder = NSAttributedString(string: textField.placeholder!, attributes: [NSFontAttributeName: UIFont(name: "Gotham-Medium", size: 14)!])
+                textField.attributedPlaceholder = NSAttributedString(string: textField.placeholder!, attributes: [NSAttributedStringKey.font: UIFont(name: "Gotham-Medium", size: 14)!])
                 break
             }
         }
@@ -87,7 +87,7 @@ class AddFriendsViewController: UIViewController, UISearchBarDelegate, UITableVi
     
     // MARK: - Keyboard appearance notification methods
     
-    func keyboardWillShow(_ sender: Notification) {
+    @objc func keyboardWillShow(_ sender: Notification) {
         // When keyboard shows, increase bottom scrolling inset (so user can scroll properly)
         if let userInfo = (sender as NSNotification).userInfo {
             if let keyboardHeight = (userInfo[UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue?.height {
@@ -96,7 +96,7 @@ class AddFriendsViewController: UIViewController, UISearchBarDelegate, UITableVi
         }
     }
     
-    func keyboardWillHide(_ sender: Notification) {
+    @objc func keyboardWillHide(_ sender: Notification) {
         // When keyboard hides, set bottom inset back to zero
         addFriendsTable.contentInset.bottom = 0
         
@@ -194,7 +194,7 @@ class AddFriendsViewController: UIViewController, UISearchBarDelegate, UITableVi
         // Sets new attributed placeholder of search bar
         for subview in searchBar.subviews[0].subviews {
             if let textField = subview as? UITextField {
-                textField.attributedPlaceholder = NSAttributedString(string: placeholderText, attributes: [NSFontAttributeName: UIFont(name: "Gotham-Medium", size: 14)!])
+                textField.attributedPlaceholder = NSAttributedString(string: placeholderText, attributes: [NSAttributedStringKey.font: UIFont(name: "Gotham-Medium", size: 14)!])
                 break
             }
         }
@@ -218,7 +218,7 @@ class AddFriendsViewController: UIViewController, UISearchBarDelegate, UITableVi
         // Scrolls back to top
         addFriendsTable.setContentOffset(CGPoint(x: 0, y: -topInset), animated: true)
         
-        if searchText.characters.count > 0 {
+        if searchText.count > 0 {
             
             // Gets user data if not already loaded
             if allUserData == nil {

@@ -54,7 +54,7 @@ class PaymentsViewController: UIViewController, UITableViewDataSource, UITableVi
         // Do any additional setup after loading the view.
         
         // Sets up the table
-        paymentsTable.separatorEffect = UIVibrancyEffect(blurEffect: UIBlurEffect(style: .dark))
+        paymentsTable.separatorEffect = UIVibrancyEffect(blurEffect: UIBlurEffect(style: .light))
         paymentsTable.backgroundView = nil
         paymentsTable.backgroundColor = UIColor.clear
         refreshControl.addTarget(self, action: #selector(PaymentsViewController.reloadData), for: .valueChanged)
@@ -69,8 +69,8 @@ class PaymentsViewController: UIViewController, UITableViewDataSource, UITableVi
         // Dispose of any resources that can be recreated.
     }
     
-    func reloadData() {
-        guard let currentUser = FIRAuth.auth()?.currentUser else {
+    @objc func reloadData() {
+        guard let currentUser = Auth.auth().currentUser else {
             return
         }
         

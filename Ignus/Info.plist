@@ -15,13 +15,15 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.0</string>
+	<string>2.1</string>
 	<key>CFBundleVersion</key>
-	<string>101</string>
+	<string>103</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>Ignus needs access to your camera to take a new profile or cover photo.</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Ignus needs to authenticate your account.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Ignus needs access to your photo library to choose a new profile or cover photo.</string>
 	<key>UIAppFonts</key>

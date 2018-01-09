@@ -14,6 +14,7 @@ struct Constants {
     struct LoginOptions {
         static let RequirePassword  = "RequirePassword"
         static let TouchID          = "TouchID"
+        static let FaceID           = "FaceID"
         static let AutomaticLogin   = "AutomaticLogin"
         static let None             = "None"
     }

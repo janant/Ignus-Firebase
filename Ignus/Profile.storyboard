@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="17A315i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="x9b-pU-fV5">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="x9b-pU-fV5">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -27,10 +27,6 @@
         <scene sceneID="xyc-1i-wvi">
             <objects>
                 <viewController id="x9b-pU-fV5" customClass="ProfileViewController" customModule="Ignus" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="VUe-zL-z97"/>
-                        <viewControllerLayoutGuide type="bottom" id="sU6-ws-2Zq"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="i8O-Ac-4m2">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -49,7 +45,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KcH-mK-2Lt">
-                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <subviews>
                                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d5A-Wj-JKX">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="225"/>
@@ -300,7 +296,7 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8mI-Q5-hAT">
-                                        <rect key="frame" x="0.0" y="225" width="375" height="422"/>
+                                        <rect key="frame" x="0.0" y="225" width="375" height="378"/>
                                         <subviews>
                                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="R2h-8t-m9h">
                                                 <rect key="frame" x="16" y="8" width="343" height="29"/>
@@ -313,13 +309,13 @@
                                                 </connections>
                                             </segmentedControl>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fXH-rP-ZJs">
-                                                <rect key="frame" x="0.0" y="36" width="375" height="386"/>
+                                                <rect key="frame" x="0.0" y="36" width="375" height="342"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jFn-YA-ceE" customClass="XYPieChart">
-                                                        <rect key="frame" x="0.0" y="0.0" width="375" height="386"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="375" height="342"/>
                                                         <subviews>
                                                             <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TWv-ku-Hpz">
-                                                                <rect key="frame" x="142.5" y="148" width="90" height="90"/>
+                                                                <rect key="frame" x="142.5" y="126" width="90" height="90"/>
                                                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="P9L-ds-bhE">
                                                                     <rect key="frame" x="0.0" y="0.0" width="90" height="90"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -389,10 +385,10 @@
                                                         </constraints>
                                                     </view>
                                                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="qSK-gV-0aF">
-                                                        <rect key="frame" x="169.5" y="175" width="37" height="37"/>
+                                                        <rect key="frame" x="169.5" y="153" width="37" height="37"/>
                                                     </activityIndicatorView>
                                                     <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Ratings" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZF2-1p-rat">
-                                                        <rect key="frame" x="119" y="180.5" width="137" height="25"/>
+                                                        <rect key="frame" x="119" y="158.5" width="137" height="25"/>
                                                         <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="25"/>
                                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -411,7 +407,7 @@
                                                 </constraints>
                                             </view>
                                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c5S-0c-2Ux">
-                                                <rect key="frame" x="0.0" y="36" width="375" height="386"/>
+                                                <rect key="frame" x="0.0" y="36" width="375" height="342"/>
                                                 <subviews>
                                                     <segmentedControl opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="6M5-Pq-z52">
                                                         <rect key="frame" x="16" y="8" width="343" height="29"/>
@@ -424,16 +420,16 @@
                                                         </connections>
                                                     </segmentedControl>
                                                     <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Payments" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wsV-gC-0zn">
-                                                        <rect key="frame" x="105" y="180.5" width="165.5" height="25"/>
+                                                        <rect key="frame" x="105" y="158.5" width="165.5" height="25"/>
                                                         <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="25"/>
                                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="4tN-x4-4ZM">
-                                                        <rect key="frame" x="169.5" y="175" width="37" height="37"/>
+                                                        <rect key="frame" x="169.5" y="153" width="37" height="37"/>
                                                     </activityIndicatorView>
                                                     <tableView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="64" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Vu5-XR-kND">
-                                                        <rect key="frame" x="0.0" y="44" width="375" height="342"/>
+                                                        <rect key="frame" x="0.0" y="44" width="375" height="298"/>
                                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <prototypes>
                                                             <tableViewCell userInteractionEnabled="NO" contentMode="scaleToFill" selectionStyle="gray" indentationWidth="10" reuseIdentifier="Payment Cell" id="1jh-Lf-jOS">
@@ -444,19 +440,19 @@
                                                                     <autoresizingMask key="autoresizingMask"/>
                                                                     <subviews>
                                                                         <label opaque="NO" userInteractionEnabled="NO" tag="3" contentMode="left" horizontalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wjt-cP-Odc">
-                                                                            <rect key="frame" x="15" y="40.5" width="303" height="15.5"/>
+                                                                            <rect key="frame" x="15" y="37" width="299" height="13"/>
                                                                             <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="13"/>
                                                                             <color key="textColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
                                                                         <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="260" verticalHuggingPriority="251" verticalCompressionResistancePriority="760" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="16J-on-LSe">
-                                                                            <rect key="frame" x="15" y="12" width="303" height="22.5"/>
+                                                                            <rect key="frame" x="15" y="12" width="299" height="19"/>
                                                                             <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="19"/>
                                                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
                                                                         <label opaque="NO" userInteractionEnabled="NO" tag="5" contentMode="left" horizontalHuggingPriority="500" horizontalCompressionResistancePriority="760" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UE3-Oa-KPg">
-                                                                            <rect key="frame" x="325.5" y="11" width="34.5" height="25"/>
+                                                                            <rect key="frame" x="321.5" y="11" width="38.5" height="25"/>
                                                                             <constraints>
                                                                                 <constraint firstAttribute="height" constant="25" id="rcX-ZV-zEx"/>
                                                                             </constraints>
@@ -557,16 +553,19 @@
                         </subviews>
                         <color key="backgroundColor" red="0.19249251840000001" green="0.19249251840000001" blue="0.19249251840000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="KcH-mK-2Lt" firstAttribute="leading" secondItem="i8O-Ac-4m2" secondAttribute="leading" id="HYa-ss-0it"/>
-                            <constraint firstItem="sU6-ws-2Zq" firstAttribute="top" secondItem="KcH-mK-2Lt" secondAttribute="bottom" id="PUn-qB-Hr7"/>
-                            <constraint firstItem="rs1-Gq-SIa" firstAttribute="leading" secondItem="i8O-Ac-4m2" secondAttribute="leading" constant="20" id="jdA-az-bTG"/>
+                            <constraint firstItem="KcH-mK-2Lt" firstAttribute="leading" secondItem="Wv9-co-qpf" secondAttribute="leading" id="HYa-ss-0it"/>
+                            <constraint firstItem="Wv9-co-qpf" firstAttribute="bottom" secondItem="KcH-mK-2Lt" secondAttribute="bottom" id="PUn-qB-Hr7"/>
+                            <constraint firstItem="rs1-Gq-SIa" firstAttribute="leading" secondItem="Wv9-co-qpf" secondAttribute="leading" constant="20" id="jdA-az-bTG"/>
                             <constraint firstItem="rs1-Gq-SIa" firstAttribute="centerY" secondItem="i8O-Ac-4m2" secondAttribute="centerY" id="jgE-sT-pty"/>
-                            <constraint firstAttribute="trailing" secondItem="rs1-Gq-SIa" secondAttribute="trailing" constant="20" id="kHV-rN-WHW"/>
-                            <constraint firstItem="KcH-mK-2Lt" firstAttribute="top" secondItem="VUe-zL-z97" secondAttribute="bottom" id="kMT-zD-PMV"/>
-                            <constraint firstAttribute="trailing" secondItem="KcH-mK-2Lt" secondAttribute="trailing" id="ll3-Cd-JRz"/>
-                            <constraint firstItem="rs1-Gq-SIa" firstAttribute="centerX" secondItem="i8O-Ac-4m2" secondAttribute="centerX" id="nnf-PO-GbY"/>
+                            <constraint firstItem="Wv9-co-qpf" firstAttribute="trailing" secondItem="rs1-Gq-SIa" secondAttribute="trailing" constant="20" id="kHV-rN-WHW"/>
+                            <constraint firstItem="KcH-mK-2Lt" firstAttribute="top" secondItem="Wv9-co-qpf" secondAttribute="top" id="kMT-zD-PMV"/>
+                            <constraint firstItem="Wv9-co-qpf" firstAttribute="trailing" secondItem="KcH-mK-2Lt" secondAttribute="trailing" id="ll3-Cd-JRz"/>
+                            <constraint firstItem="rs1-Gq-SIa" firstAttribute="centerX" secondItem="Wv9-co-qpf" secondAttribute="centerX" id="nnf-PO-GbY"/>
                         </constraints>
+                        <viewLayoutGuide key="safeArea" id="Wv9-co-qpf"/>
                     </view>
+                    <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="5Y1-RG-ZHK"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" prompted="NO"/>
                     <connections>
                         <outlet property="chartPercentageDescription" destination="sSp-fq-sU7" id="n1h-j5-VxL"/>
                         <outlet property="chartPercentageLabel" destination="K0Z-bV-D4Q" id="pvX-QT-1SN"/>
@@ -628,5 +627,5 @@
         <image name="Not Loaded Cover" width="1" height="1"/>
         <image name="Not Loaded Profile" width="1" height="1"/>
     </resources>
-    <color key="tintColor" red="0.91764705879999997" green="0.20000000000000001" blue="0.21960784310000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+    <color key="tintColor" name="App Tint Color"/>
 </document>

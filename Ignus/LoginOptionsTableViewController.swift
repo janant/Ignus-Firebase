@@ -51,7 +51,7 @@ class LoginOptionsTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return 4
     }
 
     
@@ -76,6 +76,14 @@ class LoginOptionsTableViewController: UITableViewController {
                 cell.accessoryType = .none
             }
         case 2:
+            cell.textLabel?.text = "Face ID"
+            if currentLoginOption == Constants.LoginOptions.FaceID {
+                cell.accessoryType = .checkmark
+            }
+            else {
+                cell.accessoryType = .none
+            }
+        case 3:
             cell.textLabel?.text = "Automatic Login"
             if currentLoginOption == Constants.LoginOptions.AutomaticLogin {
                 cell.accessoryType = .checkmark
@@ -109,7 +117,8 @@ class LoginOptionsTableViewController: UITableViewController {
             // Checks if Touch ID is available on the current device
             let context = LAContext()
             var error: NSError?
-            if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+            if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error)
+            && context.biometryType == .touchID {
                 currentLoginOption = Constants.LoginOptions.TouchID
                 
                 UserDefaults.standard.set(currentLoginOption, forKey: "LoginOptions")
@@ -125,6 +134,26 @@ class LoginOptionsTableViewController: UITableViewController {
             tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
             tableView.deselectRow(at: indexPath, animated: true)
         case 2:
+            // Checks if Face ID is available on the current device
+            let context = LAContext()
+            var error: NSError?
+            if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error)
+            && context.biometryType == .faceID {
+                currentLoginOption = Constants.LoginOptions.FaceID
+                
+                UserDefaults.standard.set(currentLoginOption, forKey: "LoginOptions")
+                UserDefaults.standard.synchronize()
+            }
+            else {
+                let errorAlert = UIAlertController(title: "Error", message: "Face ID is not available.", preferredStyle: .alert)
+                errorAlert.addAction(UIAlertAction(title: "Done", style: .default, handler: nil))
+                present(errorAlert, animated: true, completion: nil)
+            }
+            
+            tableView.reloadData()
+            tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
+            tableView.deselectRow(at: indexPath, animated: true)
+        case 3:
             currentLoginOption = Constants.LoginOptions.AutomaticLogin
             
             UserDefaults.standard.set(currentLoginOption, forKey: "LoginOptions")

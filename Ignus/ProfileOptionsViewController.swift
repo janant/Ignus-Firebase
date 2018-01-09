@@ -148,12 +148,12 @@ class ProfileOptionsViewController: UIViewController, UITableViewDataSource, UIT
         
         if profileType == Constants.ProfileTypes.CurrentUser {
             if (indexPath as NSIndexPath).row == 0 {
-                self.dismiss(animated: true, completion: {(completed) -> Void in
-                    self.delegate?.changeProfilePicture?()
+                self.dismiss(animated: true, completion: {
+                    self.delegate?.changeCoverPicture?()
                 })
             }
             else if (indexPath as NSIndexPath).row == 1 {
-                self.dismiss(animated: true, completion: {(completed) -> Void in
+                self.dismiss(animated: true, completion: {
                     self.delegate?.changeCoverPicture?()
                 })
             }

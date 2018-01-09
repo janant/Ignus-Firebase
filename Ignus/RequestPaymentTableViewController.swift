@@ -49,8 +49,8 @@ class RequestPaymentTableViewController: UITableViewController, ChooseFriendView
             self.recipientLabel.text = recipient
         }
         
-        // Adds blur separator effect
-        requestPaymentTable.separatorEffect = UIVibrancyEffect(blurEffect: UIBlurEffect(style: .dark))
+//        // Adds blur separator effect
+//        requestPaymentTable.separatorEffect = UIVibrancyEffect(blurEffect: UIBlurEffect(style: .light))
         
         // Configures selection highlight color
         let selectedView = UIView()
@@ -110,7 +110,7 @@ class RequestPaymentTableViewController: UITableViewController, ChooseFriendView
         default:
             break
         }
-        return NSAttributedString(string: title, attributes: [NSForegroundColorAttributeName:UIColor.white, NSFontAttributeName: UIFont(name: "Gotham-Book", size: 16)!])
+        return NSAttributedString(string: title, attributes: [NSAttributedStringKey.foregroundColor:UIColor.white, NSAttributedStringKey.font: UIFont(name: "Gotham-Book", size: 16)!])
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {

@@ -61,7 +61,7 @@ class ProfileOptionsPresentation: UIPresentationController {
         }
     }
     
-    func dismiss() {
+    @objc func dismiss() {
         presentedViewController.dismiss(animated: true, completion: nil)
     }
     
@@ -76,11 +76,12 @@ class ProfileOptionsPresentation: UIPresentationController {
             return numRows * 100.0
         }()
         
-        let fromVCFrame = presentingViewController.view.frame.insetBy(dx: 20.0, dy: 20.0)
-        let width: CGFloat = min(fromVCFrame.width, maxWidth)
-        let height: CGFloat = min(fromVCFrame.height, maxHeight)
+        let fromVCSafeArea = presentingViewController.view.safeAreaLayoutGuide.layoutFrame.insetBy(dx: 20.0, dy: 20.0)
+        let width: CGFloat = min(fromVCSafeArea.width, maxWidth)
+        let height: CGFloat = min(fromVCSafeArea.height, maxHeight)
         
-        return CGRect(x: fromVCFrame.midX - (width / 2.0), y: fromVCFrame.midY - (height / 2.0), width: width, height: height)
+        return CGRect(x: fromVCSafeArea.midX - (width / 2.0), y: fromVCSafeArea.midY - (height / 2.0),
+                      width: width, height: height)
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {

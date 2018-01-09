@@ -32,13 +32,13 @@ struct IgnusBackend {
     private static var messages: [[String: Any]]?
     
     // Variables for accessing Firebase
-    private static let databaseRef = FIRDatabase.database().reference()
-    private static let storageRef = FIRStorage.storage().reference()
+    private static let databaseRef = Database.database().reference()
+    private static let storageRef = Storage.storage().reference()
     
     // MARK: - State configuration methods
     
     // Called when a user logs in, so data can be loaded from Firebase.
-    static func configureState(forUser user: FIRUser) {
+    static func configureState(forUser user: User) {
         guard let username = user.displayName else {
             fatalError("Configured state for user without display name")
         }
@@ -146,7 +146,10 @@ struct IgnusBackend {
             while self.currentUserInfo == nil {
                 usleep(100000)
             }
-            completionHandler(self.currentUserInfo!)
+            
+            DispatchQueue.main.async {
+                completionHandler(self.currentUserInfo!)
+            }
         }
     }
     
@@ -303,7 +306,7 @@ struct IgnusBackend {
     
     // Gets the profile image for the given username
     static func getProfileImage(forUser username: String, with completionHandler: @escaping (Error?, UIImage?) -> Void) {
-        storageRef.child("User_Pictures/\(username)/profile.jpg").data(withMaxSize: INT64_MAX) { (data, error) in
+        storageRef.child("User_Pictures/\(username)/profile.jpg").getData(maxSize: INT64_MAX) { (data, error) in
             if error == nil {
                 if let imageData = data {
                     let profileImage = UIImage(data: imageData)
@@ -321,7 +324,7 @@ struct IgnusBackend {
     
     // Gets the cover photo for the given username
     static func getCoverPhoto(forUser username: String, with completionHandler: @escaping (Error?, UIImage?) -> Void) {
-        storageRef.child("User_Pictures/\(username)/cover.jpg").data(withMaxSize: INT64_MAX) { (data, error) in
+        storageRef.child("User_Pictures/\(username)/cover.jpg").getData(maxSize: INT64_MAX) { (data, error) in
             if error == nil {
                 if let imageData = data {
                     let profileImage = UIImage(data: imageData)
@@ -448,10 +451,10 @@ struct IgnusBackend {
         }
     }
     
-    static func setCurrentUserProfileImage(withImageData data: Data, with completionHandler: @escaping (Error?, FIRStorageMetadata?) -> Void) {
+    static func setCurrentUserProfileImage(withImageData data: Data, with completionHandler: @escaping (Error?, StorageMetadata?) -> Void) {
         if let currentUsername = currentUserUsername {
             let profileStorageRef = storageRef.child("User_Pictures/\(currentUsername)/profile.jpg")
-            profileStorageRef.put(data, metadata: nil, completion: { (metadata, error) in
+            profileStorageRef.putData(data, metadata: nil, completion: { (metadata, error) in
                 completionHandler(error, metadata)
             })
         }
@@ -460,10 +463,10 @@ struct IgnusBackend {
         }
     }
     
-    static func setCurrentUserCoverPhoto(withImageData data: Data, with completionHandler: @escaping (Error?, FIRStorageMetadata?) -> Void) {
+    static func setCurrentUserCoverPhoto(withImageData data: Data, with completionHandler: @escaping (Error?, StorageMetadata?) -> Void) {
         if let currentUsername = currentUserUsername {
             let profileStorageRef = storageRef.child("User_Pictures/\(currentUsername)/cover.jpg")
-            profileStorageRef.put(data, metadata: nil, completion: { (metadata, error) in
+            profileStorageRef.putData(data, metadata: nil, completion: { (metadata, error) in
                 completionHandler(error, metadata)
             })
         }
@@ -639,7 +642,7 @@ struct IgnusBackend {
         paymentRequest["unread"] = true
         paymentRequest["status"] = Constants.PaymentRequestStatus.Active
         paymentRequest["rating"] = Constants.PaymentRating.None
-        paymentRequest["createdTimestamp"] = FIRServerValue.timestamp()
+        paymentRequest["createdTimestamp"] = ServerValue.timestamp()
         paymentRequest["completedTimestamp"] = 0
         
         // Updates user received requests and current user sent requests
@@ -681,7 +684,7 @@ struct IgnusBackend {
         var completedPaymentRequest = paymentRequest
         completedPaymentRequest["rating"] = rating;
         completedPaymentRequest["status"] = Constants.PaymentRequestStatus.Completed
-        completedPaymentRequest["completedTimestamp"] = FIRServerValue.timestamp()
+        completedPaymentRequest["completedTimestamp"] = ServerValue.timestamp()
         
         // Get's the current user's sent payment requests
         getCurrentUserPaymentRequests { (currentUserPaymentRequests) in
@@ -700,7 +703,7 @@ struct IgnusBackend {
                 if paymentRequestsAreEqual(paymentRequest, currentRequest) {
                     currentUserSentPaymentRequests[i]["rating"] = rating
                     currentUserSentPaymentRequests[i]["status"] = Constants.PaymentRequestStatus.Completed
-                    currentUserSentPaymentRequests[i]["completedTimestamp"] = FIRServerValue.timestamp()
+                    currentUserSentPaymentRequests[i]["completedTimestamp"] = ServerValue.timestamp()
                 }
             }
             
@@ -721,7 +724,7 @@ struct IgnusBackend {
                     if paymentRequestsAreEqual(paymentRequest, currentRequest) {
                         recipientReceivedPaymentRequests[i]["rating"] = rating
                         recipientReceivedPaymentRequests[i]["status"] = Constants.PaymentRequestStatus.Completed
-                        recipientReceivedPaymentRequests[i]["completedTimestamp"] = FIRServerValue.timestamp()
+                        recipientReceivedPaymentRequests[i]["completedTimestamp"] = ServerValue.timestamp()
                     }
                 }
                 
@@ -859,7 +862,7 @@ struct IgnusBackend {
         newMessageData["recipient"] = user
         newMessageData["message"] = message
         newMessageData["unread"] = true
-        newMessageData["timestamp"] = FIRServerValue.timestamp()
+        newMessageData["timestamp"] = ServerValue.timestamp()
         
         // Gets current messages, add new message, saves messages
         getMessages(forUser: user) { (messages) in

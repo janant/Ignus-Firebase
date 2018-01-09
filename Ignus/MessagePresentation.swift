@@ -13,9 +13,10 @@ class MessagePresentation: UIPresentationController {
     let shadowView = UIView()
     
     override var frameOfPresentedViewInContainerView: CGRect {
-        let presentingFrame = presentingViewController.view.frame
+        let safeAreaFrame = presentingViewController.view.safeAreaLayoutGuide.layoutFrame
+        
         let intendedWidth: CGFloat = 500 // Want to make the view at most 500 pixels
-        let maxPossibleWidth: CGFloat = presentingFrame.width - 40 // View width, 20px side margins
+        let maxPossibleWidth: CGFloat = safeAreaFrame.width - 40 // View width, 20px side margins
         
         let actualWidth = min(intendedWidth, maxPossibleWidth)
         
@@ -26,7 +27,7 @@ class MessagePresentation: UIPresentationController {
             return navVC.navigationBar.frame.size.height
         }()
         
-        return CGRect(x: presentingFrame.midX - (actualWidth / 2), y: 30, width: actualWidth, height: 200 + navigationBarHeight)
+        return CGRect(x: safeAreaFrame.midX - (actualWidth / 2), y: safeAreaFrame.origin.y + 20, width: actualWidth, height: 200 + navigationBarHeight)
     }
     
     override func presentationTransitionWillBegin() {

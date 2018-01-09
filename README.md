@@ -1,2 +1,3 @@
-# Ignus-Firebase
-The current version of Ignus on the App Store is based on a Parse backend, which was shut down. This repository tracks my progress rebuilding the app with a Firebase backend, plus with modern iOS features like Split View, etc.
+# Ignus
+
+Release version of Ignus 2.0 on the App Store. To open and run the project, open the **Ignus.xcworkspace** file in Xcode and click the Run button.

@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "24AF01F36C5F4B46AEB7769E8FA78D55"
+               BlueprintIdentifier = "0DA6164B192FEB9963A075FF2B212FAA"
                BuildableName = "Pods_Ignus.framework"
                BlueprintName = "Pods-Ignus"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -26,6 +26,7 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      language = ""
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
       </Testables>
@@ -36,6 +37,7 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      language = ""
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
       ignoresPersistentStateOnLaunch = "NO"
@@ -45,7 +47,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "24AF01F36C5F4B46AEB7769E8FA78D55"
+            BlueprintIdentifier = "0DA6164B192FEB9963A075FF2B212FAA"
             BuildableName = "Pods_Ignus.framework"
             BlueprintName = "Pods-Ignus"
             ReferencedContainer = "container:Pods.xcodeproj">

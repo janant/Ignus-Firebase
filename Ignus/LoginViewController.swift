@@ -58,7 +58,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIViewControll
         
         if (!didAnimateEntrance) {
             // Appropriate automatic login if the user is already logged in
-            if let currentUser = FIRAuth.auth()?.currentUser,
+            if let currentUser = Auth.auth().currentUser,
                let loginOption = UserDefaults.standard.string(forKey: "LoginOptions") {
                 
                 usernameTextField.text = currentUser.displayName
@@ -69,7 +69,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIViewControll
                     // Automatically log in
                     let loginDelay: TimeInterval = 0.25;
                     perform(#selector(LoginViewController.skipAnimatedEntrance), with: nil, afterDelay: loginDelay)
-                case Constants.LoginOptions.TouchID:
+                case Constants.LoginOptions.TouchID, Constants.LoginOptions.FaceID:
                     let context = LAContext()
                     var error: NSError?
                     if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
@@ -91,7 +91,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIViewControll
                 case Constants.LoginOptions.RequirePassword:
                     animateEntrance(shouldResetLoginOptions: false)
                 default:
-                    try? FIRAuth.auth()?.signOut()
+                    try? Auth.auth().signOut()
                     animateEntrance(shouldResetLoginOptions: true)
                 }
             }
@@ -107,8 +107,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIViewControll
         // Do any additional setup after loading the view.
         
         // Sets the placeholder text in the text boxes to white color
-        usernameTextField.attributedPlaceholder = NSAttributedString(string: usernameTextField.placeholder!, attributes: [NSForegroundColorAttributeName: UIColor.white])
-        passwordTextField.attributedPlaceholder = NSAttributedString(string: passwordTextField.placeholder!, attributes: [NSForegroundColorAttributeName: UIColor.white])
+        usernameTextField.attributedPlaceholder = NSAttributedString(string: usernameTextField.placeholder!, attributes: [NSAttributedStringKey.foregroundColor: UIColor.white])
+        passwordTextField.attributedPlaceholder = NSAttributedString(string: passwordTextField.placeholder!, attributes: [NSAttributedStringKey.foregroundColor: UIColor.white])
         
         // Creates animation for background and plays animation
         var animationImages : [UIImage] = Array()
@@ -275,7 +275,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIViewControll
         passwordTextField.becomeFirstResponder()
     }
     
-    func skipAnimatedEntrance() {
+    @objc func skipAnimatedEntrance() {
         self.didAnimateEntrance = true
         
         performSegue(withIdentifier: "Log In", sender: nil)
@@ -348,7 +348,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIViewControll
             }
             
             // Attempt to log in
-            FIRAuth.auth()?.signIn(withEmail: email, password: password, completion: { (user, error) in
+            Auth.auth().signIn(withEmail: email, password: password, completion: { (user, error) in
                 if error == nil {
                     
                     guard let currentUser = user else {
@@ -410,7 +410,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UIViewControll
         self.loginLoadingCircle.layer.add(animation, forKey: "rotationAnimation")
     }
     
-    func endLoginAnimation() {
+    @objc func endLoginAnimation() {
         UIView.animate(withDuration: 0.15, animations: {
             self.logoView.transform = CGAffineTransform.identity
             self.loginLoadingCircle.alpha = 0.0

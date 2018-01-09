@@ -79,7 +79,7 @@ class MessagesViewController: UIViewController, UITableViewDataSource, UITableVi
         // Do any additional setup after loading the view.
         
         // Sets up the table
-        messagesTable.separatorEffect = UIVibrancyEffect(blurEffect: UIBlurEffect(style: .dark))
+        messagesTable.separatorEffect = UIVibrancyEffect(blurEffect: UIBlurEffect(style: .light))
         messagesTable.backgroundView = nil
         messagesTable.backgroundColor = UIColor.clear
         refreshControl.addTarget(self, action: #selector(MessagesViewController.reloadData), for: .valueChanged)
@@ -93,7 +93,7 @@ class MessagesViewController: UIViewController, UITableViewDataSource, UITableVi
         
     }
     
-    func reloadData() {
+    @objc func reloadData() {
         IgnusBackend.getCurrentUserMessages(with: { (messagesData) in
             self.messages = messagesData
             

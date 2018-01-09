@@ -74,7 +74,7 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
         }
         
         // Adds blur separator effect
-        messageTable.separatorEffect = UIVibrancyEffect(blurEffect: UIBlurEffect(style: .dark))
+        messageTable.separatorEffect = UIVibrancyEffect(blurEffect: UIBlurEffect(style: .light))
     }
 
     override func didReceiveMemoryWarning() {
@@ -82,7 +82,7 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
         // Dispose of any resources that can be recreated.
     }
     
-    func sendMessage() {
+    @objc func sendMessage() {
         self.title = "Sending..."
         self.navigationItem.rightBarButtonItem?.isEnabled = false
         
@@ -98,7 +98,7 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
         }
     }
     
-    func replyToMessage() {
+    @objc func replyToMessage() {
         self.title = "Reply"
         
         UIView.transition(with: recipientKindLabel, duration: 0.15, options: .transitionCrossDissolve, animations: {
@@ -201,7 +201,7 @@ class MessageViewController: UIViewController, UITableViewDataSource, UITableVie
     func textViewDidChange(_ textView: UITextView) {
         // Enables and disables send button depending on conditions
         let whitespaceClearedText = textView.text.replacingOccurrences(of: " ", with: "")
-        sendButton.isEnabled = whitespaceClearedText.characters.count != 0 && selectedRecipient != nil
+        sendButton.isEnabled = whitespaceClearedText.count != 0 && selectedRecipient != nil
     }
     
     // MARK: - ChooseFriendViewController delegate methods

@@ -54,7 +54,7 @@ class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate,
         // Do any additional setup after loading the view.
         
         // Sets up the table
-        friendsTable.separatorEffect = UIVibrancyEffect(blurEffect: UIBlurEffect(style: .dark))
+        friendsTable.separatorEffect = UIVibrancyEffect(blurEffect: UIBlurEffect(style: .light))
         friendsTable.backgroundView = nil
         friendsTable.backgroundColor = UIColor.clear
         refreshControl.addTarget(self, action: #selector(MessagesViewController.reloadData), for: .valueChanged)
@@ -70,7 +70,7 @@ class FriendsViewController: UIViewController, AddFriendsViewControllerDelegate,
     }
     
     func reloadData() {
-        guard let currentUser = FIRAuth.auth()?.currentUser else {
+        guard let currentUser = Auth.auth().currentUser else {
             return
         }
         

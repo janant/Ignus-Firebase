@@ -68,7 +68,7 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
         self.view.clipsToBounds = true
     }
     
-    func keyboardWillShow(_ sender: Notification) {
+    @objc func keyboardWillShow(_ sender: Notification) {
         if let userInfo = (sender as NSNotification).userInfo {
             if let keyboardHeight = (userInfo[UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue?.height {
                 self.scrollView.contentInset.bottom = keyboardHeight
@@ -76,12 +76,12 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    func keyboardWillHide(_ sender: Notification) {
+    @objc func keyboardWillHide(_ sender: Notification) {
         self.scrollView.contentInset.bottom = 0
         self.scrollView.contentOffset = CGPoint(x: 0, y: 0)
     }
     
-    func resignTextBoxFirstResponder() {
+    @objc func resignTextBoxFirstResponder() {
         if firstNameTextField.isFirstResponder {
             firstNameTextField.resignFirstResponder()
         }
@@ -176,22 +176,22 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
         // Possible errors with sign up information
         var alert: UIAlertController?
         
-        if firstNameTextField.text!.replacingOccurrences(of: " ", with: "").characters.count == 0 {
+        if firstNameTextField.text!.replacingOccurrences(of: " ", with: "").count == 0 {
             alert = UIAlertController(title: "Error", message: "Please enter a valid first name.", preferredStyle: .alert)
         }
-        else if lastNameTextField.text!.replacingOccurrences(of: " ", with: "").characters.count == 0 {
+        else if lastNameTextField.text!.replacingOccurrences(of: " ", with: "").count == 0 {
             alert = UIAlertController(title: "Error", message: "Please enter a valid last name.", preferredStyle: .alert)
         }
-        else if emailTextField.text!.replacingOccurrences(of: " ", with: "").characters.count == 0 {
+        else if emailTextField.text!.replacingOccurrences(of: " ", with: "").count == 0 {
             alert = UIAlertController(title: "Error", message: "Please enter a valid email address.", preferredStyle: .alert)
         }
-        else if usernameTextField.text!.replacingOccurrences(of: " ", with: "").characters.count == 0 {
+        else if usernameTextField.text!.replacingOccurrences(of: " ", with: "").count == 0 {
             alert = UIAlertController(title: "Error", message: "Please enter a valid username.", preferredStyle: .alert)
         }
-        else if passwordTextField.text!.characters.count == 0 {
+        else if passwordTextField.text!.count == 0 {
             alert = UIAlertController(title: "Error", message: "Please enter a valid password.", preferredStyle: .alert)
         }
-        else if confirmPasswordTextField.text!.characters.count == 0 {
+        else if confirmPasswordTextField.text!.count == 0 {
             alert = UIAlertController(title: "Error", message: "Please confirm your password.", preferredStyle: .alert)
         }
         else if (passwordTextField.text != confirmPasswordTextField.text) {
@@ -247,7 +247,7 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
                 }
                 else {
                     // Attempts to create the user with email and password
-                    FIRAuth.auth()?.createUser(withEmail: email, password: password, completion: { (user, error) in
+                    Auth.auth().createUser(withEmail: email, password: password, completion: { (user, error) in
                         if error == nil {
                             // Gets default profile and cover photos as Data objects
                             guard
@@ -258,12 +258,12 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
                             }
                             
                             // Sets the new user's profile and cover photo to the defaults
-                            let storageRef = FIRStorage.storage().reference()
+                            let storageRef = Storage.storage().reference()
                             let profileRef = storageRef.child("User_Pictures/\(username)/profile.jpg")
                             let coverRef = storageRef.child("User_Pictures/\(username)/cover.jpg")
-                            profileRef.put(profileData, metadata: nil, completion: { (profileMetadata, profileError) in
+                            profileRef.putData(profileData, metadata: nil, completion: { (profileMetadata, profileError) in
                                 if profileError == nil {
-                                    coverRef.put(coverData, metadata: nil, completion: { (coverMetadata, coverError) in
+                                    coverRef.putData(coverData, metadata: nil, completion: { (coverMetadata, coverError) in
                                         if coverError == nil {
                                             // Creates an additional Firebase object with additional user information
                                             let newUserInfo = [
@@ -275,7 +275,7 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
                                             IgnusBackend.createUserInfo(newUserInfo, forUser: username, with: { (error) in
                                                 if error == nil {
                                                     // Sets user display name to username
-                                                    let changeRequest = user!.profileChangeRequest()
+                                                    let changeRequest = user!.createProfileChangeRequest()
                                                     changeRequest.displayName = username
                                                     changeRequest.commitChanges(completion: { (error) in
                                                         if error == nil {

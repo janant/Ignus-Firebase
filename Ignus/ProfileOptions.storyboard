@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16E183b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="S9n-z2-wUf">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="S9n-z2-wUf">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -18,10 +18,6 @@
         <scene sceneID="bCo-QE-XdJ">
             <objects>
                 <viewController id="S9n-z2-wUf" customClass="ProfileOptionsViewController" customModule="Ignus" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="xfY-Ks-7ZH"/>
-                        <viewControllerLayoutGuide type="bottom" id="KBd-Un-XJt"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="pGi-ID-6WC">
                         <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -42,11 +38,11 @@
                                         <rect key="frame" x="0.0" y="22" width="200" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="SOi-f5-JDY" id="tyW-Ic-VdV">
-                                            <rect key="frame" x="0.0" y="0.0" width="200" height="99"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="200" height="99.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="20" id="Ocm-Vc-MCr">
-                                                    <rect key="frame" x="15" y="0.0" width="170" height="99"/>
+                                                    <rect key="frame" x="15" y="0.0" width="170" height="99.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="27"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -64,16 +60,17 @@
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="Cly-l1-vn1" secondAttribute="trailing" id="5Uy-Sn-tCx"/>
-                            <constraint firstItem="Cly-l1-vn1" firstAttribute="leading" secondItem="pGi-ID-6WC" secondAttribute="leading" id="AAO-iZ-EdO"/>
+                            <constraint firstItem="jvY-dK-aKy" firstAttribute="trailing" secondItem="Cly-l1-vn1" secondAttribute="trailing" id="5Uy-Sn-tCx"/>
+                            <constraint firstItem="Cly-l1-vn1" firstAttribute="leading" secondItem="jvY-dK-aKy" secondAttribute="leading" id="AAO-iZ-EdO"/>
                             <constraint firstItem="Cly-l1-vn1" firstAttribute="top" secondItem="pGi-ID-6WC" secondAttribute="top" id="BEs-xN-KOO"/>
-                            <constraint firstItem="d4S-Pd-0z5" firstAttribute="leading" secondItem="pGi-ID-6WC" secondAttribute="leading" id="LAl-Rq-evh"/>
-                            <constraint firstAttribute="trailing" secondItem="d4S-Pd-0z5" secondAttribute="trailing" id="MhY-kX-nrd"/>
-                            <constraint firstItem="KBd-Un-XJt" firstAttribute="top" secondItem="Cly-l1-vn1" secondAttribute="bottom" id="YQe-x4-3wR"/>
+                            <constraint firstItem="d4S-Pd-0z5" firstAttribute="leading" secondItem="jvY-dK-aKy" secondAttribute="leading" id="LAl-Rq-evh"/>
+                            <constraint firstItem="jvY-dK-aKy" firstAttribute="trailing" secondItem="d4S-Pd-0z5" secondAttribute="trailing" id="MhY-kX-nrd"/>
+                            <constraint firstItem="jvY-dK-aKy" firstAttribute="bottom" secondItem="Cly-l1-vn1" secondAttribute="bottom" id="YQe-x4-3wR"/>
                             <constraint firstItem="d4S-Pd-0z5" firstAttribute="top" secondItem="pGi-ID-6WC" secondAttribute="top" id="aMo-VU-nX1"/>
-                            <constraint firstItem="d4S-Pd-0z5" firstAttribute="top" secondItem="xfY-Ks-7ZH" secondAttribute="bottom" id="iOC-zi-N4a"/>
-                            <constraint firstItem="KBd-Un-XJt" firstAttribute="top" secondItem="d4S-Pd-0z5" secondAttribute="bottom" id="m9M-8D-bxN"/>
+                            <constraint firstItem="d4S-Pd-0z5" firstAttribute="top" secondItem="jvY-dK-aKy" secondAttribute="top" id="iOC-zi-N4a"/>
+                            <constraint firstItem="jvY-dK-aKy" firstAttribute="bottom" secondItem="d4S-Pd-0z5" secondAttribute="bottom" id="m9M-8D-bxN"/>
                         </constraints>
+                        <viewLayoutGuide key="safeArea" id="jvY-dK-aKy"/>
                         <variation key="default">
                             <mask key="constraints">
                                 <exclude reference="iOC-zi-N4a"/>
@@ -91,5 +88,5 @@
             <point key="canvasLocation" x="715" y="-89"/>
         </scene>
     </scenes>
-    <color key="tintColor" red="0.91764705879999997" green="0.20000000000000001" blue="0.21960784310000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+    <color key="tintColor" name="App Tint Color"/>
 </document>

@@ -16,13 +16,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        FIRApp.configure()
+        FirebaseApp.configure()
         
         // Sets fonts/colors of various stuff
-        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont(name: "Gotham-Medium", size: 18)!]
-        UISegmentedControl.appearance().setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Gotham-Book", size: 14)!], for: UIControlState())
-        UIBarButtonItem.appearance().setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Gotham-Medium", size: 17)!], for: UIControlState())
-        UITabBarItem.appearance().setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Gotham-Book", size: 11)!], for: .normal)
+        UINavigationBar.appearance().titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white, NSAttributedStringKey.font: UIFont(name: "Gotham-Medium", size: 18)!]
+        UINavigationBar.appearance().largeTitleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white, NSAttributedStringKey.font: UIFont(name: "Gotham-Medium", size: 32)!]
+        UISegmentedControl.appearance().setTitleTextAttributes([NSAttributedStringKey.font: UIFont(name: "Gotham-Book", size: 14)!], for: UIControlState())
+        UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedStringKey.font: UIFont(name: "Gotham-Medium", size: 17)!], for: UIControlState())
+        UITabBarItem.appearance().setTitleTextAttributes([NSAttributedStringKey.font: UIFont(name: "Gotham-Book", size: 11)!], for: .normal)
         
         return true
     }

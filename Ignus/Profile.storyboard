@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="x9b-pU-fV5">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="x9b-pU-fV5">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -31,17 +29,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rs1-Gq-SIa">
-                                <rect key="frame" x="20" y="317.5" width="335" height="32.5"/>
-                                <attributedString key="attributedText">
-                                    <fragment content="Select a user on the left.">
-                                        <attributes>
-                                            <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            <font key="NSFont" size="25" name="Gotham-Book"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="1.3" tighteningFactorForTruncation="0.0"/>
-                                        </attributes>
-                                    </fragment>
-                                </attributedString>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select a user on the left." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rs1-Gq-SIa">
+                                <rect key="frame" x="20" y="321" width="335" height="25"/>
+                                <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="25"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KcH-mK-2Lt">
@@ -83,7 +74,7 @@
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                         <subviews>
                                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="—" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jDW-dR-yXj">
-                                                                                <rect key="frame" x="26" y="10.5" width="19" height="21"/>
+                                                                                <rect key="frame" x="26.5" y="10" width="19" height="21"/>
                                                                                 <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="21"/>
                                                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                                 <nil key="highlightedColor"/>
@@ -131,7 +122,7 @@
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                         <subviews>
                                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="—" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g8A-nT-B5Q">
-                                                                                <rect key="frame" x="27" y="10.5" width="19" height="21"/>
+                                                                                <rect key="frame" x="26.5" y="10" width="19" height="21"/>
                                                                                 <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="21"/>
                                                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                                 <nil key="highlightedColor"/>
@@ -167,7 +158,7 @@
                                                         </userDefinedRuntimeAttributes>
                                                     </visualEffectView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Friends" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vlN-Ig-gIv">
-                                                        <rect key="frame" x="89.5" y="159" width="48" height="14"/>
+                                                        <rect key="frame" x="89" y="159" width="48" height="14"/>
                                                         <fontDescription key="fontDescription" name="Gotham-Light" family="Gotham" pointSize="13"/>
                                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -183,19 +174,19 @@
                                                         <size key="shadowOffset" width="0.0" height="1"/>
                                                     </label>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tf2-kP-2ET">
-                                                        <rect key="frame" x="0.0" y="182" width="77" height="30"/>
+                                                        <rect key="frame" x="0.0" y="181.5" width="77" height="30"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="30" id="27O-8Q-hbC"/>
                                                         </constraints>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LmR-ll-ype">
-                                                        <rect key="frame" x="149" y="182" width="77" height="30"/>
+                                                        <rect key="frame" x="149" y="181.5" width="77" height="30"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="30" id="BSn-zV-o8c"/>
                                                         </constraints>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Be-mm-eID">
-                                                        <rect key="frame" x="298" y="182" width="77" height="30"/>
+                                                        <rect key="frame" x="298" y="181.5" width="77" height="30"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="30" id="eiH-51-hNR"/>
                                                         </constraints>
@@ -327,13 +318,13 @@
                                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                 <subviews>
                                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="66%" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K0Z-bV-D4Q">
-                                                                                        <rect key="frame" x="20" y="26" width="49" height="23"/>
+                                                                                        <rect key="frame" x="20.5" y="25.5" width="49" height="23"/>
                                                                                         <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="23"/>
                                                                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                                         <nil key="highlightedColor"/>
                                                                                     </label>
                                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="positive" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sSp-fq-sU7">
-                                                                                        <rect key="frame" x="17.5" y="50.5" width="54.5" height="14"/>
+                                                                                        <rect key="frame" x="18" y="50" width="54.5" height="14"/>
                                                                                         <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="14"/>
                                                                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                                         <nil key="highlightedColor"/>
@@ -385,7 +376,7 @@
                                                         </constraints>
                                                     </view>
                                                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="qSK-gV-0aF">
-                                                        <rect key="frame" x="169.5" y="153" width="37" height="37"/>
+                                                        <rect key="frame" x="169" y="152.5" width="37" height="37"/>
                                                     </activityIndicatorView>
                                                     <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Ratings" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZF2-1p-rat">
                                                         <rect key="frame" x="119" y="158.5" width="137" height="25"/>
@@ -426,7 +417,7 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="4tN-x4-4ZM">
-                                                        <rect key="frame" x="169.5" y="153" width="37" height="37"/>
+                                                        <rect key="frame" x="169" y="152.5" width="37" height="37"/>
                                                     </activityIndicatorView>
                                                     <tableView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="64" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Vu5-XR-kND">
                                                         <rect key="frame" x="0.0" y="44" width="375" height="298"/>
@@ -440,19 +431,19 @@
                                                                     <autoresizingMask key="autoresizingMask"/>
                                                                     <subviews>
                                                                         <label opaque="NO" userInteractionEnabled="NO" tag="3" contentMode="left" horizontalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wjt-cP-Odc">
-                                                                            <rect key="frame" x="15" y="37" width="299" height="13"/>
+                                                                            <rect key="frame" x="15" y="37" width="301.5" height="13"/>
                                                                             <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="13"/>
                                                                             <color key="textColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
                                                                         <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="260" verticalHuggingPriority="251" verticalCompressionResistancePriority="760" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="16J-on-LSe">
-                                                                            <rect key="frame" x="15" y="12" width="299" height="19"/>
+                                                                            <rect key="frame" x="15" y="12" width="301.5" height="19"/>
                                                                             <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="19"/>
                                                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
                                                                         <label opaque="NO" userInteractionEnabled="NO" tag="5" contentMode="left" horizontalHuggingPriority="500" horizontalCompressionResistancePriority="760" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UE3-Oa-KPg">
-                                                                            <rect key="frame" x="321.5" y="11" width="38.5" height="25"/>
+                                                                            <rect key="frame" x="324.5" y="11" width="35.5" height="25"/>
                                                                             <constraints>
                                                                                 <constraint firstAttribute="height" constant="25" id="rcX-ZV-zEx"/>
                                                                             </constraints>
@@ -460,7 +451,7 @@
                                                                                 <fragment content="Label">
                                                                                     <attributes>
                                                                                         <color key="NSColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                                        <font key="NSFont" size="14" name="Gotham-Book"/>
+                                                                                        <font key="NSFont" metaFont="system" size="14"/>
                                                                                         <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                                                     </attributes>
                                                                                 </fragment>
@@ -623,7 +614,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Downward Chevron" width="313" height="175"/>
+        <image name="Downward Chevron" width="626" height="350"/>
         <image name="Not Loaded Cover" width="1" height="1"/>
         <image name="Not Loaded Profile" width="1" height="1"/>
     </resources>

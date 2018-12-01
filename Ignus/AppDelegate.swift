@@ -19,11 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure()
         
         // Sets fonts/colors of various stuff
-        UINavigationBar.appearance().titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white, NSAttributedStringKey.font: UIFont(name: "Gotham-Medium", size: 18)!]
-        UINavigationBar.appearance().largeTitleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white, NSAttributedStringKey.font: UIFont(name: "Gotham-Medium", size: 32)!]
-        UISegmentedControl.appearance().setTitleTextAttributes([NSAttributedStringKey.font: UIFont(name: "Gotham-Book", size: 14)!], for: UIControlState())
-        UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedStringKey.font: UIFont(name: "Gotham-Medium", size: 17)!], for: UIControlState())
-        UITabBarItem.appearance().setTitleTextAttributes([NSAttributedStringKey.font: UIFont(name: "Gotham-Book", size: 11)!], for: .normal)
+        IgnusUtility.customizeAppearance(true)
         
         return true
     }
